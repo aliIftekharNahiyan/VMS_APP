@@ -1,0 +1,146 @@
+import 'package:amargari/uril/app_constant.dart';
+import 'package:amargari/widgets/ImageFullScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+class ImageLoadWidget extends StatelessWidget {
+  final String requestType;
+  ImageLoadWidget({required this.requestType});
+
+  @override
+  Widget build(BuildContext context) {
+    var imageFullScreen = (String imageUrl) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ImageFullScreen(imageURL: imageUrl)));
+    };
+
+
+    if (requestType == "nid") {
+      return InkWell(
+          onTap: () {
+            imageFullScreen(AppConstant.NidURL);
+          },
+        child: AppConstant.NidURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.NidURL,fit: BoxFit.cover, height: 50,
+          width: 50,
+          ),
+      );
+    } else if (requestType == "drivingLicense") {
+      return InkWell(
+          onTap: () {
+            imageFullScreen(AppConstant.drivingLicenseURL);
+          },
+        child: AppConstant.drivingLicenseURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.drivingLicenseURL,
+          fit: BoxFit.cover,
+          height: 50,
+          width: 50,
+           ),
+      );
+    }else if (requestType == "VehicleImage") {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.vehicleImageURL);
+        },
+        child: AppConstant.vehicleImageURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.vehicleImageURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.expenseSlip) {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.expenseSlipURL);
+        },
+        child: AppConstant.expenseSlipURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.expenseSlipURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.partsImage) {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.partsImageURL);
+        },
+        child: AppConstant.partsImageURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.partsImageURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.accidentImage) {
+      return  InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.accidentImageURL);
+        },
+        child: AppConstant.accidentImageURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.accidentImageURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.fuelSlipImg) {
+      return InkWell(
+          onTap: () {
+            imageFullScreen(AppConstant.fuelSlipImgURL);
+          },
+        child: AppConstant.fuelSlipImgURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.fuelSlipImgURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.docRegistrationImg) {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.docRegistrationImgURL);
+        },
+        child: AppConstant.docRegistrationImgURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.docRegistrationImgURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.docFitnessImg) {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.docFitnessImgURL);
+        },
+        child: AppConstant.docFitnessImgURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.docFitnessImgURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.docInsuranceImg) {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.docInsuranceImgURL);
+        },
+        child: AppConstant.docInsuranceImgURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.docInsuranceImgURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.docTaxTokenImg) {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.docTaxTokenImgURL);
+        },
+        child: AppConstant.docTaxTokenImgURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.docTaxTokenImgURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.docRoadPermitImg) {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.docRoadPermitImgURL);
+        },
+        child: AppConstant.docRoadPermitImgURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.docRoadPermitImgURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else if (requestType == AppConstant.policeCaseImageImg) {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.policeCaseImageImgURL);
+        },
+        child: AppConstant.policeCaseImageImgURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.policeCaseImageImgURL ,  height: 50,
+          width: 50,
+          fit: BoxFit.cover,),
+      );
+    }else {
+      return AppConstant.vehicleImageURL == "" ? ImageIcon(AssetImage("assets/icons/edit_image.png")) : Image.network(AppConstant.vehicleImageURL,  height: 50,
+        width: 50,
+        fit: BoxFit.cover,);
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "Mobile Number" : "Mobile Number",
+  "Password" : "Password",
+  "Confirm password" : "Confirm password",
+  "Please enter password" : "Please enter password",
+  "Login": "Login",
+  "Type Number": "Type your mobile number",
+  "OTP Code": "OTP Code",
+  "Verify OTP": "Verify OTP",
+  "Sign up" : "Sign up",
+  "Forgot password?" : "Forgot password?",
+  "Type your full name" : "Type your full name",
+  "Full name" : "Full name",
+  "Home": "Home",
+  "Profile": "Profile",
+  "Vehicle Info": "Vehicle Info",
+  "Vehicle Details": "Vehicle Details",
+  "Trip Management": "Trip Management ",
+  "Vehicle Servicing": "Vehicle Servicing ",
+  "Fuel Analysis": "Fuel Analysis",
+  "Police Case Management": "Police Case Management",
+  "Insurance Policy": "Insurance Policy",
+  "Workshop Expense": "Workshop Expense",
+  "Amar Gari": "Amar Gari",
+  "Edit Vehicle": "Edit Vehicle"
+
+}

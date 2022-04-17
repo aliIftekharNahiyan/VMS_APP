@@ -1,0 +1,94 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '2'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.1'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+android {
+    compileSdkVersion 32
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.ew.amargari"
+        minSdkVersion 20
+        targetSdkVersion 31
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+
+    }
+    signingConfigs {
+        release {
+            storeFile file('D:/AI/Jks/amargari.jks')
+            storePassword "amargari"
+            keyAlias "amargari"
+            keyPassword "amargari"
+        }
+    }
+    buildTypes { 
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            minifyEnabled true
+
+        }
+        debug {
+            applicationIdSuffix "" // Optional, you don't need to create a separate applicationId for debug.
+            signingConfig signingConfigs.debug
+            minifyEnabled true
+
+        }
+    }
+
+    flavorDimensions "default"
+//    productFlavors {
+//
+//    }
+
+//        qa {
+//            applicationIdSuffix ".qa"
+//        }
+//    }
+
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.google.firebase:firebase-messaging:23.0.0"
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+
+}
+apply plugin: 'com.google.gms.google-services'
