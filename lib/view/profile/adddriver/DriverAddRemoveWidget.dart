@@ -15,26 +15,23 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class DriverAddRemoveWidget extends StatelessWidget {
-
   SearchDriverModel searchDriverModel;
   DriverAddRemoveWidget({required this.searchDriverModel});
 
   @override
   Widget build(BuildContext context) {
-
-    if (searchDriverModel.ownerId == AppConstant.userId && searchDriverModel.isDriverAllocated != null){
-      return  MaterialButton(
-        onPressed:  () {
+    if (searchDriverModel.ownerId == AppConstant.userId &&
+        searchDriverModel.isDriverAllocated != null) {
+      return MaterialButton(
+        onPressed: () {
           removeDriver(context, searchDriverModel);
-
-
         },
         child: Text("Remove Driver"),
         color: Colors.orange,
       );
-    }else{
+    } else {
       return MaterialButton(
-        onPressed:  () {
+        onPressed: () {
           addDriver(context, searchDriverModel);
         },
         child: Text("Add Driver"),
@@ -42,107 +39,106 @@ class DriverAddRemoveWidget extends StatelessWidget {
       );
     }
   }
-  removeDriver(BuildContext context, SearchDriverModel searchDriverModel ) {
 
+  removeDriver(BuildContext context, SearchDriverModel searchDriverModel) {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
-    getUserData().then((value) =>
-    {
-    Provider.of<ServiceProvider>(context, listen: false)
-        .removeDriverFromAllocation(value.id.toString(), searchDriverModel.id.toString()),
-    snackBar(context, "Successfully remove driver from you account"),
-    Navigator.pop(context),
-    Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => SearchDriver()))
-    });
+    getUserData().then((value) => {
+          Provider.of<ServiceProvider>(context, listen: false)
+              .removeDriverFromAllocation(
+                  value.id.toString(), searchDriverModel.id.toString()),
+          snackBar(context, "Successfully remove driver from you account"),
+          Navigator.pop(context),
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SearchDriver()))
+        });
   }
 
-  addDriver(BuildContext context, SearchDriverModel searchDriverModel ) {
-
+  addDriver(BuildContext context, SearchDriverModel searchDriverModel) {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
     getUserData().then((value) =>
-    {
-      displayVehicle(context, searchDriverModel, value.id.toString())
-    });
+        {displayVehicle(context, searchDriverModel, value.id.toString())});
   }
 }
 
-
-
-Future<void> displayVehicle(BuildContext context, SearchDriverModel searchDriverModel, String userId) async {
+Future<void> displayVehicle(BuildContext context,
+    SearchDriverModel searchDriverModel, String userId) async {
   Provider.of<ServiceProvider>(context, listen: false)
-      .fetchVehicleDetails(userId,"");
-  String otpCode  = "" ;
+      .fetchVehicleDetails(userId, "");
+  String otpCode = "";
   SelectedDropDown _selectedDropItem = Get.find();
   return showDialog(
     context: context,
     builder: (context) {
       return Consumer<ServiceProvider>(builder: (context, services, child) {
-
-
-          if (services.vehicleShortList.isNotEmpty) {
-            bool exists = services.vehicleShortList.any((file) => file.id == _selectedDropItem.vehicleId);
-            if (!exists){
-              _selectedDropItem.vehicleId = services.vehicleShortList[0].id.toString();
-            }
+        if (services.vehicleShortList.isNotEmpty) {
+          bool exists = services.vehicleShortList
+              .any((file) => file.id == _selectedDropItem.vehicleTypeId);
+          if (!exists) {
+            _selectedDropItem.vehicleTypeId =
+                services.vehicleShortList[0].id.toString();
           }
+        }
 
         return AlertDialog(
           title: Text('Add Driver!!'),
           content:
-          // DropDownListItem(
-          //     textTitle: "Vehicle :",
-          //     list: services.vehicleShortList,
-          //     requestType: "vehicleList"),
-          AllDropDownItemWithOutPadding(
-              textTitle: "Vehicle",
-              list: services.vehicleShortList,
-              requestType: "vehicleType", selectedItem: _selectedDropItem.vehicleId),
-
+              // DropDownListItem(
+              //     textTitle: "Vehicle :",
+              //     list: services.vehicleShortList,
+              //     requestType: "vehicleList"),
+              AllDropDownItemWithOutPadding(
+                  textTitle: "Vehicle",
+                  list: services.vehicleShortList,
+                  requestType: "vehicleType",
+                  selectedItem: _selectedDropItem.vehicleTypeId),
           actions: <Widget>[
             TextButton(
               child: Text('CANCEL'),
               onPressed: () {
+                _selectedDropItem.vehicleTypeId = "";
                 Navigator.pop(context);
               },
             ),
             TextButton(
               child: Text('OK'),
               onPressed: () {
-
-                if(_selectedDropItem.vehicleId != "") {
+                if (_selectedDropItem.vehicleTypeId != "") {
                   Provider.of<ServiceProvider>(context, listen: false)
                       .sendDriverAllocateRequest(
-                      searchDriverModel.id.toString(), userId,
-                      _selectedDropItem.vehicleId);
+                          searchDriverModel.id.toString(),
+                          userId,
+                          _selectedDropItem.vehicleTypeId);
 
                   Navigator.pop(context);
 
                   confirmRequest(context, services.sendRequestRes);
-                }else{
+                } else {
                   snackBar(context, "Please select vehicle");
                 }
               },
             ),
           ],
         );
-      }
-      );
+      });
     },
   );
 }
 
 TextEditingController _textFieldController = TextEditingController();
 
-Future<void> confirmRequest(BuildContext context, SendRequestRes sendRequestRes) async {
+Future<void> confirmRequest(
+    BuildContext context, SendRequestRes sendRequestRes) async {
   _textFieldController.text = "";
-  String otpCode  = "" ;
+  String otpCode = "";
   return showDialog(
     context: context,
     builder: (context) {
       return Consumer<ServiceProvider>(builder: (context, services, child) {
         return AlertDialog(
-          title: Text('OTP validation. OPT send to driver number, Please collect OTP from your driver!!', style: TextStyle(fontSize: 12),),
+          title: Text(
+            'OTP validation. OPT send to driver number, Please collect OTP from your driver!!',
+            style: TextStyle(fontSize: 12),
+          ),
           content: TextField(
             controller: _textFieldController,
             decoration: InputDecoration(hintText: "Enter OTP number"),
@@ -159,34 +155,32 @@ Future<void> confirmRequest(BuildContext context, SendRequestRes sendRequestRes)
               child: Text('Confirm'),
               color: Colors.orange,
               onPressed: () {
-
-                if(_textFieldController.text != "") {
-
+                if (_textFieldController.text != "") {
                   print(services.sendRequestRes.otp);
                   print(_textFieldController.text);
-               if(services.sendRequestRes.otp == _textFieldController.text){
-
-                   Provider.of<ServiceProvider>(context, listen: false)
-                       .confirmDriverAllocateRequest(services.sendRequestRes.data!.id.toString());
-                   Navigator.pop(context);
-                   Navigator.push(
-                       context,
-                       MaterialPageRoute(builder: (context) => SearchDriver()));
-                   snackBar(context, "Success fully added");
-
-                 }else{
-                   snackBar(context, "Please type input correct otp");
-                 }
-                 // Navigator.pop(context);
-                }else{
+                  if (services.sendRequestRes.otp ==
+                      _textFieldController.text) {
+                    Provider.of<ServiceProvider>(context, listen: false)
+                        .confirmDriverAllocateRequest(
+                            services.sendRequestRes.data!.id.toString());
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SearchDriver()));
+                    snackBar(context, "Success fully added");
+                  } else {
+                    snackBar(context, "Please type input correct otp");
+                  }
+                  // Navigator.pop(context);
+                } else {
                   snackBar(context, "Please input otp");
                 }
               },
             ),
           ],
         );
-      }
-      );
+      });
     },
   );
 }
