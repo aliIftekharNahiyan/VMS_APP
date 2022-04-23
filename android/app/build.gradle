@@ -42,19 +42,19 @@ android {
         multiDexEnabled true
 
     }
-    signingConfigs {
-        release {
-            storeFile file('D:/AI/Jks/amargari.jks')
-            storePassword "amargari"
-            keyAlias "amargari"
-            keyPassword "amargari"
-        }
-    }
+//    signingConfigs {
+//        release {
+//            storeFile file('D:/AI/Jks/amargari.jks')
+//            storePassword "amargari"
+//            keyAlias "amargari"
+//            keyPassword "amargari"
+//        }
+//    }
     buildTypes { 
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
             minifyEnabled true
