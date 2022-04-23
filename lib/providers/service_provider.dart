@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:amargari/model/AddDriver/search_driver_model.dart';
 import 'package:amargari/model/AddDriver/send_request_res.dart';
 import 'package:amargari/model/PoliceFreezingDocModel.dart';
+import 'package:amargari/model/SearchType.dart';
 import 'package:amargari/model/ServiceNameModel.dart';
 import 'package:amargari/model/expense_report_model.dart';
 import 'package:amargari/model/garage/GarageModel.dart';
@@ -36,13 +37,10 @@ class ServiceProvider with ChangeNotifier {
   List<CommonDropDownModel> vehicleModelNameList = [];
   List<CommonDropDownModel> vehicleColourNameList = [];
   List<CommonDropDownModel> policeFreezingList = [];
-
+  List<CommonDropDownModel> locationTypes = [];
   List<CommonDropDownModel> serviceNameList = [];
-
   List<CommonDropDownModel> userTypeModel = [];
-
   List<VehicleInfoDataModel> vehicleModelList = [];
-
   List<SearchDriverModel> searchDriverModel = [];
   List<ExpenseReportModel> expenseReportModel = [];
 
@@ -64,7 +62,6 @@ class ServiceProvider with ChangeNotifier {
     }
   }
   Future<void> getVehicleType() async {
-
     final response = await http.get(Uri.parse(AppUrl.getVehicleType));
     print(AppUrl.getVehicleType);
     if (response.statusCode == 200) {
@@ -92,6 +89,33 @@ class ServiceProvider with ChangeNotifier {
     }
   }
 
+  Future<void> getLocationType() async{
+    final response = await http.get(Uri.parse(AppUrl.getLocationType));
+    print(AppUrl.getLocationType);
+    if (response.statusCode == 200) {
+
+      Iterable l = json.decode(response.body)['data'];
+      List<VehicleType> vehicleTypeList = List<VehicleType>.from(l.map((model)=> VehicleType.fromJson(model)));
+
+      vehicleTypeComList.clear();
+      CommonDropDownModel service = new CommonDropDownModel(
+          id: "-1", name: "Please select", title: "");
+      vehicleTypeComList.add(service);
+
+      for (var _list in vehicleTypeList) {
+        CommonDropDownModel service = new CommonDropDownModel(
+            id: _list.Id.toString(), name: _list.VechileType, title: _list.CreatedBy);
+        vehicleTypeComList.add(service);
+      }
+
+      notifyListeners();
+      print(vehicleTypeList);
+      //  this.sendRequestRes = sendRequestRes;
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
 
   Future<void> fetchVehicleDetails(String userId, String? requestType ) async {
     final response = await http
@@ -123,8 +147,6 @@ class ServiceProvider with ChangeNotifier {
       throw Exception('Failed to load album');
     }
   }
-// garage list
-
   Future<void> fetchGarageList(String userId) async {
     final responseData = await http
         .get(Uri.parse(AppUrl.garageList.replaceAll("_userId", userId)));
@@ -150,7 +172,6 @@ class ServiceProvider with ChangeNotifier {
       throw Exception('Failed to load album');
     }
   }
-
   Future<void> getServiceListDropDown(String userId) async {
 
     final responseData = await http
@@ -176,9 +197,6 @@ class ServiceProvider with ChangeNotifier {
       throw Exception('Failed to load album');
     }
   }
-
-
-
   Future<void> fetchDriverList(String userId) async {
     final responseData = await http
         .get(Uri.parse(AppUrl.getDriverList.replaceAll("_userId", userId)));
@@ -202,9 +220,6 @@ class ServiceProvider with ChangeNotifier {
       throw Exception('Failed to load album');
     }
   }
-
-
-
   Future<void> getVehicleEnergyType() async {
     final responseData = await http
         .get(Uri.parse(AppUrl.getVehicleEnergyType));
@@ -229,7 +244,6 @@ class ServiceProvider with ChangeNotifier {
     }
   }
 
-  //update service
   Future<dynamic> serviceUpdate(
       String Id,
       String GargeInfoId,
@@ -484,15 +498,9 @@ class ServiceProvider with ChangeNotifier {
 
       Iterable l = json.decode(response.body)['result'];
       expenseReportModel = List<ExpenseReportModel>.from(l.map((model)=> ExpenseReportModel.fromJson(model)));
-      // print("fetchGarageList  "+energyType.toString());
-     // expenseReportModel = expenseModel;
-
       notifyListeners();
     } else {
       throw Exception('Failed to load album');
     }
   }
-
-
-
 }

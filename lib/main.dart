@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => VehicleInfoProvider()),
         ChangeNotifierProvider(create: (_) => VehicleDocumentInfoProvider()),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,

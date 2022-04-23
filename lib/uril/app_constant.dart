@@ -3,6 +3,21 @@ import 'package:amargari/model/RequestModel/request_service_model.dart';
 class AppConstant {
   static String profileImageUrl = "";
   static String NidURL = "";
+
+  static String BC_URL1 = "";
+  static String BC_URL2 = "";
+
+  static String CC_URL1 = "";
+  static String CC_URL2 = "";
+
+  static String DP_URL = "";
+  static String BD_URL2 = "";
+
+  static String fatherMobile = "";
+  static String motherMobile = "";
+
+  static String joiningDate = "";
+
   static String drivingLicenseURL = "";
   static String tradeLicenseURL = "";
   static String vehicleImageURL = "";
@@ -18,11 +33,15 @@ class AppConstant {
   static String expenseSlipURL = "";
   static String partsImageURL = "";
 
-
-
-  void makeAllEmpty(){
+  void makeAllEmpty() {
     profileImageUrl = "";
     NidURL = "";
+    BC_URL1 = "";
+    BC_URL2 = "";
+    CC_URL1 = "";
+    CC_URL2 = "";
+    DP_URL = "";
+    BD_URL2 = "";
     drivingLicenseURL = "";
     tradeLicenseURL = "";
     vehicleImageURL = "";
@@ -48,20 +67,15 @@ class AppConstant {
   static String expenseSlip = "ExpenseSlip";
   static String partsImage = "PartsImage";
 
-
-
   static int userId = 0;
   static int userTypeId = 0;
 
   static String ApiKey = "AIzaSyBJC85dIw6OmepJFtLdxiLfPSYApfXdc_g";
-
 
   static String startDate = "";
   static String endDate = "";
 
   static String serviceNameList = "serviceNameList";
 
-
   static List<RequestServiceModel> requestList = [];
-
 }
