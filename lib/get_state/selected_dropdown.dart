@@ -4,19 +4,33 @@ class SelectedDropDown extends GetxController {
   String _vehicleId = "";
   String get vehicleId => _vehicleId;
 
+  String _expenseId = "";
+  String get expenseId => _expenseId;
+
+  String _expenseStatusId = "1";
+  String get expenseStatusId => _expenseStatusId;
+
   String _garageId = "";
   String get garageId => _garageId;
 
   String _driverId = "";
   String get driverId => _driverId;
 
-
   String _vehicleEnergyTypeId = "";
   String get vehicleEnergyTypeId => _vehicleEnergyTypeId;
 
-
   set vehicleId(String vehicleId) {
     _vehicleId = vehicleId;
+    update();
+  }
+
+  set expenseId(String expenseId) {
+    _expenseId = expenseId;
+    update();
+  }
+
+  set expenseStatusId(String expenseStatusId) {
+    _expenseStatusId = expenseStatusId;
     update();
   }
 
@@ -35,8 +49,6 @@ class SelectedDropDown extends GetxController {
     update();
   }
 
-
-
   String _userTypeId = "";
   String get userTypeId => _userTypeId;
   set userTypeId(String userTypeId) {
@@ -50,7 +62,6 @@ class SelectedDropDown extends GetxController {
     _vehicleTypeId = vehicleTypeId;
     update();
   }
-
 
   String _vehicleStatusId = "1";
   String get vehicleStatusId => _vehicleStatusId;
@@ -80,7 +91,6 @@ class SelectedDropDown extends GetxController {
     update();
   }
 
-
   String _vehicleBrandFullName = "";
   String get vehicleBrandFullName => _vehicleBrandFullName;
   set vehicleBrandFullName(String vehicleBrandFullName) {
@@ -102,7 +112,6 @@ class SelectedDropDown extends GetxController {
     update();
   }
 
-
   String _serviceType = "";
   String get serviceType => _serviceType;
   set serviceType(String serviceType) {
@@ -116,8 +125,6 @@ class SelectedDropDown extends GetxController {
     _policeFreezingDoc = policeFreezingDoc;
     update();
   }
-
-
 
   String _serviceNameListName = "";
   String get serviceNameListName => _serviceNameListName;
@@ -133,4 +140,3 @@ class SelectedDropDown extends GetxController {
     update();
   }
 }
-

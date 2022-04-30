@@ -84,8 +84,6 @@ InputDecoration commonInputDecoration(String labelText, String hintText) {
     hintText: hintText,
       floatingLabelBehavior: FloatingLabelBehavior.always,
     labelStyle: TextStyle(color: MyTheme.titleHintColor),
-
-
   );
 }
 BoxDecoration linearGradientDecoration() {
@@ -178,7 +176,7 @@ snackBar(BuildContext context,String message) {
       borderRadius: BorderRadius.circular(24),
     ),
     margin: EdgeInsets.only(
-        bottom: MediaQuery.of(context).size.height - 100,
+        bottom: MediaQuery.of(context).size.height - 10,
         right: 20,
         left: 20),
   ));

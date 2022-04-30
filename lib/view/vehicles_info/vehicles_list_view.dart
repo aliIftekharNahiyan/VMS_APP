@@ -3,12 +3,14 @@ import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/utility.dart';
 import 'package:amargari/view/vehicles_info/vehicle_details.dart';
 import 'package:amargari/view/vehicles_info/vehicle_list_item.dart';
+import 'package:amargari/widgets/themes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/vehicle_details_provider.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/vehicles_info/vehicle_add_edit_details.dart';
+import 'package:flutter/services.dart';
 
 class VehicleInfo extends StatefulWidget {
   final String title;
@@ -109,35 +111,38 @@ class _VehicleInfoState extends State<VehicleInfo> {
                                     children: [
                                       Expanded(
                                         flex: 3,
-                                        child: vehicleInfoDataModel?.vechileImage == "" ?
-                                         Container(
-                                           child: Image.asset(
-                                                  "assets/icons/edit_image.png",
-                                                  height: 100,
-                                                  width: 100,
-                                                  fit: BoxFit.contain,
-                                                  color: Colors.black,
-                                                  )
-                                         ):
-                                         CachedNetworkImage(
-                                          fit: BoxFit.contain,
-                                          imageUrl: vehicleInfoDataModel
-                                                  ?.vechileImage ??
-                                              "",
-                                          placeholder: (context, url) => Center(
-                                            child: SizedBox(
-                                              width: 30.0,
-                                              height: 30.0,
-                                              child:
-                                                  new CircularProgressIndicator(),
-                                            ),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              ImageIcon(AssetImage(
-                                                  "assets/icons/edit_image.png")),
-                                          width: 70,
-                                          height: 120,
-                                        ),
+                                        child: vehicleInfoDataModel
+                                                    ?.vechileImage ==
+                                                ""
+                                            ? Container(
+                                                child: Image.asset(
+                                                "assets/icons/edit_image.png",
+                                                height: 100,
+                                                width: 100,
+                                                fit: BoxFit.contain,
+                                                color: Colors.black,
+                                              ))
+                                            : CachedNetworkImage(
+                                                fit: BoxFit.contain,
+                                                imageUrl: vehicleInfoDataModel
+                                                        ?.vechileImage ??
+                                                    "",
+                                                placeholder: (context, url) =>
+                                                    Center(
+                                                  child: SizedBox(
+                                                    width: 30.0,
+                                                    height: 30.0,
+                                                    child:
+                                                        new CircularProgressIndicator(),
+                                                  ),
+                                                ),
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    ImageIcon(AssetImage(
+                                                        "assets/icons/edit_image.png")),
+                                                width: 70,
+                                                height: 120,
+                                              ),
                                       ),
                                     ],
                                   ),
@@ -151,33 +156,34 @@ class _VehicleInfoState extends State<VehicleInfo> {
                                     text:
                                         vehicleInfoDataModel?.modelName ?? ""),
                                 VehicleListItem(
-                                    textTitle: 'Reg. Date:',
-                                    text:
-                                        "${convertDate2(vehicleInfoDataModel?.registrationDate ?? "")}"),
-                                VehicleListItem(
                                     textTitle: 'Manuf. year:',
                                     text:
                                         vehicleInfoDataModel?.modelYear ?? ""),
                                 VehicleListItem(
-                                    textTitle: 'Fitness Expire date:',
+                                    textTitle: 'Reg. Date:',
                                     text:
-                                        "${convertDate2(vehicleInfoDataModel?.fitnessExpireDate ?? "")}"),
-                                VehicleListItem(
-                                    textTitle: 'Tax Token Expire date:',
-                                    text:
-                                        "${convertDate2(vehicleInfoDataModel?.taxTokenExpireDate ?? "")}"),
-                                VehicleListItem(
-                                    textTitle: 'Road Permit Expire date:',
-                                    text:
-                                        "${convertDate2(vehicleInfoDataModel?.routePermitExpireDate ?? "")}"),
-                                VehicleListItem(
-                                    textTitle: 'Insurance Expire date:',
-                                    text:
-                                        "${convertDate2(vehicleInfoDataModel?.insuranceExpireDate ?? "")}"),
+                                        "${convertDate2(vehicleInfoDataModel?.registrationDate ?? "")}"),
                                 VehicleListItem(
                                     textTitle: 'Registration number:',
                                     text: vehicleInfoDataModel?.vechileNumber ??
                                         ""),
+                                VehicleListItem(
+                                    textTitle: 'Fitness Expire date:',
+                                    text:"${convertDate2(vehicleInfoDataModel?.fitnessExpireDate ?? "")}"),
+                                VehicleListItem(
+                                    textTitle: 'Tax Token Expire date:',
+                                    text:"${convertDate2(vehicleInfoDataModel?.taxTokenExpireDate ?? "")}"),
+                                
+                                vehicleInfoDataModel?.routePermitExpireDate != null ?
+                                VehicleListItem(
+                                    textTitle: 'Road Permit Expire date:',
+                                    text:
+                                        "${convertDate2(vehicleInfoDataModel?.routePermitExpireDate ?? "")}"): Container(),
+                                vehicleInfoDataModel?.insuranceExpireDate != null ?
+                                VehicleListItem(
+                                    textTitle: 'Insurance Expire date:',
+                                    text:
+                                        "${convertDate2(vehicleInfoDataModel?.insuranceExpireDate ?? "")}"): Container(),
                                 VehicleListItem(
                                     textTitle: 'Cc:',
                                     text: vehicleInfoDataModel?.cc ?? ""),

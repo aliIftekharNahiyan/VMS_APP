@@ -17,29 +17,38 @@ class AppUrl {
   static const String getVehicleType = baseURL + "/vechile/GetVechileType";
   static const String getLocationType = baseURL + "/LocalInfo/GetLocalInfoSaveType";
 
+  static const String getExpenseType = baseURL + "/CarServiceType/GetAllServiceTypeInfo?userid=_userId";
 
+  static const String updateExpense = baseURL + "/CarServiceType/ExpenseInsertUpdate";
+  static const String updateExpenseType = baseURL + "/CarServiceType/InsertUpdateServiceType";
+  static const String getExpenseList = baseURL + "/CarServiceType/ExpenseList?userid=_userId";
+  static const String getExpenseTypeList = baseURL + "/CarServiceType/GetAllServiceTypeInfo?userid=_userId";
 
   static const String vehicleInfoAddUpdate = baseURL + "/vechile/VechileInfoAddUpdate";
+
   static const String addVehicleBrandModel = baseURL + "/vechile/InsertVechileGeneralInfo";
+
   static const String vehicleDocumentManager = baseURL + "/VechileDocumentManagement/Entry";
+
   static const String getDocumentHistory = baseURL + "/VechileDocumentManagement/GetDocumentList?vechileId=_vechileId&documentId=_documentId&ownerId=_ownerId";
 
-
-
   static const String garageList = baseURL + "/Garage/GetGarageList?userid=_userId";
+
   static const String garageInfoEntryUpdate = baseURL + "/Garage/GargeInfoEntryUpdate";
+
   static const String serviceInfo = baseURL + "/Service/Info";
+
   static const String getServiceListDropDown = baseURL + "/Service/GetServiceListDropDown?userid=_userId";
 
   static const String createServiceName = baseURL + "/Service/AddDataToServiceList";
 
-
   static const String getVehicleList = baseURL + "/vechile/GetvechileList?userid=_userId";
+
   static const String vehicleGeneralInfo = baseURL + "/vechile/VechileGeneralInfoList?infoId=_infoId&parentId=_parentId&VechileTypeForModelId=_vehicleTypeForModelId&ownerId=_ownerId";
+  
   static const String getServicingList = baseURL + "/Service/GetServicingList?vechileId=_vehicleId&ownerId=_ownerId";
+  
   static const String policeCaseList = baseURL + "/TripManagement/GetPoliceCaseList?vechileId=_vehicleId&ownerId=_ownerId";
-
-
 
   static const String getDriverList = baseURL + "/DriveInfo/GetDriveList?ownerId=_userId";
   static const String getAccidentList = baseURL + "/Accident/GetAccidentList?vechileId=_vehicleId&ownerId=_ownerId";
@@ -75,9 +84,9 @@ class AppUrl {
   static const String confirmDriverAllocateRequest = baseURL + "/DriverSelection/ConfirmDriverAllocateRequest?id=_id";
 
   static const String removeDriverFromAllocation = baseURL + "/DriverSelection/RemoveDriverFromAllocation?ownerId=_ownerId&driverId=_driverId";
-
-
-
+  
+  
+  static const String reportServiceDropdownList = baseURL + "/Report/GetReportDropDown";
 
 }
 

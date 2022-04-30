@@ -18,6 +18,7 @@ class AppConstant {
 
   static String joiningDate = "";
 
+  static String expenseImageURL = "";
   static String drivingLicenseURL = "";
   static String tradeLicenseURL = "";
   static String vehicleImageURL = "";

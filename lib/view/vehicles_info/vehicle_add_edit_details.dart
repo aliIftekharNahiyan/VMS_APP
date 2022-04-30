@@ -7,20 +7,14 @@ import 'package:amargari/view/common_view/edit_List_Item.dart';
 import 'package:amargari/view/common_view/image_upload_view_item.dart';
 import 'package:amargari/view/vehicles_info/vehicle_brand_model_add.dart';
 import 'package:amargari/view/vehicles_info/vehicles_list_view.dart';
-import 'package:amargari/widgets/drop_down_list_border.dart';
-import 'package:amargari/widgets/drop_down_list_item.dart';
 import 'package:amargari/widgets/themes.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/vehicle_details_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
-import 'package:amargari/view/profile/components/details_body_item.dart';
 import 'package:amargari/widgets/TextEditingControllerWithEndCursor.dart';
 import 'package:amargari/widgets/widgets.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -159,7 +153,6 @@ print("_selectedDropItem    ${ _selectedDropItem.vehicleTypeId}   ${ _selectedDr
         return;
       }
       print('run process   ${_selectedDropItem.vehicleTypeId}  ${_selectedDropItem.vehicleBrandId}   ${_selectedDropItem.vehicleModelId}');
-      //isEditAble = true;
 
       if (_selectedDropItem.vehicleTypeId != "" && _selectedDropItem.vehicleTypeId != "-1" && _selectedDropItem.vehicleBrandId != "" && _selectedDropItem.vehicleBrandId != "-1"
           && _selectedDropItem.vehicleModelId != "" && _selectedDropItem.vehicleModelId != "-1" ){
@@ -246,12 +239,11 @@ print("_selectedDropItem    ${ _selectedDropItem.vehicleTypeId}   ${ _selectedDr
                               title: "Vehicle Info")))
             })
           }
-      });}
+      });
+      }
       else{
         snackBar(context, "Please select mandatory filed ");
       }
-
-
     };
     return Scaffold(
       appBar: AppBar(

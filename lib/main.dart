@@ -55,21 +55,11 @@ void main() async {
 
 }
 
-
-
 class MyApp extends StatelessWidget {
-
-
 
   @override
   Widget build(BuildContext context) {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
-    //FlutterStatusbarcolor.setStatusBarColor(MyTheme.statusBarColor);
-
-    //FlutterStatusbarcolor.setStatusBarColor(Colors.white);
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //     statusBarColor: MyTheme.buttonColor
-    // ));
 
     return MultiProvider(
       providers: [

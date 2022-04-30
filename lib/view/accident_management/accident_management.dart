@@ -41,11 +41,6 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
   Widget build(BuildContext context) {
     var addGarageInfo = (AccidentListModel? garageModel) {
       Get.to(AddLocation());
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) =>
-      //             AddUpdateAccidentView(vcDataModel: garageModel!, vehicleId: "")));
     };
     return Scaffold(
       appBar: AppBar(
