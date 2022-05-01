@@ -40,10 +40,10 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
   bool imageUploadRequest = true;
   Future<dynamic>? vehicleList;
 
-    @override
+  @override
   void initState() {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //     SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: MyTheme.statusBarColor));
     super.initState();
   }
 
@@ -218,11 +218,10 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
                         ],
                       ),
                       child: Column(
-                        children: [ 
+                        children: [
                           SizedBox(
                             height: 10,
                           ),
-                         
                           longButtons("Edit Vehicle".tr(), editVehicle),
                           SizedBox(
                             height: 10,
@@ -301,8 +300,11 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                OtherExpense(vehicleId: widget.vcDataModel.id.toString(),)));
+                                            builder: (context) => OtherExpense(
+                                                  vehicleId: widget
+                                                      .vcDataModel.id
+                                                      .toString(),
+                                                )));
                                   },
                                   child: Card(
                                     semanticContainer: true,

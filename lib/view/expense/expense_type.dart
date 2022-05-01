@@ -37,8 +37,8 @@ class _ExpenseTypeState extends State<ExpenseType> {
 
   @override
   void initState() {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //     SystemUiOverlayStyle(statusBarColor: MyTheme.statusBarColor));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: MyTheme.statusBarColor));
     _loadData(context);
     _fetchList();
     super.initState();

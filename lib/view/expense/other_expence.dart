@@ -47,8 +47,8 @@ class _OtherExpenseState extends State<OtherExpense> {
 
   @override
   void initState() {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //     SystemUiOverlayStyle(statusBarColor: MyTheme.statusBarColor));
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: MyTheme.statusBarColor));
 
     _selectedDropItem.expenseId = "";
     _loadData(context);
@@ -122,6 +122,11 @@ class _OtherExpenseState extends State<OtherExpense> {
     });
   }
 
+   Future<bool> _willPopCallback() async {
+    _onClear();
+    return true; // return true if the route to be popped
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -129,202 +134,205 @@ class _OtherExpenseState extends State<OtherExpense> {
         appBar: AppBar(
           title: Text("Other Expense"),
         ),
-        body: Container(
-          child: SingleChildScrollView(
-            controller: _controller,
-            padding: EdgeInsets.symmetric(vertical: 5),
-            child: Consumer<ServiceProvider>(
-              builder: (context, services, child) {
-                return Column(
-                  children: [
-                    SizedBox(height: 20),
-                    EditListItem(
-                        text: 'Date',
-                        nameController: date,
-                        hintText: "Select Date",
-                        isDate: true,
-                        isFutureDate: true,
-                        isRequired: true),
-                    SizedBox(height: 10),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 10,
-                            child: AllDropDownItem(
-                                textTitle: "Expense Type",
-                                list: services.expenseTypeList,
-                                requestType: "expenseTypeList",
-                                isRequired: true,
-                                selectedItem: _selectedDropItem.expenseId),
-                          ),
-                          Expanded(
-                              flex: 2,
-                              child: MaterialButton(
-                                height: 30.0,
-                                minWidth: 30.0,
-                                color: MyTheme.buttonColor,
-                                textColor: Colors.white,
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ExpenseType()));
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             GarageDetailsView(
-                                  //               vcDataModel: GarageModel(),
-                                  //               requestType: "addFromService",
-                                  //               serviceDataModel:
-                                  //                   widget.serviceDataModel,
-                                  //               vehicleId: widget.vehicleId,
-                                  //             )));
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      0, 2.0, 0.0, 2.0),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                    size: 25,
+        body: WillPopScope(
+          onWillPop: _willPopCallback,
+          child: Container(
+            child: SingleChildScrollView(
+              controller: _controller,
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Consumer<ServiceProvider>(
+                builder: (context, services, child) {
+                  return Column(
+                    children: [
+                      SizedBox(height: 20),
+                      EditListItem(
+                          text: 'Date',
+                          nameController: date,
+                          hintText: "Select Date",
+                          isDate: true,
+                          isFutureDate: true,
+                          isRequired: true),
+                      SizedBox(height: 10),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex: 10,
+                              child: AllDropDownItem(
+                                  textTitle: "Expense Type",
+                                  list: services.expenseTypeList,
+                                  requestType: "expenseTypeList",
+                                  isRequired: true,
+                                  selectedItem: _selectedDropItem.expenseId),
+                            ),
+                            Expanded(
+                                flex: 2,
+                                child: MaterialButton(
+                                  height: 30.0,
+                                  minWidth: 30.0,
+                                  color: MyTheme.buttonColor,
+                                  textColor: Colors.white,
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ExpenseType()));
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             GarageDetailsView(
+                                    //               vcDataModel: GarageModel(),
+                                    //               requestType: "addFromService",
+                                    //               serviceDataModel:
+                                    //                   widget.serviceDataModel,
+                                    //               vehicleId: widget.vehicleId,
+                                    //             )));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        0, 2.0, 0.0, 2.0),
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                      size: 25,
+                                    ),
                                   ),
-                                ),
-                                shape: CircleBorder(),
-                              ))
-                        ]),
-                    SizedBox(height: 10),
-                    EditListItem(
-                      text: 'Expense Amount',
-                      nameController: expenseAmount,
-                      hintText: "Enter expense amount",
-                      isNumber: true,
-                      isRequired: true,
-                    ),
-                    ImageUploadViewItem(
-                        text: 'Expense Image',
-                        nameController: image,
-                        isVisible: true,
-                        images: "expenseImage"),
-                    SizedBox(height: 10),
-                    EditListItem(
-                      text: 'Description',
-                      nameController: description,
-                      hintText: "Enter description",
-                      multiLine: true,
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: longButtons(
-                          id.text != "" ? "UPDATE" : "SAVE",
-                          // "SAVE",
-                          doUpdate),
-                    ),
-                    FutureBuilder<List<ExpenseDTO>>(
-                      future: expenseDTOList,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return snapshot.data!.isEmpty
-                              ? Center(
-                                  child: Text('Not found any information '))
-                              : Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                                  child: ListView.builder(
-                                    primary: false,
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: snapshot.data!.length,
-                                    itemBuilder: (context, index) {
-                                      ExpenseDTO expense =
-                                          snapshot.data![index];
-                                      return Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 4, 8, 4),
-                                        child: Card(
-                                          child: new InkResponse(
-                                            onTap: () {
-                                              _onEdit(expense);
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                      flex: 3,
-                                                      child: expense.image == ""
-                                                          ? Image.asset(
-                                                              "assets/icons/edit_image.png",
-                                                              color:
-                                                                  Colors.black,
-                                                            )
-                                                          : CachedNetworkImage(
-                                                              imageUrl: expense
-                                                                      .image ??
-                                                                  "",
-                                                              placeholder: (context,
-                                                                      url) =>
-                                                                  CircularProgressIndicator(),
-                                                              errorWidget: (context,
-                                                                      url,
-                                                                      error) =>
-                                                                  ImageIcon(
-                                                                      AssetImage(
-                                                                          "assets/icons/edit_image.png")),
-                                                              height: 100,
-                                                            )),
-                                                  Expanded(
-                                                      flex: 7,
-                                                      child: Column(
-                                                          children: <Widget>[
-                                                            VehicleListItem(
-                                                                textTitle:
-                                                                    'ExpenseType: ',
-                                                                text: expense
-                                                                        .name ??
-                                                                    ""),
-                                                            VehicleListItem(
-                                                                textTitle:
-                                                                    'Description: ',
-                                                                text: expense
-                                                                        .description ??
-                                                                    ""),
-                                                            VehicleListItem(
-                                                                textTitle:
-                                                                    'Expense Amount: ',
-                                                                text: expense
-                                                                        .expenseAmount ??
-                                                                    ""),
-                                                            VehicleListItem(
-                                                                textTitle:
-                                                                    'Date: ',
-                                                                text: expense
-                                                                        .date ??
-                                                                    "")
-                                                          ])),
-                                                ],
+                                  shape: CircleBorder(),
+                                ))
+                          ]),
+                      SizedBox(height: 10),
+                      EditListItem(
+                        text: 'Expense Amount',
+                        nameController: expenseAmount,
+                        hintText: "Enter expense amount",
+                        isNumber: true,
+                        isRequired: true,
+                      ),
+                      ImageUploadViewItem(
+                          text: 'Expense Image',
+                          nameController: image,
+                          isVisible: true,
+                          images: "expenseImage"),
+                      SizedBox(height: 10),
+                      EditListItem(
+                        text: 'Description',
+                        nameController: description,
+                        hintText: "Enter description",
+                        multiLine: true,
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: longButtons(
+                            id.text != "" ? "UPDATE" : "SAVE",
+                            // "SAVE",
+                            doUpdate),
+                      ),
+                      FutureBuilder<List<ExpenseDTO>>(
+                        future: expenseDTOList,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done) {
+                            return snapshot.data!.isEmpty
+                                ? Center(
+                                    child: Text('Not found any information '))
+                                : Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                                    child: ListView.builder(
+                                      primary: false,
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        ExpenseDTO expense =
+                                            snapshot.data![index];
+                                        return Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 8, 4),
+                                          child: Card(
+                                            child: new InkResponse(
+                                              onTap: () {
+                                                _onEdit(expense);
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                        flex: 3,
+                                                        child: expense.image == ""
+                                                            ? Image.asset(
+                                                                "assets/icons/edit_image.png",
+                                                                color:
+                                                                    Colors.black,
+                                                              )
+                                                            : CachedNetworkImage(
+                                                                imageUrl: expense
+                                                                        .image ??
+                                                                    "",
+                                                                placeholder: (context,
+                                                                        url) =>
+                                                                    CircularProgressIndicator(),
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    ImageIcon(
+                                                                        AssetImage(
+                                                                            "assets/icons/edit_image.png")),
+                                                                height: 100,
+                                                              )),
+                                                    Expanded(
+                                                        flex: 7,
+                                                        child: Column(
+                                                            children: <Widget>[
+                                                              VehicleListItem(
+                                                                  textTitle:
+                                                                      'ExpenseType: ',
+                                                                  text: expense
+                                                                          .name ??
+                                                                      ""),
+                                                              VehicleListItem(
+                                                                  textTitle:
+                                                                      'Description: ',
+                                                                  text: expense
+                                                                          .description ??
+                                                                      ""),
+                                                              VehicleListItem(
+                                                                  textTitle:
+                                                                      'Expense Amount: ',
+                                                                  text: expense
+                                                                          .expenseAmount ??
+                                                                      ""),
+                                                              VehicleListItem(
+                                                                  textTitle:
+                                                                      'Date: ',
+                                                                  text: expense
+                                                                          .date ??
+                                                                      "")
+                                                            ])),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
-                        } else {
-                          return Center(child: CircularProgressIndicator());
-                        }
-
-                        // By default, show a loading spinner.
-                      },
-                    ),
-                  ],
-                );
-              },
+                                        );
+                                      },
+                                    ),
+                                  );
+                          } else {
+                            return Center(child: CircularProgressIndicator());
+                          }
+        
+                          // By default, show a loading spinner.
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),

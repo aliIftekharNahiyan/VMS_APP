@@ -48,8 +48,6 @@ class ServiceProvider with ChangeNotifier {
   List<CommonDropDownModel> expenseTypeStatusList = [];
   List<CommonDropDownModel> reportServiceList = [];
 
- 
-
   SendRequestRes sendRequestRes = new SendRequestRes();
 
   Future<void> getExpenseTypeStatus() async {
@@ -63,14 +61,16 @@ class ServiceProvider with ChangeNotifier {
     notifyListeners();
   }
 
-   Future<void> getReportServiceDropdownList() async {
-    final response = await http
-        .get(Uri.parse(AppUrl.reportServiceDropdownList));
+  Future<void> getReportServiceDropdownList() async {
+    final response =
+        await http.get(Uri.parse(AppUrl.reportServiceDropdownList));
     print(AppUrl.getVehicleType);
     if (response.statusCode == 200) {
-      var result = ReportServiceDropdownResponse.fromJson(json.decode(response.body));
+      var result =
+          ReportServiceDropdownResponse.fromJson(json.decode(response.body));
 
       if (result.data != null) {
+        reportServiceList.clear();
         for (var _list in result.data as List<ReportServiceDropdownDTO>) {
           CommonDropDownModel service = new CommonDropDownModel(
               id: _list.id.toString(), name: _list.reportName);
@@ -91,6 +91,7 @@ class ServiceProvider with ChangeNotifier {
       var result = ExpenseTypeModel.fromJson(json.decode(response.body));
 
       if (result.data != null) {
+        expenseTypeList.clear();
         for (var _list in result.data ?? []) {
           CommonDropDownModel service = new CommonDropDownModel(
               id: _list.id.toString(), name: _list.name);
@@ -578,6 +579,7 @@ class ServiceProvider with ChangeNotifier {
 
   Future<FutureOr> onServiceReport(Response response) async {
     if (response.statusCode == 200) {
+      expenseReportModel.clear();
       Iterable l = json.decode(response.body)['result'];
       expenseReportModel = List<ExpenseReportModel>.from(
           l.map((model) => ExpenseReportModel.fromJson(model)));
