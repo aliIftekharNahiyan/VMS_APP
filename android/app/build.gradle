@@ -44,7 +44,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('D:/FLUTTER/VMS_APP/keystore/amargari')
+            storeFile file('D:/Sakib/VMS_APP/keystore/amargari')
             storePassword "amargari"
             keyAlias "amargari"
             keyPassword "amargari"
@@ -69,15 +69,6 @@ android {
     }
 
     flavorDimensions "default"
-//    productFlavors {
-//
-//    }
-
-//        qa {
-//            applicationIdSuffix ".qa"
-//        }
-//    }
-
 }
 
 flutter {

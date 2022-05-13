@@ -84,7 +84,10 @@ class _ImageUploadViewItemState extends State<ImageUploadViewItem> {
             print("imageURL:  " + AppConstant.fuelSlipImgURL);
             print("images ${widget.images}");
 
-            if (widget.images == "nid") {
+            if (widget.images == "expenseImage") {
+              AppConstant.expenseImageURL = value;
+            }
+            else if (widget.images == "nid") {
               AppConstant.NidURL = value;
             }else if (widget.images == "bc1") {
               AppConstant.BC_URL1 = value;

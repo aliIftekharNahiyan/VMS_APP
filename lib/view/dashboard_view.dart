@@ -43,7 +43,7 @@ class _DashBoardState extends State<DashBoard> {
   @override
   void initState() {
     isLoaded = true;
-    LocationRequest().getCurrentPosition();
+    // LocationRequest().getCurrentPosition();
     //CommonProvider commonProvider = Provider.of<CommonProvider>(context);
     //notificationList = commonProvider.getNotificationList("10040");
     // NotificationList list = await notificationList ;

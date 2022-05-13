@@ -1,91 +1,78 @@
 class SendRequestRes {
-  SendRequestRes({
-      String? result, 
-      Data? data, 
-      String? otp, 
-      String? reason,}){
-    _result = result;
-    _data = data;
-    _otp = otp;
-    _reason = reason;
-}
+  String? result;
+  List<Data>? data;
+  String? otp;
+  String? reason;
+  List<String>? errors;
 
-  SendRequestRes.fromJson(dynamic json) {
-    _result = json['result'];
-    _data = json['data'] != null ? Data.fromJson(json['data']) : null;
-    _otp = json['otp'];
-    _reason = json['reason'];
+  SendRequestRes({this.result, this.data, this.otp, this.reason, this.errors});
+
+  SendRequestRes.fromJson(Map<String, dynamic> json) {
+    result = json['result'];
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
+    }
+    otp = json['otp'];
+    reason = json['reason'];
+    if (json['errors'] != null) {
+      errors = <String>[];
+      json['errors'].forEach((v) {
+        errors!.add(v);
+      });
+    }
   }
-  String? _result;
-  Data? _data;
-  String? _otp;
-  String? _reason;
-
-  String? get result => _result;
-  Data? get data => _data;
-  String? get otp => _otp;
-  String? get reason => _reason;
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['result'] = _result;
-    if (_data != null) {
-      map['data'] = _data?.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['result'] = this.result;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    map['otp'] = _otp;
-    map['reason'] = _reason;
-    return map;
+    data['otp'] = this.otp;
+    data['reason'] = this.reason;
+    if (this.errors != null) {
+      data['errors'] = this.errors!.map((v) => v).toList();
+    }
+    return data;
   }
-
 }
 
 class Data {
-  Data({
-      int? id, 
-      int? driverId, 
-      int? ownerId, 
-      int? vechileId, 
-      String? otp, 
-      String? timeStamp,}){
-    _id = id;
-    _driverId = driverId;
-    _ownerId = ownerId;
-    _vechileId = vechileId;
-    _otp = otp;
-    _timeStamp = timeStamp;
-}
+  int? id;
+  int? driverId;
+  int? ownerId;
+  int? vechileId;
+  String? oTP;
+  String? timeStamp;
 
-  Data.fromJson(dynamic json) {
-    _id = json['Id'];
-    _driverId = json['DriverId'];
-    _ownerId = json['OwnerId'];
-    _vechileId = json['VechileId'];
-    _otp = json['OTP'];
-    _timeStamp = json['TimeStamp'];
+  Data(
+      {this.id,
+      this.driverId,
+      this.ownerId,
+      this.vechileId,
+      this.oTP,
+      this.timeStamp});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    id = json['Id'];
+    driverId = json['DriverId'];
+    ownerId = json['OwnerId'];
+    vechileId = json['VechileId'];
+    oTP = json['OTP'];
+    timeStamp = json['TimeStamp'];
   }
-  int? _id;
-  int? _driverId;
-  int? _ownerId;
-  int? _vechileId;
-  String? _otp;
-  String? _timeStamp;
-
-  int? get id => _id;
-  int? get driverId => _driverId;
-  int? get ownerId => _ownerId;
-  int? get vechileId => _vechileId;
-  String? get otp => _otp;
-  String? get timeStamp => _timeStamp;
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['Id'] = _id;
-    map['DriverId'] = _driverId;
-    map['OwnerId'] = _ownerId;
-    map['VechileId'] = _vechileId;
-    map['OTP'] = _otp;
-    map['TimeStamp'] = _timeStamp;
-    return map;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Id'] = this.id;
+    data['DriverId'] = this.driverId;
+    data['OwnerId'] = this.ownerId;
+    data['VechileId'] = this.vechileId;
+    data['OTP'] = this.oTP;
+    data['TimeStamp'] = this.timeStamp;
+    return data;
   }
-
 }

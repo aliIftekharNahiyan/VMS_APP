@@ -41,6 +41,7 @@ class _DropDownBorderItemState extends State<DropDownBorderItem> {
                 requestType: widget.requestType,
                 selectedItem: widget.selectedItem,
                 isUnderline: false,
+                onCallback: (){},
             ),
           ),
         ),
