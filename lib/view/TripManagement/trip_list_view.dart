@@ -42,7 +42,7 @@ class _TripListViewState extends State<TripListView> {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  Direction(tripListModel: tripListModel)));
+                  Direction(title: "Direction", tripListModel: tripListModel)));
     };
     return Scaffold(
       appBar: AppBar(

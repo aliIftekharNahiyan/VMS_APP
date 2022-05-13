@@ -40,7 +40,7 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
   @override
   Widget build(BuildContext context) {
     var addGarageInfo = (AccidentListModel? garageModel) {
-      Get.to(AddLocation());
+      // Get.to(AddLocation());
     };
     return Scaffold(
       appBar: AppBar(
@@ -51,48 +51,48 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            height: Get.height * .12,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              children: [
-                Container(
-                  height: Get.height * .12,
-                  width: Get.width * .3,
-                  margin: EdgeInsets.all(5),
-                  child: Center(child: Text("Hospital", style: TextStyle(color: Colors.white),)),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey)
-                  ),
-                ),
-                Container(
-                  height: Get.height * .12,
-                  width: Get.width * .3,
-                  margin: EdgeInsets.all(5),
-                  child: Center(child: Text("Police Station", style: TextStyle(color: Colors.white),)),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey)
-                  ),
-                ),
-                Container(
-                  height: Get.height * .12,
-                  width: Get.width * .3,
-                  margin: EdgeInsets.all(5),
-                  child: Center(child: Text("Garage", style: TextStyle(color: Colors.white),)),
-                  decoration: BoxDecoration(
-                    color: Colors.blueGrey[800],
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey)
-                  ),
-                )
-              ],
-            ),
-          ),
+          // Container(
+          //   height: Get.height * .12,
+          //   child: ListView(
+          //     scrollDirection: Axis.horizontal,
+          //     shrinkWrap: true,
+          //     children: [
+          //       Container(
+          //         height: Get.height * .12,
+          //         width: Get.width * .3,
+          //         margin: EdgeInsets.all(5),
+          //         child: Center(child: Text("Hospital", style: TextStyle(color: Colors.white),)),
+          //         decoration: BoxDecoration(
+          //           color: Colors.blue,
+          //           borderRadius: BorderRadius.circular(5),
+          //           border: Border.all(color: Colors.grey)
+          //         ),
+          //       ),
+          //       Container(
+          //         height: Get.height * .12,
+          //         width: Get.width * .3,
+          //         margin: EdgeInsets.all(5),
+          //         child: Center(child: Text("Police Station", style: TextStyle(color: Colors.white),)),
+          //         decoration: BoxDecoration(
+          //           color: Colors.red,
+          //           borderRadius: BorderRadius.circular(5),
+          //           border: Border.all(color: Colors.grey)
+          //         ),
+          //       ),
+          //       Container(
+          //         height: Get.height * .12,
+          //         width: Get.width * .3,
+          //         margin: EdgeInsets.all(5),
+          //         child: Center(child: Text("Garage", style: TextStyle(color: Colors.white),)),
+          //         decoration: BoxDecoration(
+          //           color: Colors.blueGrey[800],
+          //           borderRadius: BorderRadius.circular(5),
+          //           border: Border.all(color: Colors.grey)
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
           Expanded(
             child: FutureBuilder<List<AccidentListModel>>(
               future: accidentList,

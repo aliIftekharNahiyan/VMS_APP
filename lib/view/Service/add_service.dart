@@ -174,6 +174,7 @@ class _AddServiceViewState extends State<AddServiceView> {
                               AppConstant.partsImageURL,
                               AppConstant.requestList),
                   serviceModel?.whenComplete(() => {
+                    snackBar(context, "Services Updated Successfully", success: true),
                         Navigator.pop(context),
                         Navigator.push(
                             context,
@@ -184,7 +185,7 @@ class _AddServiceViewState extends State<AddServiceView> {
                 }
             });
       } else {
-        snackBar(context, "Required field should not empty");
+        snackBar(context, "Required field should not empty", success: false);
       }
     };
 

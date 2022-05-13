@@ -80,8 +80,11 @@ class _MonthlyReportViewState extends State<MonthlyReportView> {
   }
 
   void _fetchServiceDropdownList(BuildContext context) async {
-    Provider.of<ServiceProvider>(context, listen: false)
-        .getReportServiceDropdownList();
+    Future<UserInfoModel> getUserData() => UserPreferences().getUser();
+    getUserData().then((value) => {
+      Provider.of<ServiceProvider>(context, listen: false)
+        .getReportServiceDropdownList(value.id.toString())
+    });
   }
 
   void _loadData(BuildContext context) async {
@@ -160,7 +163,7 @@ class _MonthlyReportViewState extends State<MonthlyReportView> {
             if (_selectedDropItem.serviceType == "") {
               if (services.reportServiceList.isNotEmpty) {
                 _selectedDropItem.serviceType =
-                   services.reportServiceList[0].id.toString();
+                    services.reportServiceList[0].id.toString();
               }
             }
 

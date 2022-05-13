@@ -18,9 +18,12 @@ import 'package:amargari/widgets/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+// import 'package:toast/toast.dart';
 
 class OtherExpense extends StatefulWidget {
   const OtherExpense({Key? key, required this.vehicleId}) : super(key: key);
@@ -50,6 +53,7 @@ class _OtherExpenseState extends State<OtherExpense> {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: MyTheme.statusBarColor));
 
+    print(widget.vehicleId);
     _selectedDropItem.expenseId = "";
     _loadData(context);
     _fetchList();
@@ -67,8 +71,20 @@ class _OtherExpenseState extends State<OtherExpense> {
   void _fetchList() {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
     getUserData().then((value) => {
-          expenseDTOList = ExpenseProvider().getExpenseList(value.id.toString())
+          expenseDTOList = ExpenseProvider()
+              .getExpenseList(value.id.toString(), widget.vehicleId)
         });
+  }
+
+  void showToast() {
+    Fluttertoast.showToast(
+        msg: "Successfully ${id.text == "" ? "saved" : "updated"}",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   doUpdate() {
@@ -82,10 +98,17 @@ class _OtherExpenseState extends State<OtherExpense> {
               image: AppConstant.expenseImageURL,
               expenseAmount: expenseAmount.text,
               userId: value.id,
-              status: 1)),
+              status: 1,
+              vechileId: int.parse(widget.vehicleId.toString()))),
           expense?.whenComplete(() => {
-                snackBar(context,
-                    "Successfully ${id.text == "" ? "saved" : "updated"}"),
+                // snackBar(context,
+                //     "Successfully ${id.text == "" ? "saved" : "updated"}"),
+
+                // Toast.show(
+                //     "Successfully ${id.text == "" ? "saved" : "updated"}",
+                //     duration: Toast.lengthShort,
+                //     gravity: Toast.top),
+                snackBar(context, "Successfully ${id.text == "" ? "saved" : "updated"}", success: true),
                 _onClear(),
                 _fetchList()
               })
@@ -122,13 +145,14 @@ class _OtherExpenseState extends State<OtherExpense> {
     });
   }
 
-   Future<bool> _willPopCallback() async {
+  Future<bool> _willPopCallback() async {
     _onClear();
     return true; // return true if the route to be popped
   }
 
   @override
   Widget build(BuildContext context) {
+    // ToastContext().init(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -150,7 +174,6 @@ class _OtherExpenseState extends State<OtherExpense> {
                           nameController: date,
                           hintText: "Select Date",
                           isDate: true,
-                          isFutureDate: true,
                           isRequired: true),
                       SizedBox(height: 10),
                       Row(
@@ -177,7 +200,8 @@ class _OtherExpenseState extends State<OtherExpense> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => ExpenseType()));
+                                            builder: (context) =>
+                                                ExpenseType()));
                                     // Navigator.push(
                                     //     context,
                                     //     MaterialPageRoute(
@@ -233,7 +257,8 @@ class _OtherExpenseState extends State<OtherExpense> {
                       FutureBuilder<List<ExpenseDTO>>(
                         future: expenseDTOList,
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
                             return snapshot.data!.isEmpty
                                 ? Center(
                                     child: Text('Not found any information '))
@@ -250,7 +275,7 @@ class _OtherExpenseState extends State<OtherExpense> {
                                             snapshot.data![index];
                                         return Padding(
                                           padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 8, 4),
+                                              8, 0, 8, 0),
                                           child: Card(
                                             child: new InkResponse(
                                               onTap: () {
@@ -263,11 +288,12 @@ class _OtherExpenseState extends State<OtherExpense> {
                                                   children: [
                                                     Expanded(
                                                         flex: 3,
-                                                        child: expense.image == ""
+                                                        child: expense.image ==
+                                                                ""
                                                             ? Image.asset(
                                                                 "assets/icons/edit_image.png",
-                                                                color:
-                                                                    Colors.black,
+                                                                color: Colors
+                                                                    .black,
                                                               )
                                                             : CachedNetworkImage(
                                                                 imageUrl: expense
@@ -325,7 +351,7 @@ class _OtherExpenseState extends State<OtherExpense> {
                           } else {
                             return Center(child: CircularProgressIndicator());
                           }
-        
+
                           // By default, show a loading spinner.
                         },
                       ),

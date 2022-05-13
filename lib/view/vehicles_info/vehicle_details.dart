@@ -202,7 +202,7 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
                     minChildSize: 2 / 3,
                     maxChildSize: 1,
                     builder: (context, scrollController) => Container(
-                      padding: const EdgeInsets.fromLTRB(20.0, 5, 20, 5),
+                      padding: const EdgeInsets.fromLTRB(10.0, 5, 10, 5),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -224,394 +224,418 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
                           ),
                           longButtons("Edit Vehicle".tr(), editVehicle),
                           SizedBox(
-                            height: 10,
+                            height: 5,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AddUpdateFuelManagement(
-                                                    vcDataModel:
-                                                        new FuelListModel(),
-                                                    vehicleId: widget
-                                                        .vcDataModel.id
-                                                        .toString())));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      color: MyTheme.buttonColor,
-                                      height: 50,
-                                      alignment: Alignment.center,
-                                      child: Text('Fuel Load',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
+                          Card(
+                            elevation: 2,
+                            child: Container(
+                              padding: EdgeInsets.all(2),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AddUpdateFuelManagement(
+                                                            vcDataModel:
+                                                                new FuelListModel(),
+                                                            vehicleId: widget
+                                                                .vcDataModel.id
+                                                                .toString())));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              color: MyTheme.buttonColor,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child: Text('Fuel Load',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AddServiceView(
+                                                          serviceDataModel:
+                                                              new ServiceDataModel(),
+                                                          vehicleId: widget
+                                                              .vcDataModel.id
+                                                              .toString(),
+                                                        )));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              color: MyTheme.buttonColor,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child: Text('Vehicle Servicing',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AddServiceView(
-                                                  serviceDataModel:
-                                                      new ServiceDataModel(),
-                                                  vehicleId: widget
-                                                      .vcDataModel.id
-                                                      .toString(),
-                                                )));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      color: MyTheme.buttonColor,
-                                      height: 50,
-                                      alignment: Alignment.center,
-                                      child: Text('Vehicle Servicing',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        OtherExpense(
+                                                          vehicleId: widget
+                                                              .vcDataModel.id
+                                                              .toString(),
+                                                        )));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              color: MyTheme.buttonColor,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child: Text('Other Expense',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PoliceCaseDetailsView(
+                                                            vcDataModel:
+                                                                new PoliceCaseModel(),
+                                                            vehicleId: widget
+                                                                .vcDataModel.id
+                                                                .toString())));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              height: 50,
+                                              color: MyTheme.buttonColor,
+                                              alignment: Alignment.center,
+                                              child: Text('Police case',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AddUpdateAccidentView(
+                                                            vcDataModel:
+                                                                new AccidentListModel(),
+                                                            vehicleId: widget
+                                                                .vcDataModel.id
+                                                                .toString())));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              height: 50,
+                                              color: MyTheme.buttonColor,
+                                              alignment: Alignment.center,
+                                              child: Text('Accident Management',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PoliceCaseView(
+                                                            title:
+                                                                "Police case Clearance",
+                                                            vehicleId: "")));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              color: MyTheme.buttonColor,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                  'Police case Clearance',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => OtherExpense(
-                                                  vehicleId: widget
-                                                      .vcDataModel.id
-                                                      .toString(),
-                                                )));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      color: MyTheme.buttonColor,
-                                      height: 50,
-                                      alignment: Alignment.center,
-                                      child: Text('Other Expense',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
+                          Card(
+                            elevation: 2,
+                            child: Container(
+                              padding: EdgeInsets.all(2),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ExpenseType()));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              color: MyTheme.buttonColor,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child: Text('Expense Type',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VehicleDocumentView(
+                                                            requestType:
+                                                                AppConstant
+                                                                    .docFitnessImg,
+                                                            vehicleId: widget
+                                                                .vcDataModel.id
+                                                                .toString(),
+                                                            vcDataModel: widget
+                                                                .vcDataModel,
+                                                            vcDocDetailsModel:
+                                                                VehicleDocDetailsModel())));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              height: 50,
+                                              color: MyTheme.buttonColor,
+                                              alignment: Alignment.center,
+                                              child: Text('Fitness',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PoliceCaseDetailsView(
-                                                    vcDataModel:
-                                                        new PoliceCaseModel(),
-                                                    vehicleId: widget
-                                                        .vcDataModel.id
-                                                        .toString())));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      height: 50,
-                                      color: MyTheme.buttonColor,
-                                      alignment: Alignment.center,
-                                      child: Text('Police case',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VehicleDocumentView(
+                                                            requestType: AppConstant
+                                                                .docTaxTokenImg,
+                                                            vehicleId: widget
+                                                                .vcDataModel.id
+                                                                .toString(),
+                                                            vcDataModel: widget
+                                                                .vcDataModel,
+                                                            vcDocDetailsModel:
+                                                                VehicleDocDetailsModel())));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              color: MyTheme.buttonColor,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child: Text('Tax Token',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VehicleDocumentView(
+                                                            requestType: AppConstant
+                                                                .docRoadPermitImg,
+                                                            vehicleId:
+                                                                widget
+                                                                    .vcDataModel.id
+                                                                    .toString(),
+                                                            vcDataModel: widget
+                                                                .vcDataModel,
+                                                            vcDocDetailsModel:
+                                                                VehicleDocDetailsModel())));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              height: 50,
+                                              color: MyTheme.buttonColor,
+                                              alignment: Alignment.center,
+                                              child: Text('Road Permit',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VehicleDocumentView(
+                                                            requestType: AppConstant
+                                                                .docInsuranceImg,
+                                                            vehicleId: widget
+                                                                .vcDataModel.id
+                                                                .toString(),
+                                                            vcDataModel: widget
+                                                                .vcDataModel,
+                                                            vcDocDetailsModel:
+                                                                VehicleDocDetailsModel())));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              height: 50,
+                                              color: MyTheme.buttonColor,
+                                              alignment: Alignment.center,
+                                              child: Text('Insurance',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        VehicleDocumentView(
+                                                            requestType: AppConstant
+                                                                .docRegistrationImg,
+                                                            vehicleId: widget
+                                                                .vcDataModel.id
+                                                                .toString(),
+                                                            vcDataModel: widget
+                                                                .vcDataModel,
+                                                            vcDocDetailsModel:
+                                                                VehicleDocDetailsModel())));
+                                          },
+                                          child: Card(
+                                            semanticContainer: true,
+                                            child: Container(
+                                              color: MyTheme.buttonColor,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child: Text('REG',
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AddUpdateAccidentView(
-                                                    vcDataModel:
-                                                        new AccidentListModel(),
-                                                    vehicleId: widget
-                                                        .vcDataModel.id
-                                                        .toString())));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      height: 50,
-                                      color: MyTheme.buttonColor,
-                                      alignment: Alignment.center,
-                                      child: Text('Accident Management',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PoliceCaseView(
-                                                    title:
-                                                        "Police case Clearance",
-                                                    vehicleId: "")));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      color: MyTheme.buttonColor,
-                                      height: 50,
-                                      alignment: Alignment.center,
-                                      child: Text('Police case Clearance',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ExpenseType()));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      color: MyTheme.buttonColor,
-                                      height: 50,
-                                      alignment: Alignment.center,
-                                      child: Text('Expense Type',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                VehicleDocumentView(
-                                                    requestType: AppConstant
-                                                        .docFitnessImg,
-                                                    vehicleId: widget
-                                                        .vcDataModel.id
-                                                        .toString(),
-                                                    vcDataModel:
-                                                        widget.vcDataModel,
-                                                    vcDocDetailsModel:
-                                                        VehicleDocDetailsModel())));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      height: 50,
-                                      color: MyTheme.buttonColor,
-                                      alignment: Alignment.center,
-                                      child: Text('Fitness',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                VehicleDocumentView(
-                                                    requestType: AppConstant
-                                                        .docTaxTokenImg,
-                                                    vehicleId: widget
-                                                        .vcDataModel.id
-                                                        .toString(),
-                                                    vcDataModel:
-                                                        widget.vcDataModel,
-                                                    vcDocDetailsModel:
-                                                        VehicleDocDetailsModel())));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      color: MyTheme.buttonColor,
-                                      height: 50,
-                                      alignment: Alignment.center,
-                                      child: Text('Tax Token',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                VehicleDocumentView(
-                                                    requestType: AppConstant
-                                                        .docRoadPermitImg,
-                                                    vehicleId: widget
-                                                        .vcDataModel.id
-                                                        .toString(),
-                                                    vcDataModel:
-                                                        widget.vcDataModel,
-                                                    vcDocDetailsModel:
-                                                        VehicleDocDetailsModel())));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      height: 50,
-                                      color: MyTheme.buttonColor,
-                                      alignment: Alignment.center,
-                                      child: Text('Road Permit',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                VehicleDocumentView(
-                                                    requestType: AppConstant
-                                                        .docInsuranceImg,
-                                                    vehicleId: widget
-                                                        .vcDataModel.id
-                                                        .toString(),
-                                                    vcDataModel:
-                                                        widget.vcDataModel,
-                                                    vcDocDetailsModel:
-                                                        VehicleDocDetailsModel())));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      height: 50,
-                                      color: MyTheme.buttonColor,
-                                      alignment: Alignment.center,
-                                      child: Text('Insurance',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                VehicleDocumentView(
-                                                    requestType: AppConstant
-                                                        .docRegistrationImg,
-                                                    vehicleId: widget
-                                                        .vcDataModel.id
-                                                        .toString(),
-                                                    vcDataModel:
-                                                        widget.vcDataModel,
-                                                    vcDocDetailsModel:
-                                                        VehicleDocDetailsModel())));
-                                  },
-                                  child: Card(
-                                    semanticContainer: true,
-                                    child: Container(
-                                      color: MyTheme.buttonColor,
-                                      height: 50,
-                                      alignment: Alignment.center,
-                                      child: Text('REG',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           )
                         ],
                       ),

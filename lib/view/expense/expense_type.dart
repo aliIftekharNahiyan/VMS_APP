@@ -30,6 +30,9 @@ class _ExpenseTypeState extends State<ExpenseType> {
 
   Future<dynamic>? expenseType;
 
+  var _controller = new ScrollController();
+
+  var id = new TextEditingControllerWithEndCursor(text: '');
   var expanceTypeText = new TextEditingControllerWithEndCursor(text: '');
   var status = new TextEditingControllerWithEndCursor(text: '');
 
@@ -62,25 +65,55 @@ class _ExpenseTypeState extends State<ExpenseType> {
 
   doUpdate() {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
+    int gg = int.parse(_selectedDropItem.expenseStatusId);
     getUserData().then((value) => {
-          expenseType = ExpenseProvider().addUpdateExpenseType(
-              new ExpenseTypeReq(
-                  name: expanceTypeText.text,
-                  status: int.parse(_selectedDropItem.expenseStatusId),
-                  userId: value.id)),
-          expenseType?.whenComplete(
-              () => {snackBar(context, "Successfully save"), _clear()})
+          if (expanceTypeText.text == "")
+            {
+              snackBar(context, "Expenset type cannot be empty",
+                  success: false),
+            }
+          else
+            {
+              expenseType = ExpenseProvider().addUpdateExpenseType(
+                  new ExpenseTypeReq(
+                      id: id.text == "" ? null : int.parse(id.text),
+                      name: expanceTypeText.text,
+                      status: gg,
+                      userId: value.id)),
+              expenseType?.whenComplete(() => {
+                    snackBar(context,
+                        "Successfully ${id.text == "" ? "saved" : "updated"}",
+                        success: true),
+                    _clear(),
+                    _fetchList()
+                  })
+            }
         });
   }
 
   _clear() {
-    expanceTypeText.clear();
-    status.clear();
+    setState(() {
+      expanceTypeText.clear();
+      id.clear();
+      _selectedDropItem.expenseStatusId = "";
+      status.clear();
+    });
   }
 
   Future<bool> _willPopCallback() async {
     _selectedDropItem.expenseStatusId = "1";
     return true; // return true if the route to be popped
+  }
+
+  _onEdit(ExpenseTypeDTO expenseDTO) {
+    setState(() {
+      _selectedDropItem.expenseStatusId = expenseDTO.status.toString();
+      expanceTypeText.text = expenseDTO.name ?? "";
+      id.text = expenseDTO.id.toString();
+
+      _controller.animateTo(_controller.position.minScrollExtent,
+          curve: Curves.easeOut, duration: const Duration(milliseconds: 500));
+    });
   }
 
   @override
@@ -94,6 +127,7 @@ class _ExpenseTypeState extends State<ExpenseType> {
           onWillPop: _willPopCallback,
           child: Container(
             child: SingleChildScrollView(
+              controller: _controller,
               padding: EdgeInsets.symmetric(vertical: 5),
               child: Consumer<ServiceProvider>(
                 builder: (context, services, child) {
@@ -116,8 +150,8 @@ class _ExpenseTypeState extends State<ExpenseType> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: longButtons(
-                            //widget.vcDataModel.id != null ? "UPDATE" : "SAVE",
-                            "SAVE",
+                            id.text != "" ? "UPDATE" : "SAVE",
+                            // "SAVE",
                             doUpdate),
                       ),
                       FutureBuilder<List<ExpenseTypeDTO>>(
@@ -141,36 +175,35 @@ class _ExpenseTypeState extends State<ExpenseType> {
                                             snapshot.data![index];
                                         return Padding(
                                           padding: const EdgeInsets.fromLTRB(
-                                              8, 4, 8, 4),
+                                              8, 0, 4, 0),
                                           child: Card(
                                             child: new InkResponse(
-                                              onTap: () {},
+                                              onTap: () {
+                                                _onEdit(expense);
+                                              },
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: Row(
                                                   children: [
                                                     Expanded(
-                                                        child: InkWell(
-                                                      onTap: () {},
-                                                      child: Column(
-                                                          children: <Widget>[
-                                                            VehicleListItem(
-                                                                textTitle:
-                                                                    'ExpenseType: ',
-                                                                text: expense
-                                                                        .name ??
-                                                                    ""),
-                                                            VehicleListItem(
-                                                                textTitle:
-                                                                    'Description: ',
-                                                                text: expense
-                                                                            .status ==
-                                                                        1
-                                                                    ? "Active"
-                                                                    : "Inactive"),
-                                                          ]),
-                                                    )),
+                                                        child: Column(
+                                                            children: <Widget>[
+                                                          VehicleListItem(
+                                                              textTitle:
+                                                                  'ExpenseType: ',
+                                                              text: expense
+                                                                      .name ??
+                                                                  ""),
+                                                          VehicleListItem(
+                                                              textTitle:
+                                                                  'Status: ',
+                                                              text: expense
+                                                                          .status ==
+                                                                      1
+                                                                  ? "Active"
+                                                                  : "Inactive"),
+                                                        ])),
                                                   ],
                                                 ),
                                               ),

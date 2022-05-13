@@ -7,24 +7,31 @@ import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/common_view/all_drop_down_Item.dart';
 import 'package:amargari/view/common_view/all_drop_down_Item_withOut_padding.dart';
+import 'package:amargari/view/common_view/dropdownMultiSelect.dart';
 import 'package:amargari/view/profile/adddriver/search_driver.dart';
 import 'package:amargari/widgets/drop_down_list_item.dart';
 import 'package:amargari/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class DriverAddRemoveWidget extends StatelessWidget {
+class DriverAddRemoveWidget extends StatefulWidget {
   SearchDriverModel searchDriverModel;
   DriverAddRemoveWidget({required this.searchDriverModel});
 
   @override
+  State<DriverAddRemoveWidget> createState() => _DriverAddRemoveWidgetState();
+}
+
+class _DriverAddRemoveWidgetState extends State<DriverAddRemoveWidget> {
+  @override
   Widget build(BuildContext context) {
-    if (searchDriverModel.ownerId == AppConstant.userId &&
-        searchDriverModel.isDriverAllocated != null) {
+    if (widget.searchDriverModel.ownerId == AppConstant.userId &&
+        widget.searchDriverModel.isDriverAllocated != null) {
       return MaterialButton(
         onPressed: () {
-          removeDriver(context, searchDriverModel);
+          removeDriver(context, widget.searchDriverModel);
         },
         child: Text("Remove Driver"),
         color: Colors.orange,
@@ -32,7 +39,7 @@ class DriverAddRemoveWidget extends StatelessWidget {
     } else {
       return MaterialButton(
         onPressed: () {
-          addDriver(context, searchDriverModel);
+          addDriver(context, widget.searchDriverModel);
         },
         child: Text("Add Driver"),
         color: Colors.orange,
@@ -46,7 +53,8 @@ class DriverAddRemoveWidget extends StatelessWidget {
           Provider.of<ServiceProvider>(context, listen: false)
               .removeDriverFromAllocation(
                   value.id.toString(), searchDriverModel.id.toString()),
-          snackBar(context, "Successfully remove driver from you account"),
+          snackBar(context, "Successfully remove driver from you account",
+              success: true),
           Navigator.pop(context),
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => SearchDriver()))
@@ -65,6 +73,16 @@ Future<void> displayVehicle(BuildContext context,
   Provider.of<ServiceProvider>(context, listen: false)
       .fetchVehicleDetails(userId, "");
   String otpCode = "";
+
+  List<String> vList = [];
+  _onAdded(v) {
+    vList.add(v);
+  }
+
+  _onRemove(v) {
+    vList.remove(v);
+  }
+
   SelectedDropDown _selectedDropItem = Get.find();
   return showDialog(
     context: context,
@@ -81,16 +99,12 @@ Future<void> displayVehicle(BuildContext context,
 
         return AlertDialog(
           title: Text('Add Driver!!'),
-          content:
-              // DropDownListItem(
-              //     textTitle: "Vehicle :",
-              //     list: services.vehicleShortList,
-              //     requestType: "vehicleList"),
-              AllDropDownItemWithOutPadding(
-                  textTitle: "Vehicle",
-                  list: services.vehicleShortList,
-                  requestType: "vehicleType",
-                  selectedItem: _selectedDropItem.vehicleTypeId),
+          content: ContantChip(
+            list: services.vehicleShortList,
+            selected: _selectedDropItem.vehicleTypeId,
+            onAdded: _onAdded,
+            onRemove: _onRemove,
+          ),
           actions: <Widget>[
             TextButton(
               child: Text('CANCEL'),
@@ -102,12 +116,13 @@ Future<void> displayVehicle(BuildContext context,
             TextButton(
               child: Text('OK'),
               onPressed: () {
-                if (_selectedDropItem.vehicleTypeId != "") {
+                print(vList.length);
+                if (vList.isNotEmpty) {
                   Provider.of<ServiceProvider>(context, listen: false)
-                      .sendDriverAllocateRequest(
+                      .sendListOfDriverAllocateRequest(
                           searchDriverModel.id.toString(),
                           userId,
-                          _selectedDropItem.vehicleTypeId);
+                          vList);
 
                   Navigator.pop(context);
 
@@ -162,7 +177,7 @@ Future<void> confirmRequest(
                       _textFieldController.text) {
                     Provider.of<ServiceProvider>(context, listen: false)
                         .confirmDriverAllocateRequest(
-                            services.sendRequestRes.data!.id.toString());
+                            services.sendRequestRes.data![0].id.toString());
                     Navigator.pop(context);
                     Navigator.push(
                         context,
@@ -183,4 +198,71 @@ Future<void> confirmRequest(
       });
     },
   );
+}
+
+class ContantChip extends StatefulWidget {
+  final list;
+  final selected;
+  Function onAdded;
+  Function onRemove;
+  ContantChip(
+      {Key? key,
+      this.list,
+      this.selected,
+      required this.onAdded,
+      required this.onRemove})
+      : super(key: key);
+
+  @override
+  State<ContantChip> createState() => _ContantChipState();
+}
+
+class _ContantChipState extends State<ContantChip> {
+  var vList = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DropdownMultiSelect(
+            textTitle: "Vehicle",
+            list: widget.list,
+            requestType: "vehicleType",
+            selectedItem: widget.selected,
+            onCallback: (v) {
+              if (!vList.contains(v)) {
+                vList.add(v);
+                widget.onAdded(v);
+              } else {
+                snackBar(context, "Already Added");
+              }
+            },
+          ),
+          Divider(
+            height: 5,
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Wrap(spacing: 4.0, runSpacing: 0.0, children: [
+              ...vList.map((e) => Chip(
+                  onDeleted: () {
+                    setState(() {
+                      vList.remove(e);
+                      widget.onRemove(e);
+                    });
+                  },
+                  elevation: 3,
+                  backgroundColor: Colors.amber[200],
+                  label: Text(widget.list
+                      .firstWhere((l) => l.id == e)
+                      .name
+                      .toString())))
+            ]),
+          )
+        ],
+      ),
+    );
+  }
 }

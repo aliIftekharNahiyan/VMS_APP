@@ -11,9 +11,9 @@ import 'package:amargari/uril/app_url.dart';
 import 'package:amargari/widgets/widgets.dart';
 
 class ExpenseProvider with ChangeNotifier {
-  Future<List<ExpenseDTO>> getExpenseList(String userId) async {
+  Future<List<ExpenseDTO>> getExpenseList(String userId, String vechileId) async {
     final responseData = await http
-        .get(Uri.parse(AppUrl.getExpenseList.replaceAll("_userId", userId)));
+        .get(Uri.parse(AppUrl.getExpenseList.replaceAll("_userId", userId).replaceAll("_vechileId", vechileId)));
     if (responseData.statusCode == 200) {
       return ExpenseResponse.fromJson(json.decode(responseData.body)).data ??
           [];
@@ -23,10 +23,12 @@ class ExpenseProvider with ChangeNotifier {
   }
 
   Future<List<ExpenseTypeDTO>> getExpenseTypeList(String userId) async {
-    final responseData = await http
-        .get(Uri.parse(AppUrl.getExpenseTypeList.replaceAll("_userId", userId)));
+    final responseData = await http.get(Uri.parse(AppUrl.getExpenseTypeList
+        .replaceAll("_userId", userId)
+        .replaceAll("_active", "0")));
     if (responseData.statusCode == 200) {
-      return ExpenseTypeResponse.fromJson(json.decode(responseData.body)).data ??
+      return ExpenseTypeResponse.fromJson(json.decode(responseData.body))
+              .data ??
           [];
     } else {
       throw Exception('Failed to load album');

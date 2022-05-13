@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:amargari/model/trip_list_model.dart';
 import 'package:amargari/providers/common_provider.dart';
@@ -15,9 +14,11 @@ const LatLng DEST_LOCATION = LatLng(23.7937, 90.4066);
 const double CAMERA_ZOOM = 13;
 const double CAMERA_TILT = 0;
 const double CAMERA_BEARING = 30;
+
 class Direction extends StatefulWidget {
   TripListModel? tripListModel;
-  Direction({ required this.tripListModel});
+  final title;
+  Direction({this.title, required this.tripListModel});
 
   @override
   _DirectionState createState() => _DirectionState();
@@ -25,7 +26,7 @@ class Direction extends StatefulWidget {
 
 class _DirectionState extends State<Direction> {
   Completer<GoogleMapController> mapController = Completer();
- // String googleAPIKey = "AIzaSyBJC85dIw6OmepJFtLdxiLfPSYApfXdc_g";
+  // String googleAPIKey = "AIzaSyBJC85dIw6OmepJFtLdxiLfPSYApfXdc_g";
 
   Set<Marker> _markers = Set<Marker>();
   late LatLng currentLocation;
@@ -36,7 +37,6 @@ class _DirectionState extends State<Direction> {
   late PolylinePoints polylinePoints;
   Future<String>? locationRequest;
 
-
   @override
   void initState() {
     super.initState();
@@ -45,23 +45,22 @@ class _DirectionState extends State<Direction> {
   }
 
   void setInitialLocation() {
-    if (widget.tripListModel!.startPoint != "" && widget.tripListModel!.endPoint != "" ) {
-      if (widget.tripListModel!.startPoint!.contains(",")){
+    if (widget.tripListModel!.startPoint != "" &&
+        widget.tripListModel!.endPoint != "") {
+      if (widget.tripListModel!.startPoint!.contains(",")) {
         var latlong = widget.tripListModel!.startPoint!.split(",");
         double latitude = double.parse(latlong[0]);
         double longitude = double.parse(latlong[1]);
-        currentLocation =
-            LatLng(latitude, longitude);
+        currentLocation = LatLng(latitude, longitude);
       }
 
       if (widget.tripListModel!.endPoint!.contains(",")) {
         var endLatLong = widget.tripListModel!.endPoint!.split(",");
         double endLatitude = double.parse(endLatLong[0]);
         double endLongitude = double.parse(endLatLong[1]);
-        destinationLocation =
-            LatLng(endLatitude, endLongitude);
+        destinationLocation = LatLng(endLatitude, endLongitude);
       }
-    }else{
+    } else {
       currentLocation =
           LatLng(currentLocation.latitude, currentLocation.longitude);
       destinationLocation =
@@ -69,19 +68,17 @@ class _DirectionState extends State<Direction> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     void _onLocationRequest(BuildContext context) {
-      CommonProvider commonProvider = Provider.of<CommonProvider>(context, listen: false);
-      locationRequest =
-          commonProvider.locationRequest(widget.tripListModel!.driverId.toString());
-      locationRequest?.whenComplete(() => {
-        snackBar(context, "Send location request successfully")
-      });
-
+      CommonProvider commonProvider =
+          Provider.of<CommonProvider>(context, listen: false);
+      locationRequest = commonProvider
+          .locationRequest(widget.tripListModel!.driverId.toString());
+      locationRequest?.whenComplete(
+          () => {snackBar(context, "Send location request successfully")});
     }
+
     CameraPosition initialLocation = CameraPosition(
         zoom: CAMERA_ZOOM,
         bearing: CAMERA_BEARING,
@@ -90,13 +87,14 @@ class _DirectionState extends State<Direction> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Direction"),
+        title: Text("${widget.title}"),
         actions: [
           IconButton(
             icon: new Icon(Icons.location_searching),
-            onPressed: (){_onLocationRequest(context);},
+            onPressed: () {
+              _onLocationRequest(context);
+            },
           ),
-
         ],
       ),
       body: GoogleMap(
@@ -119,22 +117,22 @@ class _DirectionState extends State<Direction> {
   void showMarker() {
     setState(() {
       _markers.add(Marker(
-        markerId: MarkerId('sourcePin'),
-        position: currentLocation,
-        icon: BitmapDescriptor.defaultMarker,
-        onTap: (){
-          snackBar(context, "Start point, ${widget.tripListModel?.StartPointName.toString()} ");
-        }
-      ));
+          markerId: MarkerId('sourcePin'),
+          position: currentLocation,
+          icon: BitmapDescriptor.defaultMarker,
+          onTap: () {
+            snackBar(context,
+                "Start point, ${widget.tripListModel?.StartPointName.toString()} ");
+          }));
 
       _markers.add(Marker(
-        markerId: MarkerId('destinationPin'),
-        position: destinationLocation,
-        icon: BitmapDescriptor.defaultMarkerWithHue(90),
-         onTap: (){
-            snackBar(context, "End point, ${widget.tripListModel?.EndPointName.toString()} ");
-          }
-      ));
+          markerId: MarkerId('destinationPin'),
+          position: destinationLocation,
+          icon: BitmapDescriptor.defaultMarkerWithHue(90),
+          onTap: () {
+            snackBar(context,
+                "End point, ${widget.tripListModel?.EndPointName.toString()} ");
+          }));
     });
   }
 

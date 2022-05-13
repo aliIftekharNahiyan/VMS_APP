@@ -32,6 +32,8 @@ class ExpenseDTO {
   String? image;
   String? expenseAmount;
   String? name;
+  int? vechileId;
+  int? status;
 
   ExpenseDTO(
       {this.id,
@@ -40,7 +42,7 @@ class ExpenseDTO {
       this.description,
       this.image,
       this.expenseAmount,
-      this.name});
+      this.name, this.vechileId, this.status});
 
   ExpenseDTO.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
@@ -50,6 +52,8 @@ class ExpenseDTO {
     image = json['Image'];
     expenseAmount = json['ExpenseAmount'];
     name = json['Name'];
+    vechileId = json['VechileId'];
+    status = json['Status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +65,8 @@ class ExpenseDTO {
     data['Image'] = this.image;
     data['ExpenseAmount'] = this.expenseAmount;
     data['Name'] = this.name;
+    data['VechileId'] = this.vechileId;
+    data['Status'] = this.status;
     return data;
   }
 }

@@ -32,20 +32,7 @@ class _AddLocationState extends State<AddLocation> {
 
         ),
         body : Container(
-          child: Consumer<ServiceProvider>(builder: (context, service, child) {
-            return Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                AllDropDownItem(
-                    textTitle: "Vehicle",
-                    list: service.locationTypes,
-                    requestType: "vehicleList",
-                    isRequired: true,
-                    selectedItem: ''),
-                SizedBox(height: 10),
-              ],
-            );
-          }),
+          child: Text("data")
         ),
       ),
     );

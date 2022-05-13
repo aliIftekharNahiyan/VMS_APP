@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+// import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:amargari/get_state/selected_dropdown.dart';
 import 'package:amargari/model/fuel_list_model.dart';
@@ -47,7 +47,7 @@ class _AddUpdateTripState extends State<AddUpdateTrip> {
   bool insuranceCover = true;
   bool _switchValue = false;
   static final kInitialPosition = LatLng(-33.8567844, 151.213108);
-  PickResult? selectedPlace;
+  // PickResult? selectedPlace;
   SelectedDropDown _selectedDropItem = Get.find();
   String dateTime = "";
   @override
@@ -70,34 +70,34 @@ class _AddUpdateTripState extends State<AddUpdateTrip> {
   }
 
   locationPicker(String requestType){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) {
-              return PlacePicker(
-                apiKey: AppConstant.ApiKey,
-                initialPosition: kInitialPosition,
-                useCurrentLocation: true,
-                selectInitialPosition: true,
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) {
+    //           return PlacePicker(
+    //             apiKey: AppConstant.ApiKey,
+    //             initialPosition: kInitialPosition,
+    //             useCurrentLocation: true,
+    //             selectInitialPosition: true,
 
-                //usePlaceDetailSearch: true,
-                onPlacePicked: (result) {
-                  selectedPlace = result;
-                  if (requestType == "StartPoint"){
-                    startPoint.text = "${selectedPlace?.formattedAddress}";
-                    startPointLat.text = "${selectedPlace?.geometry?.location.lat}, ${selectedPlace?.geometry?.location.lng}";
-                  }else{
-                    endPoint.text = "${selectedPlace?.formattedAddress}";
-                    endPointLong.text = "${selectedPlace?.geometry?.location.lat}, ${selectedPlace?.geometry?.location.lng}";
-                  }
-                  //endPoint.text = selectedPlace?.geometry?.location.lat as String;
-                  print( "Location select ${selectedPlace?.geometry?.location.lat}");
-                  Navigator.of(context).pop();
-                  setState(() {});
-                },
-              );
-            }
-        ));
+    //             //usePlaceDetailSearch: true,
+    //             onPlacePicked: (result) {
+    //               selectedPlace = result;
+    //               if (requestType == "StartPoint"){
+    //                 startPoint.text = "${selectedPlace?.formattedAddress}";
+    //                 startPointLat.text = "${selectedPlace?.geometry?.location.lat}, ${selectedPlace?.geometry?.location.lng}";
+    //               }else{
+    //                 endPoint.text = "${selectedPlace?.formattedAddress}";
+    //                 endPointLong.text = "${selectedPlace?.geometry?.location.lat}, ${selectedPlace?.geometry?.location.lng}";
+    //               }
+    //               //endPoint.text = selectedPlace?.geometry?.location.lat as String;
+    //               print( "Location select ${selectedPlace?.geometry?.location.lat}");
+    //               Navigator.of(context).pop();
+    //               setState(() {});
+    //             },
+    //           );
+    //         }
+    //     ));
   }
   @override
   Widget build(BuildContext context) {

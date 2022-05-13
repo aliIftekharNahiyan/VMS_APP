@@ -7,6 +7,7 @@ class Expense {
   String? date;
   int? status;
   int? userId;
+  int? vechileId;
 
   Expense(
       {this.id,
@@ -16,7 +17,8 @@ class Expense {
       this.image,
       this.date,
       this.status,
-      this.userId});
+      this.userId,
+      this.vechileId});
 
   Expense.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
@@ -27,6 +29,7 @@ class Expense {
     date = json['Date'];
     status = json['Status'];
     userId = json['UserId'];
+    vechileId = json['VechileId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -34,11 +37,12 @@ class Expense {
       'Id': this.id,
       'ServiceTypeId': this.serviceTypeId,
       'ExpenseAmount': this.expenseAmount,
-      'Description' : this.description,
+      'Description': this.description,
       'Image': this.image,
       'Date': this.date,
       'Status': this.status,
-      'UserId': this.userId
+      'UserId': this.userId,
+      'VechileId': this.vechileId
     };
     return data;
   }

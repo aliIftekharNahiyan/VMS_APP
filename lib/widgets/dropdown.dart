@@ -13,12 +13,14 @@ class DropDown extends StatefulWidget {
   List<CommonDropDownModel> list;
   String? requestType;
   String? selectedItem;
+  Function onCallback;
 
   DropDown(this.list,
       {this.isExpanded = false,
       this.isUnderline = true,
       this.requestType,
-      this.selectedItem});
+      this.selectedItem,
+      required this.onCallback});
 
   @override
   State<StatefulWidget> createState() =>
@@ -48,8 +50,10 @@ class _DropDownState extends State<DropDown> {
       value: widget.selectedItem!.isNotEmpty ? widget.selectedItem : null,
       onChanged: (newValue) {
         setState(() {
-          print("DropdownSelect $widget.selectedItem  $requestType  $newValue ");
-          
+          widget.onCallback(newValue);
+          print(
+              "DropdownSelect $widget.selectedItem  $requestType  $newValue ");
+
           widget.selectedItem = newValue as String;
           if (requestType == "vehicleList") {
             _selectedDropItem.vehicleId = newValue;

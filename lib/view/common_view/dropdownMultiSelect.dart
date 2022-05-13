@@ -4,27 +4,26 @@ import 'package:amargari/model/common_dropdown_model.dart';
 import 'package:amargari/widgets/dropdown.dart';
 import 'package:amargari/widgets/widgets.dart';
 
-class AllDropDownItemWithOutPadding extends StatefulWidget {
-  AllDropDownItemWithOutPadding(
+class DropdownMultiSelect extends StatefulWidget {
+  DropdownMultiSelect(
       {required this.textTitle,
       required this.requestType,
       required this.list,
       this.isRequired = false,
-      this.selectedItem = ""});
+      this.selectedItem = "",
+      required this.onCallback});
 
   final String textTitle, requestType;
   final bool isRequired;
   List<CommonDropDownModel> list;
   String selectedItem;
-  
+  Function onCallback;
 
   @override
-  _AllDropDownItemWithOutPaddingState createState() =>
-      _AllDropDownItemWithOutPaddingState();
+  _DropdownMultiSelectState createState() => _DropdownMultiSelectState();
 }
 
-class _AllDropDownItemWithOutPaddingState
-    extends State<AllDropDownItemWithOutPadding> {
+class _DropdownMultiSelectState extends State<DropdownMultiSelect> {
   @override
   Widget build(BuildContext context) {
     print(
@@ -66,7 +65,7 @@ class _AllDropDownItemWithOutPaddingState
                           requestType: widget.requestType,
                           selectedItem: widget.selectedItem,
                           isUnderline: false,
-                          onCallback: () {},
+                          onCallback: widget.onCallback,
                         ),
                       ),
                     ),

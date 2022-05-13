@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:amargari/model/AddDriver/search_driver_model.dart';
 import 'package:amargari/model/AddDriver/send_request_res.dart';
+import 'package:amargari/model/Driver/vechiel_driver.dart';
 import 'package:amargari/model/Expense/Expense_type_model.dart';
 import 'package:amargari/model/PoliceFreezingDocModel.dart';
-import 'package:amargari/model/SearchType.dart';
 import 'package:amargari/model/ServiceNameModel.dart';
 import 'package:amargari/model/expense_report_model.dart';
 import 'package:amargari/model/garage/GarageModel.dart';
@@ -21,7 +21,6 @@ import 'package:http/http.dart' as http;
 import 'package:amargari/model/RequestModel/request_service_model.dart';
 import 'package:amargari/model/common_dropdown_model.dart';
 import 'package:amargari/model/driver_list_model.dart';
-import 'package:amargari/model/service/VehicleListModel.dart';
 import 'package:amargari/model/vehicleEnergyTypeModel.dart';
 import 'package:amargari/model/vehicleinfo/vehicle_info_model.dart';
 import 'package:amargari/uril/app_url.dart';
@@ -61,9 +60,10 @@ class ServiceProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getReportServiceDropdownList() async {
-    final response =
-        await http.get(Uri.parse(AppUrl.reportServiceDropdownList));
+  Future<void> getReportServiceDropdownList(String userId) async {
+    reportServiceList.clear();
+    final response = await http.get(Uri.parse(
+        AppUrl.reportServiceDropdownList.replaceAll("_userId", userId)));
     print(AppUrl.getVehicleType);
     if (response.statusCode == 200) {
       var result =
@@ -74,7 +74,9 @@ class ServiceProvider with ChangeNotifier {
         for (var _list in result.data as List<ReportServiceDropdownDTO>) {
           CommonDropDownModel service = new CommonDropDownModel(
               id: _list.id.toString(), name: _list.reportName);
-          reportServiceList.add(service);
+          if (!reportServiceList.any((x) => x.id == service.id)) {
+            reportServiceList.add(service);
+          }
         }
       }
       notifyListeners();
@@ -84,14 +86,15 @@ class ServiceProvider with ChangeNotifier {
   }
 
   Future<void> getExpenseType(String userId) async {
-    final response = await http
-        .get(Uri.parse(AppUrl.getExpenseType.replaceAll("_userId", userId)));
+    expenseTypeList.clear();
+    final response = await http.get(Uri.parse(AppUrl.getExpenseTypeList
+        .replaceAll("_userId", userId)
+        .replaceAll("_active", "1")));
     print(AppUrl.getVehicleType);
     if (response.statusCode == 200) {
       var result = ExpenseTypeModel.fromJson(json.decode(response.body));
 
       if (result.data != null) {
-        expenseTypeList.clear();
         for (var _list in result.data ?? []) {
           CommonDropDownModel service = new CommonDropDownModel(
               id: _list.id.toString(), name: _list.name);
@@ -441,16 +444,44 @@ class ServiceProvider with ChangeNotifier {
     }
   }
 
-  Future<void> sendDriverAllocateRequest(
-      String driverId, String ownerId, String vechileId) async {
-    final response = await http.get(Uri.parse(AppUrl.sendDriverAllocateRequest
-        .replaceAll("_driverId", driverId)
-        .replaceAll("_ownerId", ownerId)
-        .replaceAll("_vechileId", vechileId)));
-    print(AppUrl.sendDriverAllocateRequest
-        .replaceAll("_driverId", driverId)
-        .replaceAll("_ownerId", ownerId)
-        .replaceAll("_vechileId", vechileId));
+  // Future<void> sendDriverAllocateRequest(
+  //     String driverId, String ownerId, String vechileId) async {
+  //   final response = await http.get(Uri.parse(AppUrl.sendDriverAllocateRequest
+  //       .replaceAll("_driverId", driverId)
+  //       .replaceAll("_ownerId", ownerId)
+  //       .replaceAll("_vechileId", vechileId)));
+  //   print(AppUrl.sendDriverAllocateRequest
+  //       .replaceAll("_driverId", driverId)
+  //       .replaceAll("_ownerId", ownerId)
+  //       .replaceAll("_vechileId", vechileId));
+  //   if (response.statusCode == 200) {
+  //     final Map<String, dynamic> responseData = json.decode(response.body);
+  //     SendRequestRes sendRequestRes = SendRequestRes.fromJson(responseData);
+  //     print(sendRequestRes.otp);
+  //     this.sendRequestRes = sendRequestRes;
+
+  //     notifyListeners();
+  //   } else {
+  //     // If the server did not return a 200 OK response,
+  //     // then throw an exception.
+  //     throw Exception('Failed to load album');
+  //   }
+  // }
+
+  Future<void> sendListOfDriverAllocateRequest(
+      String driverId, String ownerId, List<String> vechileList) async {
+    var dataList = vechileList.map((e) {
+      return VechielDriveReq(
+          driverId: driverId, ownerId: ownerId, vechileId: e, hash: "");
+    }).toList();
+
+    print(dataList.length);
+
+    final response = await http.post(
+        Uri.parse(AppUrl.sendListOfDriverAllocateRequest),
+        body: json.encode(dataList),
+        headers: {'Content-Type': 'application/json'});
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       SendRequestRes sendRequestRes = SendRequestRes.fromJson(responseData);
@@ -588,4 +619,6 @@ class ServiceProvider with ChangeNotifier {
       throw Exception('Failed to load album');
     }
   }
+
+
 }

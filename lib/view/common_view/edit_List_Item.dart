@@ -4,7 +4,6 @@ import 'package:amargari/providers/common_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/profile/components/ImageLoadWidget.dart';
-import 'package:amargari/widgets/imageUpload.dart';
 import 'package:amargari/widgets/image_picker_gallery_camera.dart';
 import 'package:amargari/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +38,6 @@ class EditListItem extends StatefulWidget {
   final String hintText;
   final bool multiLine;
   TextEditingController nameController;
-
-  // final VoidCallback press;
 
   @override
   _EditListItemState createState() => _EditListItemState();
@@ -127,6 +124,15 @@ class _EditListItemState extends State<EditListItem> {
             }
           });
         }));
+  }
+
+  @override
+  void initState() {
+    if (widget.isDate) {
+      widget.nameController.text =
+          DateFormat('dd-MMM-yyyy').format(DateTime.now());
+    }
+    super.initState();
   }
 
   @override
