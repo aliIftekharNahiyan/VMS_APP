@@ -7,6 +7,7 @@ import 'package:amargari/providers/expense_provider.dart';
 import 'package:amargari/providers/service_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
+import 'package:amargari/uril/utility.dart';
 import 'package:amargari/view/common_view/all_drop_down_Item.dart';
 import 'package:amargari/view/common_view/edit_List_Item.dart';
 import 'package:amargari/view/common_view/image_upload_view_item.dart';
@@ -335,9 +336,7 @@ class _OtherExpenseState extends State<OtherExpense> {
                                                               VehicleListItem(
                                                                   textTitle:
                                                                       'Date: ',
-                                                                  text: expense
-                                                                          .date ??
-                                                                      "")
+                                                                  text: "${convertDate2(expense.date ?? "")}")
                                                             ])),
                                                   ],
                                                 ),

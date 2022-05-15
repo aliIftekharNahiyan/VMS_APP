@@ -61,6 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
             setState(() {
               dataList.add(DataSet(
                   e.fuelTimeMonthName.toString(), e.amount!.toDouble()));
+              // dataList.add(DataSet("May", e.amount!.toDouble()-100));
+              // dataList.add(DataSet("June", e.amount!.toDouble()+200));
             });
           });
         });
@@ -111,24 +113,24 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Card(
                                   elevation: 3,
                                   child: Container(
-                                    // color: Colors.blueGrey[800],
                                     height: 190,
+                                    color: MyTheme.buttonColor,
                                     child: SfCartesianChart(
-                                        // backgroundColor: Colors.blueGrey[800],
+                                        // plotAreaBorderColor: Colors.black,
                                         primaryXAxis: CategoryAxis(),
                                         borderColor: Colors.white,
-                                        // Chart title
                                         title: ChartTitle(
-                                            text: 'Fule analysis',
-                                            textStyle: TextStyle(fontSize: 10)),
-                                        // Enable legend
-                                        // legend: Legend(isVisible: true),
-                                        // Enable tooltip
+                                            text: 'Fuel cost',
+                                            textStyle: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                                color: Colors.white)),
                                         tooltipBehavior: _tooltipBehavior,
                                         series: <ChartSeries<DataSet, String>>[
                                           LineSeries<DataSet, String>(
-                                              // Bind data source
                                               dataSource: dataList,
+                                              xAxisName: "Month",
+                                              yAxisName: "Cost",
                                               xValueMapper:
                                                   (DataSet sales, _) =>
                                                       sales.year,
@@ -138,9 +140,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                               dataLabelSettings:
                                                   DataLabelSettings(
                                                       isVisible: true,
-                                                      color: Colors.white),
+                                                      color: Colors.black),
                                               markerSettings: MarkerSettings(
-                                                  color: Colors.white),
+                                                  color: Colors.green),
                                               color: Colors.blueGrey[800])
                                         ]),
                                   ),
@@ -399,9 +401,19 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: InkWell(
                                 onTap: () {
                                   if (e.informationTypeName == "Report") {
-                                    Get.to(MonthlyReportView());
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MonthlyReportView()));
+                                    // Get.to(MonthlyReportView());
                                   } else {
-                                    Get.to(ShowInfoOnMap(infoTypeId: e.id));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ShowInfoOnMap(infoTypeId: e.id)));
+                                    // Get.to(ShowInfoOnMap(infoTypeId: e.id));
                                   }
                                 },
                                 child: Card(
@@ -422,8 +434,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       ? "assets/images/petrol-pump.png"
                                                       : "assets/images/mechanic.png",
                                               fit: BoxFit.fitWidth,
-                                              height: 50,
-                                              width: 50,
+                                              height: 80,
+                                              width: 80,
+                                              // color: Colors.white,
                                             ),
                                           ),
                                           SizedBox(height: 6.0),

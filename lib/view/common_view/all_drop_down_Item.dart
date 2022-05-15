@@ -24,8 +24,7 @@ class AllDropDownItem extends StatefulWidget {
 class _AllDropDownItemState extends State<AllDropDownItem> {
   @override
   Widget build(BuildContext context) {
-    print(
-        " selectedItem dropdown ${widget.requestType}  ${widget.selectedItem}    ");
+    print(" selectedItem dropdown ${widget.requestType}  ${widget.selectedItem}");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(children: [

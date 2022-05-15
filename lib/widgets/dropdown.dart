@@ -50,7 +50,10 @@ class _DropDownState extends State<DropDown> {
       value: widget.selectedItem!.isNotEmpty ? widget.selectedItem : null,
       onChanged: (newValue) {
         setState(() {
-          widget.onCallback(newValue);
+          try {
+            widget.onCallback(newValue);
+          } catch (ex) {}
+
           print(
               "DropdownSelect $widget.selectedItem  $requestType  $newValue ");
 

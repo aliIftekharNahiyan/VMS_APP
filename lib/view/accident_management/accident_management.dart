@@ -1,6 +1,5 @@
 import 'package:amargari/model/accident_list_model.dart';
 import 'package:amargari/uril/utility.dart';
-import 'package:amargari/view/accident_management/add_locations.dart';
 import 'package:flutter/material.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/accident_provider.dart';
@@ -27,8 +26,8 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
   void initState() {
     super.initState();
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
-    getUserData()
-        .then((value) => {accidentList = getAccidentList("",value.id.toString())});
+    getUserData().then(
+        (value) => {accidentList = getAccidentList("", value.id.toString())});
 
     new Future.delayed(new Duration(seconds: 3), () {
       setState(() {
@@ -40,7 +39,12 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
   @override
   Widget build(BuildContext context) {
     var addGarageInfo = (AccidentListModel? garageModel) {
-      // Get.to(AddLocation());
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddUpdateAccidentView(
+                  vcDataModel: garageModel!, vehicleId: "")));
+      // Get.to();
     };
     return Scaffold(
       appBar: AppBar(
@@ -51,48 +55,6 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Container(
-          //   height: Get.height * .12,
-          //   child: ListView(
-          //     scrollDirection: Axis.horizontal,
-          //     shrinkWrap: true,
-          //     children: [
-          //       Container(
-          //         height: Get.height * .12,
-          //         width: Get.width * .3,
-          //         margin: EdgeInsets.all(5),
-          //         child: Center(child: Text("Hospital", style: TextStyle(color: Colors.white),)),
-          //         decoration: BoxDecoration(
-          //           color: Colors.blue,
-          //           borderRadius: BorderRadius.circular(5),
-          //           border: Border.all(color: Colors.grey)
-          //         ),
-          //       ),
-          //       Container(
-          //         height: Get.height * .12,
-          //         width: Get.width * .3,
-          //         margin: EdgeInsets.all(5),
-          //         child: Center(child: Text("Police Station", style: TextStyle(color: Colors.white),)),
-          //         decoration: BoxDecoration(
-          //           color: Colors.red,
-          //           borderRadius: BorderRadius.circular(5),
-          //           border: Border.all(color: Colors.grey)
-          //         ),
-          //       ),
-          //       Container(
-          //         height: Get.height * .12,
-          //         width: Get.width * .3,
-          //         margin: EdgeInsets.all(5),
-          //         child: Center(child: Text("Garage", style: TextStyle(color: Colors.white),)),
-          //         decoration: BoxDecoration(
-          //           color: Colors.blueGrey[800],
-          //           borderRadius: BorderRadius.circular(5),
-          //           border: Border.all(color: Colors.grey)
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
           Expanded(
             child: FutureBuilder<List<AccidentListModel>>(
               future: accidentList,
@@ -108,31 +70,33 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
                             return Card(
                               child: new InkResponse(
                                   onTap: () {
-                                    print(index);
-                                     addGarageInfo(accidentListModel);
+                                    addGarageInfo(accidentListModel);
                                   },
                                   child: Column(
                                     children: <Widget>[
                                       SizedBox(height: 5),
                                       ServiceItem(
-                                          textTitle: 'Car Name',
-                                          text: accidentListModel.brandName.toString()),
-                                      ServiceItem(
-                                          textTitle: 'Driver Name',
-                                          text: accidentListModel.driverName.toString()),
-
-                                      ServiceItem(
-                                            textTitle: 'Accident Date',
-                                            text: convertDate2(
-                                                accidentListModel.accidentTime ?? "2021-12-03T00:00:00")),
-
-                                      ServiceItem(
-                                          textTitle: 'Accident Location',
-                                          text: accidentListModel.accidentLocation
+                                          textTitle: 'Car Name:',
+                                          text: accidentListModel.brandName
                                               .toString()),
                                       ServiceItem(
-                                          textTitle: 'Accident Fine',
-                                          text: accidentListModel.fine.toString()),
+                                          textTitle: 'Driver Name:',
+                                          text: accidentListModel.driverName
+                                              .toString()),
+                                      ServiceItem(
+                                          textTitle: 'Accident Date:',
+                                          text: convertDate2(
+                                              accidentListModel.accidentTime ??
+                                                  "2021-12-03T00:00:00")),
+                                      ServiceItem(
+                                          textTitle: 'Accident Location:',
+                                          text: accidentListModel
+                                              .accidentLocation
+                                              .toString()),
+                                      ServiceItem(
+                                          textTitle: 'Accident Fine:',
+                                          text: accidentListModel.fine
+                                              .toString()),
                                       SizedBox(height: 5),
                                     ],
                                   )),
@@ -149,24 +113,24 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
           ),
         ],
       ),
-     floatingActionButton: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: FloatingActionButton(
-          onPressed: () {
-            addGarageInfo(new AccidentListModel());
-          },
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 29,
-          ),
-          backgroundColor: Colors.orange,
-          tooltip: 'Add More',
-          elevation: 5,
-          splashColor: Colors.grey,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      //  floatingActionButton: Padding(
+      //     padding: const EdgeInsets.all(16.0),
+      //     child: FloatingActionButton(
+      //       onPressed: () {
+      //         addGarageInfo(new AccidentListModel());
+      //       },
+      //       child: Icon(
+      //         Icons.add,
+      //         color: Colors.white,
+      //         size: 29,
+      //       ),
+      //       backgroundColor: Colors.orange,
+      //       tooltip: 'Add More',
+      //       elevation: 5,
+      //       splashColor: Colors.grey,
+      //     ),
+      //   ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }
