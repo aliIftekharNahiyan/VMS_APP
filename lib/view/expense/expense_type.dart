@@ -69,8 +69,7 @@ class _ExpenseTypeState extends State<ExpenseType> {
     getUserData().then((value) => {
           if (expanceTypeText.text == "")
             {
-              snackBar(context, "Expenset type cannot be empty",
-                  success: false),
+              snackBar(context, "Expense Type Required", success: false),
             }
           else
             {

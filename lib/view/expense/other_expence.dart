@@ -90,30 +90,47 @@ class _OtherExpenseState extends State<OtherExpense> {
 
   doUpdate() {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
-    getUserData().then((value) => {
-          expense = ExpenseProvider().addUpdateExpense(new Expense(
-              id: id.text == "" ? null : int.parse(id.text),
-              serviceTypeId: int.parse(_selectedDropItem.expenseId),
-              date: date.text,
-              description: description.text,
-              image: AppConstant.expenseImageURL,
-              expenseAmount: expenseAmount.text,
-              userId: value.id,
-              status: 1,
-              vechileId: int.parse(widget.vehicleId.toString()))),
-          expense?.whenComplete(() => {
-                // snackBar(context,
-                //     "Successfully ${id.text == "" ? "saved" : "updated"}"),
+    getUserData().then((value) {
+      if (_selectedDropItem.expenseId == "") {
+        snackBar(context, "Service Type Required", success: false);
+        return;
+      }
 
-                // Toast.show(
-                //     "Successfully ${id.text == "" ? "saved" : "updated"}",
-                //     duration: Toast.lengthShort,
-                //     gravity: Toast.top),
-                snackBar(context, "Successfully ${id.text == "" ? "saved" : "updated"}", success: true),
-                _onClear(),
-                _fetchList()
-              })
-        });
+      if (date.text == "") {
+        snackBar(context, "Date Required", success: false);
+        return;
+      }
+
+      if (expenseAmount.text == "") {
+        snackBar(context, "Expense Amount Required", success: false);
+        return;
+      }
+
+      expense = ExpenseProvider().addUpdateExpense(new Expense(
+          id: id.text == "" ? null : int.parse(id.text),
+          serviceTypeId: int.parse(_selectedDropItem.expenseId),
+          date: date.text,
+          description: description.text,
+          image: AppConstant.expenseImageURL,
+          expenseAmount: expenseAmount.text,
+          userId: value.id,
+          status: 1,
+          vechileId: int.parse(widget.vehicleId.toString())));
+      expense?.whenComplete(() => {
+            // snackBar(context,
+            //     "Successfully ${id.text == "" ? "saved" : "updated"}"),
+
+            // Toast.show(
+            //     "Successfully ${id.text == "" ? "saved" : "updated"}",
+            //     duration: Toast.lengthShort,
+            //     gravity: Toast.top),
+            snackBar(
+                context, "Successfully ${id.text == "" ? "saved" : "updated"}",
+                success: true),
+            _onClear(),
+            _fetchList()
+          });
+    });
   }
 
   _onClear() {
@@ -336,7 +353,8 @@ class _OtherExpenseState extends State<OtherExpense> {
                                                               VehicleListItem(
                                                                   textTitle:
                                                                       'Date: ',
-                                                                  text: "${convertDate2(expense.date ?? "")}")
+                                                                  text:
+                                                                      "${convertDate2(expense.date ?? "")}")
                                                             ])),
                                                   ],
                                                 ),

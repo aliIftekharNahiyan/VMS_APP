@@ -14,9 +14,7 @@ import 'package:amargari/providers/fuel_provider.dart';
 import 'package:amargari/providers/service_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
-import 'package:amargari/view/profile/components/details_body_item.dart';
 import 'package:amargari/widgets/TextEditingControllerWithEndCursor.dart';
-import 'package:amargari/widgets/drop_down_list_item.dart';
 import 'package:amargari/widgets/widgets.dart';
 
 class AddUpdateFuelManagement extends StatefulWidget {
@@ -69,10 +67,11 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
       AppConstant.fuelSlipImgURL = widget.vcDataModel.slipImg.toString();
       _selectedDropItem.vehicleId = widget.vcDataModel.vechileId.toString();
       _selectedDropItem.driverId = widget.vcDataModel.driveId.toString();
-      _selectedDropItem.vehicleEnergyTypeId = widget.vcDataModel.energyType.toString();
+      _selectedDropItem.vehicleEnergyTypeId =
+          widget.vcDataModel.energyType.toString();
 
       print(widget.vcDataModel.driveId.toString());
-    }else{
+    } else {
       AppConstant.fuelSlipImgURL = "";
       _selectedDropItem.vehicleId = widget.vehicleId;
     }
@@ -82,13 +81,13 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
   void _loadData(BuildContext context) async {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
     getUserData().then((value) => {
-      Provider.of<ServiceProvider>(context, listen: false)
-          .fetchVehicleDetails(value.id.toString(),""),
-      Provider.of<ServiceProvider>(context, listen: false)
-          .fetchDriverList(value.id.toString()),
-      Provider.of<ServiceProvider>(context, listen: false)
-          .getVehicleEnergyType()
-    });
+          Provider.of<ServiceProvider>(context, listen: false)
+              .fetchVehicleDetails(value.id.toString(), ""),
+          Provider.of<ServiceProvider>(context, listen: false)
+              .fetchDriverList(value.id.toString()),
+          Provider.of<ServiceProvider>(context, listen: false)
+              .getVehicleEnergyType()
+        });
   }
 
   @override
@@ -96,64 +95,79 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
     _loadData(context);
 
     var doUpdate = () {
-
-      if(isRedundantClick(DateTime.now())){
+      if (isRedundantClick(DateTime.now())) {
         print('hold on, processing');
         return;
       }
       print('run process');
-      //isEditAble = true;
-      if (_selectedDropItem.vehicleId != "" && _selectedDropItem.driverId != "" && fuelTaken.text != "" && fuelTime.text != "" ) {
-        Future<UserInfoModel> getUserData() => UserPreferences().getUser();
-        getUserData().then((value) =>
-        {
-          if (widget.vcDataModel.id == null)
-            {
-              accidentAddUpdate = addUpdateFuelList(
-                  "",
-                  _selectedDropItem.vehicleId,
-                  _selectedDropItem.driverId,
-                  _selectedDropItem.vehicleEnergyTypeId,
-                  stationName.text,
-                  amount.text,
-                  AppConstant.fuelSlipImgURL,
-                  haveFuelAlert.text,
-                  fuelTime.text,
-                  fuelTaken.text
-              ),
-            }
-          else
-            {
-              accidentAddUpdate = addUpdateFuelList(
-                  widget.vcDataModel.id.toString(),
-                  _selectedDropItem.vehicleId,
-                  _selectedDropItem.driverId,
-                  _selectedDropItem.vehicleEnergyTypeId,
-                  stationName.text,
-                  amount.text,
-                  AppConstant.fuelSlipImgURL,
-                  haveFuelAlert.text,
-                  fuelTime.text,
-                  fuelTaken.text),
+      // if (amount.text == "") {
+      //   snackBar(context, "Amount Required", success: false);
+      //   return;
+      // }
 
-            },
-          accidentAddUpdate?.whenComplete(() =>
-          {
-            Navigator.pop(context),
-            Navigator.pop(context),
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        FuelManagementView(
+      // if (fuelTime.text == "") {
+      //   snackBar(context, "Fuel Date Required", success: false);
+      //   return;
+      // }
+
+      // if (_selectedDropItem.vehicleId == "") {
+      //   snackBar(context, "Vehicle Required", success: false);
+      //   return;
+      // }
+
+      // if (_selectedDropItem.driverId == "") {
+      //   snackBar(context, "Driver Required", success: false);
+      //   return;
+      // }
+      // if (fuelTaken.text == "") {
+      //   snackBar(context, "Fuel Taken Required", success: false);
+      //   return;
+      // }
+
+      if (amount.text != "" && _selectedDropItem.vehicleId != "" &&
+          _selectedDropItem.driverId != "" &&
+          fuelTaken.text != "" &&
+          fuelTime.text != "") {
+        Future<UserInfoModel> getUserData() => UserPreferences().getUser();
+        getUserData().then((value) {
+          if (widget.vcDataModel.id == null) {
+            accidentAddUpdate = addUpdateFuelList(
+                "",
+                _selectedDropItem.vehicleId,
+                _selectedDropItem.driverId,
+                _selectedDropItem.vehicleEnergyTypeId,
+                stationName.text,
+                amount.text,
+                AppConstant.fuelSlipImgURL,
+                haveFuelAlert.text,
+                fuelTime.text,
+                fuelTaken.text);
+          } else {
+            accidentAddUpdate = addUpdateFuelList(
+                widget.vcDataModel.id.toString(),
+                _selectedDropItem.vehicleId,
+                _selectedDropItem.driverId,
+                _selectedDropItem.vehicleEnergyTypeId,
+                stationName.text,
+                amount.text,
+                AppConstant.fuelSlipImgURL,
+                haveFuelAlert.text,
+                fuelTime.text,
+                fuelTaken.text);
+          }
+          accidentAddUpdate?.whenComplete(() => {
+                Navigator.pop(context),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FuelManagementView(
                             title: "Fuel Analysis",
                             vehicleId: _selectedDropItem.vehicleId.toString())))
-          })
+              });
         });
-      }else{
+      } else {
         snackBar(context, "Required field should not empty");
       }
-
     };
     return Scaffold(
       appBar: AppBar(
@@ -163,45 +177,63 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
         padding: EdgeInsets.symmetric(vertical: 5),
         child: Consumer<ServiceProvider>(
           builder: (context, services, child) {
-            if(_selectedDropItem.vehicleId == ""){
-              if (services.vehicleShortList.isNotEmpty){
-                _selectedDropItem.vehicleId = services.vehicleShortList[0].id.toString();
-                print("vechileId 2  ${services.vehicleShortList[0].id.toString()}");
-              }
-            }else{
+            if (_selectedDropItem.vehicleId == "") {
               if (services.vehicleShortList.isNotEmpty) {
-              bool exists = services.vehicleShortList.any((file) => file.id == _selectedDropItem.vehicleId);
+                _selectedDropItem.vehicleId =
+                    services.vehicleShortList[0].id.toString();
+                print(
+                    "vechileId 2  ${services.vehicleShortList[0].id.toString()}");
+              }
+            } else {
+              if (services.vehicleShortList.isNotEmpty) {
+                bool exists = services.vehicleShortList
+                    .any((file) => file.id == _selectedDropItem.vehicleId);
 
-              if (!exists){
-                    _selectedDropItem.vehicleId = services.vehicleShortList[0].id.toString();
-                  }
+                if (!exists) {
+                  _selectedDropItem.vehicleId =
+                      services.vehicleShortList[0].id.toString();
+                }
               }
             }
             print("vechileId 3  ${_selectedDropItem.vehicleId}");
 
-            if(_selectedDropItem.driverId == ""){
+            if (_selectedDropItem.driverId == "") {
               if (services.driverCommonList.isNotEmpty) {
-                _selectedDropItem.driverId = services.driverCommonList[0].id.toString();
+                _selectedDropItem.driverId =
+                    services.driverCommonList[0].id.toString();
               }
-            }else{
+            } else {
               if (services.driverCommonList.isNotEmpty) {
-              bool exists = services.driverCommonList.any((file) => file.id == _selectedDropItem.driverId);
-              if (!exists){
-                  _selectedDropItem.driverId = services.driverCommonList[0].id.toString();
+                bool exists = services.driverCommonList
+                    .any((file) => file.id == _selectedDropItem.driverId);
+                if (!exists) {
+                  _selectedDropItem.driverId =
+                      services.driverCommonList[0].id.toString();
                 }
               }
             }
-            if(_selectedDropItem.vehicleEnergyTypeId == ""){
+            if (_selectedDropItem.vehicleEnergyTypeId == "") {
               if (services.vehicleEnergyType.isNotEmpty) {
-                _selectedDropItem.vehicleEnergyTypeId = services.vehicleEnergyType[0].id.toString();
+                _selectedDropItem.vehicleEnergyTypeId =
+                    services.vehicleEnergyType[0].id.toString();
               }
             }
             return Column(
               children: [
                 SizedBox(height: 20),
-                EditListItem(text: 'Station Name', nameController: stationName, hintText: "Type station name",),
+                EditListItem(
+                  text: 'Station Name',
+                  nameController: stationName,
+                  hintText: "Type station name",
+                ),
                 SizedBox(height: 10),
-                EditListItem(text: 'Amount', nameController: amount, isNumber: true, isRequired: true, hintText: 'Type fuel paid amount',),
+                EditListItem(
+                  text: 'Amount',
+                  nameController: amount,
+                  isNumber: true,
+                  isRequired: true,
+                  hintText: 'Type fuel paid amount',
+                ),
                 SizedBox(height: 10),
                 ImageUploadViewItem(
                     text: 'Slip Image',
@@ -250,27 +282,41 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
                 AllDropDownItem(
                     textTitle: "Vehicle Energy Type",
                     list: services.vehicleEnergyType,
-                    requestType: "getVehicleEnergyType", selectedItem: _selectedDropItem.vehicleEnergyTypeId),
+                    requestType: "getVehicleEnergyType",
+                    selectedItem: _selectedDropItem.vehicleEnergyTypeId),
                 SizedBox(height: 10),
                 EditListItem(
-                    text: 'Fuel Amount',
-                    nameController: fuelTaken, isRequired: true, hintText: "Type fuel amount", isNumber: true,
+                  text: 'Fuel Amount',
+                  nameController: fuelTaken,
+                  isRequired: true,
+                  hintText: "Type fuel amount",
+                  isNumber: true,
                 ),
                 SizedBox(height: 10),
                 AllDropDownItem(
                     textTitle: "Vehicle",
-                    list: _selectedDropItem.vehicleId == "" ? services.vehicleShortList : services.vehicleShortList.where((e)=> e.id == _selectedDropItem.vehicleId).toList(),
-                    requestType: "vehicleList", isRequired: true, selectedItem:_selectedDropItem.vehicleId),
+                    list: _selectedDropItem.vehicleId == ""
+                        ? services.vehicleShortList
+                        : services.vehicleShortList
+                            .where((e) => e.id == _selectedDropItem.vehicleId)
+                            .toList(),
+                    requestType: "vehicleList",
+                    isRequired: true,
+                    selectedItem: _selectedDropItem.vehicleId),
                 SizedBox(height: 15),
                 AllDropDownItem(
                     textTitle: "Driver",
                     list: services.driverCommonList,
-                    requestType: "driverCommonList", isRequired: true, selectedItem:_selectedDropItem.driverId),
+                    requestType: "driverCommonList",
+                    isRequired: true,
+                    selectedItem: _selectedDropItem.driverId),
                 SizedBox(height: 15),
 
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: longButtons(widget.vcDataModel.id != null ? "UPDATE": "SAVE" , doUpdate),
+                  child: longButtons(
+                      widget.vcDataModel.id != null ? "UPDATE" : "SAVE",
+                      doUpdate),
                 ),
               ],
             );
