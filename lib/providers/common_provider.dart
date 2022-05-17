@@ -132,7 +132,7 @@ class CommonProvider with ChangeNotifier {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      // throw Exception('Failed to load album');
     }
   }
 
@@ -142,7 +142,8 @@ class CommonProvider with ChangeNotifier {
       var data = json.decode(response.body);
       return LocalInfoType.fromJson(data);
     } else {
-      throw Exception('Failed to load album');
+      // throw Exception('Failed to load album');
+      return LocalInfoType();
     }
   }
 
@@ -155,17 +156,19 @@ class CommonProvider with ChangeNotifier {
       var data = json.decode(response.body);
       return LocalInfoRes.fromJson(data);
     } else {
-      throw Exception('Failed to load album');
+      // throw Exception('Failed to load album');
+      return LocalInfoRes();
     }
   }
 
-Future<FuelComsumptionData> getFuelData(String userId) async {
-    final response = await get(Uri.parse(AppUrl.fuelChart.replaceAll("_userId", userId)));
+  Future<FuelComsumptionData> getFuelData(String userId) async {
+    final response =
+        await get(Uri.parse(AppUrl.fuelChart.replaceAll("_userId", userId)));
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       return FuelComsumptionData.fromJson(data);
     } else {
-      throw Exception('Failed to load album');
+      return FuelComsumptionData();
     }
   }
 }

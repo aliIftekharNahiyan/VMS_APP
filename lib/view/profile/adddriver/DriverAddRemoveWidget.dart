@@ -120,15 +120,13 @@ Future<void> displayVehicle(BuildContext context,
                 if (vList.isNotEmpty) {
                   Provider.of<ServiceProvider>(context, listen: false)
                       .sendListOfDriverAllocateRequest(
-                          searchDriverModel.id.toString(),
-                          userId,
-                          vList);
+                          searchDriverModel.id.toString(), userId, vList);
 
                   Navigator.pop(context);
 
                   confirmRequest(context, services.sendRequestRes);
                 } else {
-                  snackBar(context, "Please select vehicle");
+                  snackBar(context, "Please select vehicle", success: false);
                 }
               },
             ),
@@ -173,23 +171,41 @@ Future<void> confirmRequest(
                 if (_textFieldController.text != "") {
                   print(services.sendRequestRes.otp);
                   print(_textFieldController.text);
-                  if (services.sendRequestRes.otp ==
-                      _textFieldController.text) {
-                    Provider.of<ServiceProvider>(context, listen: false)
-                        .confirmDriverAllocateRequest(
-                            services.sendRequestRes.data![0].id.toString());
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SearchDriver()));
-                    snackBar(context, "Success fully added");
+                  if (services.sendRequestRes.data!.isNotEmpty) {
+                    if (services.sendRequestRes.data![0].oTP ==
+                        _textFieldController.text) {
+                      Provider.of<ServiceProvider>(context, listen: false)
+                          .confirmDriverAllocateRequest(
+                              services.sendRequestRes.data![0].id.toString());
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchDriver()));
+                      snackBar(context, "Success fully added", success: true);
+                    } else {
+                      snackBar(context, "Please type input correct otp", success: false);
+                    }
                   } else {
-                    snackBar(context, "Please type input correct otp");
+                    if (services.sendRequestRes.otp ==
+                        _textFieldController.text) {
+                      Provider.of<ServiceProvider>(context, listen: false)
+                          .confirmDriverAllocateRequest(
+                              services.sendRequestRes.data![0].id.toString());
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchDriver()));
+                      snackBar(context, "Success fully added", success: true);
+                    } else {
+                      snackBar(context, "Please type input correct otp", success: false);
+                    }
                   }
+
                   // Navigator.pop(context);
                 } else {
-                  snackBar(context, "Please input otp");
+                  snackBar(context, "Please input otp", success: false);
                 }
               },
             ),
@@ -236,7 +252,7 @@ class _ContantChipState extends State<ContantChip> {
                 vList.add(v);
                 widget.onAdded(v);
               } else {
-                snackBar(context, "Already Added");
+                snackBar(context, "Already Added", success: false);
               }
             },
           ),
