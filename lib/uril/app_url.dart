@@ -15,6 +15,7 @@ class AppUrl {
   static const String profileUpdate = baseURL + "/userregistration/UpdateProfileInfo";
   //static const String vehicleList = baseURL + "/vechile/GetVechileList?userid=_userId";
   static const String getVehicleType = baseURL + "/vechile/GetVechileType";
+  static const String getLocationType = baseURL + "/LocalInfo/GetLocalInfoSaveType";
 
 
 

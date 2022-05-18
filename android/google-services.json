@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "454352414473",
+    "project_id": "amar-gari-97b88",
+    "storage_bucket": "amar-gari-97b88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454352414473:android:741d19719a2e9b7138d5d8",
+        "android_client_info": {
+          "package_name": "com.ew.amargari"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454352414473-dgse02a0hu89sdlk9h07jg2u9atg4tnk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ew.amargari",
+            "certificate_hash": "701f91a2a9ae17a5c8265ffa22291058adbde713"
+          }
+        },
+        {
+          "client_id": "454352414473-7lo8u6im3cc271a3qha5vf4o86o8v1if.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-51yI3XWwQvgwoKnSQF6sLzYHSPY7LDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454352414473-7lo8u6im3cc271a3qha5vf4o86o8v1if.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

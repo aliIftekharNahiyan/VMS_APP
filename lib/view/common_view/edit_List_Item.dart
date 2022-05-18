@@ -282,11 +282,6 @@ class _EditListItemState extends State<EditListItem> {
             child: Row(children: [Visibility(child: Icon(Icons.star, color: Colors.red, size: 10), visible: widget.isRequired,),
               Visibility(child: SizedBox(width: 10,),visible: !widget.isRequired),]),
           ),
-          // Expanded(
-          //   flex: 1,
-          //   child: Text(widget.text, style: TextStyle(fontSize: 17)),
-          // ),
-         // SizedBox(width: 1),
           Visibility(
             child: Expanded(
               flex: 1,
@@ -310,8 +305,6 @@ class _EditListItemState extends State<EditListItem> {
                     _pickTimeDialog(context);
                   }
                 },
-                // onSaved: (value) => AccountItem.username = value,
-                // style: TextStyle(color: Colors.black54),
                 onChanged: (value) {
                   print("change " + widget.nameController.text);
                   setState(() {
@@ -321,12 +314,9 @@ class _EditListItemState extends State<EditListItem> {
               ) : TextField(
                 controller: widget.nameController,
                 enabled: widget.isEditAble,
-
                 textInputAction: TextInputAction.next,
                 decoration: commonInputDecoration(widget.text, widget.hintText),
                 onTap: () {
-                  print('Editing stated $widget');
-
                   if (widget.isDate) {
                     _pickDateDialog();
                   }
@@ -337,8 +327,6 @@ class _EditListItemState extends State<EditListItem> {
                     _pickTimeDialog(context);
                   }
                 },
-                // onSaved: (value) => AccountItem.username = value,
-                //  style: TextStyle(color: Colors.black54),
                 onChanged: (value) {
                   print("change " + widget.nameController.text);
                   setState(() {
@@ -346,22 +334,15 @@ class _EditListItemState extends State<EditListItem> {
                   });
                 },
               ),
-              // ),
             ),
             visible: !widget.isVisible,
           ),
           Visibility(
             child: InkWell(
                 onTap: () {
-
                   imageUploadRequest = true;
                   getImage(ImgSource.Both, widget.images);
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) =>
-                  //             FilePickerDemo(requestFileType: widget.images, imageURL: widget.nameController.text)));
-                },
+                 },
                 child: _image != null ? Image.file(File(_image.path), height: 100, width: 100,) : ImageLoadWidget(
                     requestType: widget.images
                 )

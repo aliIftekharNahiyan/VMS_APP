@@ -12,6 +12,19 @@ class UserPreferences {
     prefs.setString("name", user.name.toString());
     prefs.setString("mobileNo", user.mobileNo.toString());
     prefs.setString("nid", user.nid.toString());
+
+    prefs.setString("joiningDate", user.joiningDate.toString());
+    prefs.setString("bc1", user.bc1.toString());
+    prefs.setString("bc2", user.bc2.toString());
+    prefs.setString("cc1", user.cc1.toString());
+    prefs.setString("cc2", user.cc2.toString());
+    prefs.setString("dp1", user.driverImg1.toString());
+    prefs.setString("dp2", user.driverImg2.toString());
+    prefs.setString("bioData", user.bioData.toString());
+    prefs.setString("fatherNumber", user.fatherMobile.toString());
+    prefs.setString("spouseNumber", user.spouseMobile.toString());
+
+
     prefs.setString("occupation", user.occupation.toString());
     prefs.setString("address", user.address.toString());
     prefs.setString("gender", user.gender.toString());
@@ -50,6 +63,17 @@ class UserPreferences {
     String? createdBy = prefs.getString("createdBy");
     String? profilePicture = prefs.getString("profilePicture");
 
+    String? joiningDate = prefs.getString("joiningDate");
+    String? bc1 = prefs.getString("bc1");
+    String? bc2 = prefs.getString("bc2");
+    String? cc1 = prefs.getString("cc1");
+    String? cc2 = prefs.getString("cc2");
+    String? dp1 = prefs.getString("dp1");
+    String? dp2 = prefs.getString("dp2");
+    String? bioData = prefs.getString("bioData");
+    String? fatherNumber = prefs.getString("fatherNumber");
+    String? spouseNumber = prefs.getString("spouseNumber");
+
 
     return UserInfoModel(
       id: userId,
@@ -57,6 +81,16 @@ class UserPreferences {
       name: name,
       mobileNo: mobileNo,
       nid: nid,
+      joiningDate: joiningDate,
+      cc1: cc1,
+      cc2: cc2,
+      bc1: bc1,
+      bc2: bc2,
+      driverImg1: dp1,
+      driverImg2: dp2,
+      bioData: bioData,
+      fatherMobile: fatherNumber,
+      spouseMobile: spouseNumber,
       occupation: occupation,
       address: address,
       gender: gender,

@@ -1,10 +1,21 @@
-
 class UserInfoModel {
   int? id;
   int? userTypeId;
   String? name;
   String? mobileNo;
   String? nid;
+
+  String? joiningDate;
+  String? bc1;
+  String? bc2;
+  String? cc1;
+  String? cc2;
+  String? driverImg1;
+  String? driverImg2;
+  String? bioData;
+  String? fatherMobile;
+  String? spouseMobile;
+
   String? occupation;
   String? address;
   String? gender;
@@ -23,27 +34,35 @@ class UserInfoModel {
 
   UserInfoModel(
       {this.id,
-        this.userTypeId,
-        this.name,
-        this.mobileNo,
-        this.nid,
-        this.occupation,
-        this.address,
-        this.gender,
-        this.drivingLicense,
-        this.licenseExpiryDate,
-        this.salary,
-        this.bouns,
-        this.tradeLicense,
-        this.tinBin,
-        this.createdBy,
-        this.timeStamp,
-        this.password,
-        this.isOtpVerified,
+      this.userTypeId,
+      this.name,
+      this.mobileNo,
+      this.nid,
+      this.joiningDate,
+      this.bc1,
+      this.bc2,
+      this.cc1,
+      this.cc2,
+      this.driverImg1,
+      this.driverImg2,
+      this.bioData,
+      this.fatherMobile,
+      this.spouseMobile,
+      this.occupation,
+      this.address,
+      this.gender,
+      this.drivingLicense,
+      this.licenseExpiryDate,
+      this.salary,
+      this.bouns,
+      this.tradeLicense,
+      this.tinBin,
+      this.createdBy,
+      this.timeStamp,
+      this.password,
+      this.isOtpVerified,
       this.ownerId,
-        this.profilePicture
-      });
-
+      this.profilePicture});
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
@@ -51,6 +70,16 @@ class UserInfoModel {
     name = json['Name'];
     mobileNo = json['MobileNo'];
     nid = json['Nid'];
+    joiningDate = json['DriverJoinDate'];
+    bc1 = json['BirthCertificateImg1'];
+    bc2 = json['BirthCertificateImg2'];
+    cc1 = json['ChairmanCertificateImg1'];
+    cc2 = json['ChairmanCertificateImg2'];
+    driverImg1 = json['DriverPictureImg1'];
+    driverImg2 = json['DriverPictureImg2'];
+    bioData = json['BioData'];
+    fatherMobile = json['FathersMobileNumber'];
+    spouseMobile = json['SpouseMobileNumber'];
     occupation = json['Occupation'];
     address = json['Address'];
     gender = json['Gender'];
@@ -75,6 +104,16 @@ class UserInfoModel {
     data['Name'] = this.name;
     data['MobileNo'] = this.mobileNo;
     data['Nid'] = this.nid;
+    data['DriverJoinDate'] = this.joiningDate;
+    data['BirthCertificateImg1'] = this.bc1;
+    data['BirthCertificateImg2'] = this.bc2;
+    data['ChairmanCertificateImg1'] = this.cc1;
+    data['ChairmanCertificateImg2'] = this.cc2;
+    data['DriverPictureImg1'] = this.driverImg1;
+    data['DriverPictureImg2'] = this.driverImg2;
+    data['BioData'] = this.bioData;
+    data['FathersMobileNumber'] = this.fatherMobile;
+    data['SpouseMobileNumberdata'] = this.spouseMobile;
     data['Occupation'] = this.occupation;
     data['Address'] = this.address;
     data['Gender'] = this.gender;

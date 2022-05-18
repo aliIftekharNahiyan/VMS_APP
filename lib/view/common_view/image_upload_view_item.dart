@@ -86,6 +86,18 @@ class _ImageUploadViewItemState extends State<ImageUploadViewItem> {
 
             if (widget.images == "nid") {
               AppConstant.NidURL = value;
+            }else if (widget.images == "bc1") {
+              AppConstant.BC_URL1 = value;
+            }else if (widget.images == "bc2") {
+              AppConstant.BC_URL2 = value;
+            }else if (widget.images == "cc1") {
+              AppConstant.CC_URL1 = value;
+            }else if (widget.images == "cc2") {
+              AppConstant.CC_URL2 = value;
+            }else if (widget.images == "driverImage") {
+              AppConstant.DP_URL = value;
+            }else if (widget.images == "bioData") {
+              AppConstant.BD_URL2 = value;
             } else if (widget.images == "drivingLicense") {
               AppConstant.drivingLicenseURL = value;
             } else if (widget.images == "VehicleImage") {

@@ -1,5 +1,6 @@
 import 'package:amargari/model/accident_list_model.dart';
 import 'package:amargari/uril/utility.dart';
+import 'package:amargari/view/accident_management/add_locations.dart';
 import 'package:flutter/material.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/accident_provider.dart';
@@ -39,11 +40,12 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
   @override
   Widget build(BuildContext context) {
     var addGarageInfo = (AccidentListModel? garageModel) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  AddUpdateAccidentView(vcDataModel: garageModel!, vehicleId: "")));
+      Get.to(AddLocation());
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) =>
+      //             AddUpdateAccidentView(vcDataModel: garageModel!, vehicleId: "")));
     };
     return Scaffold(
       appBar: AppBar(
@@ -152,7 +154,7 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
           ),
         ],
       ),
-     /* floatingActionButton: Padding(
+     floatingActionButton: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FloatingActionButton(
           onPressed: () {
@@ -169,7 +171,7 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
           splashColor: Colors.grey,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,*/
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }
