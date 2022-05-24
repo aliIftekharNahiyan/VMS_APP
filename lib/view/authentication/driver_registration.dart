@@ -67,10 +67,12 @@ class _DriverRegistrationState extends State<DriverRegistration> {
       autofocus: false,
       obscureText: true,
       textInputAction: TextInputAction.next,
+      initialValue: '1234',
+      enabled: false,
       validator: (value) =>
           value!.isEmpty ? "Please enter password".tr() : null,
       onSaved: (value) => _password = value!,
-      decoration: buildInputDecoration("Password".tr(), Icons.lock),
+      decoration: buildInputDecoration("Password Default".tr(), Icons.lock),
     );
 
     final confirmPassword = TextFormField(
@@ -92,14 +94,13 @@ class _DriverRegistrationState extends State<DriverRegistration> {
         getUserData().then((value) {
           if (_selectedDropItem.userTypeId != "" &&
               _username != "" &&
-              _userNumber != "" &&
-              _password != "") {
+              _userNumber != "") {
             auth
                 .register(
                     _selectedDropItem.userTypeId,
                     _username,
                     _userNumber,
-                    _password,
+                    "1234",
                     "",
                     "",
                     "",
@@ -210,7 +211,7 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                                   SizedBox(height: 5.0),
                                   usernameField,
                                   SizedBox(height: 15.0),
-                                  label("Password".tr()),
+                                  label("Password Default".tr()),
                                   SizedBox(height: 10.0),
                                   passwordField,
                                   SizedBox(height: 15.0),
