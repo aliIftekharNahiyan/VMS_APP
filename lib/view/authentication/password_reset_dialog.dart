@@ -1,6 +1,7 @@
 
 import 'package:amargari/model/o_t_p_confirm.dart';
 import 'package:amargari/providers/auth.dart';
+import 'package:amargari/uril/routes.dart';
 import 'package:amargari/widgets/widgets.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:provider/provider.dart';
 
 TextEditingController _textFieldController = TextEditingController();
 TextEditingController _otpFieldController = TextEditingController();
-Future<void> passwordResetDialog(BuildContext context, String mobileNumber, String? otp) async {
+Future<void> passwordResetDialog(BuildContext context, String mobileNumber, String? otp, {type: String}) async {
 
   return showDialog(
 
@@ -28,9 +29,11 @@ Future<void> passwordResetDialog(BuildContext context, String mobileNumber, Stri
               message: "Your password has been changed",
               duration: Duration(seconds: 5),
             ).show(context),
-            Navigator.pop(context),
-            Navigator.pop(context),
-            Navigator.pop(context),
+            // Navigator.pop(context),
+            // Navigator.pop(context),
+            // Navigator.pop(context),
+             Navigator.pushReplacementNamed(context, MyRoutes.loginRoute)
+            // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: builder), (route) => false)
 
           }else{
             Flushbar(

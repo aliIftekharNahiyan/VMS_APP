@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:amargari/get_state/selected_dropdown.dart';
 import 'package:amargari/model/AddDriver/search_driver_model.dart';
 import 'package:amargari/model/AddDriver/send_request_res.dart';
@@ -28,13 +30,36 @@ class _DriverAddRemoveWidgetState extends State<DriverAddRemoveWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.searchDriverModel.ownerId == AppConstant.userId &&
-        widget.searchDriverModel.isDriverAllocated != null) {
-      return MaterialButton(
-        onPressed: () {
-          removeDriver(context, widget.searchDriverModel);
-        },
-        child: Text("Remove Driver"),
-        color: Colors.orange,
+        widget.searchDriverModel.isDriverAllocated != null &&
+        widget.searchDriverModel.isDriverAllocated != -1) {
+      return Row(
+        children: [
+          MaterialButton(
+            minWidth: 20,
+            onPressed: () {
+              addDriver(context, widget.searchDriverModel);
+            },
+            child: Text(
+              "Update",
+              style: TextStyle(fontSize: 11, color: Colors.white),
+            ),
+            color: Colors.orange,
+          ),
+          SizedBox(
+            width: 2,
+          ),
+          MaterialButton(
+            minWidth: 20,
+            onPressed: () {
+              removeDriver(context, widget.searchDriverModel);
+            },
+            child: Text(
+              "Remove",
+              style: TextStyle(fontSize: 11, color: Colors.white),
+            ),
+            color: Colors.red,
+          ),
+        ],
       );
     } else {
       return MaterialButton(
@@ -98,7 +123,7 @@ Future<void> displayVehicle(BuildContext context,
         }
 
         return AlertDialog(
-          title: Text('Add Driver!!'),
+          title: Text('Add Vehicle'),
           content: ContantChip(
             list: services.vehicleShortList,
             selected: _selectedDropItem.vehicleTypeId,
@@ -184,7 +209,8 @@ Future<void> confirmRequest(
                               builder: (context) => SearchDriver()));
                       snackBar(context, "Success fully added", success: true);
                     } else {
-                      snackBar(context, "Please type input correct otp", success: false);
+                      snackBar(context, "Please type input correct otp",
+                          success: false);
                     }
                   } else {
                     if (services.sendRequestRes.otp ==
@@ -199,7 +225,8 @@ Future<void> confirmRequest(
                               builder: (context) => SearchDriver()));
                       snackBar(context, "Success fully added", success: true);
                     } else {
-                      snackBar(context, "Please type input correct otp", success: false);
+                      snackBar(context, "Please type input correct otp",
+                          success: false);
                     }
                   }
 

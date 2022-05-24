@@ -18,12 +18,14 @@ class ImageUploadViewItem extends StatefulWidget {
       this.isVisible = false,
       this.isRequired = false,
       this.hintText = '',
-      required this.nameController});
+      required this.nameController,
+      this.isEditable = true});
 
   final String text, images;
   final bool isVisible;
   final bool isRequired;
   final String hintText;
+  final isEditable;
   TextEditingController nameController;
 
   // final VoidCallback press;
@@ -86,20 +88,19 @@ class _ImageUploadViewItemState extends State<ImageUploadViewItem> {
 
             if (widget.images == "expenseImage") {
               AppConstant.expenseImageURL = value;
-            }
-            else if (widget.images == "nid") {
+            } else if (widget.images == "nid") {
               AppConstant.NidURL = value;
-            }else if (widget.images == "bc1") {
+            } else if (widget.images == "bc1") {
               AppConstant.BC_URL1 = value;
-            }else if (widget.images == "bc2") {
+            } else if (widget.images == "bc2") {
               AppConstant.BC_URL2 = value;
-            }else if (widget.images == "cc1") {
+            } else if (widget.images == "cc1") {
               AppConstant.CC_URL1 = value;
-            }else if (widget.images == "cc2") {
+            } else if (widget.images == "cc2") {
               AppConstant.CC_URL2 = value;
-            }else if (widget.images == "driverImage") {
+            } else if (widget.images == "driverImage") {
               AppConstant.DP_URL = value;
-            }else if (widget.images == "bioData") {
+            } else if (widget.images == "bioData") {
               AppConstant.BD_URL2 = value;
             } else if (widget.images == "drivingLicense") {
               AppConstant.drivingLicenseURL = value;
@@ -176,8 +177,8 @@ class _ImageUploadViewItemState extends State<ImageUploadViewItem> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        ImageFullScreen(imageURL: _image.path)));
+                                    builder: (context) => ImageFullScreen(
+                                        imageURL: _image.path)));
                           },
                           child: Image.file(
                             File(_image.path),
@@ -191,8 +192,10 @@ class _ImageUploadViewItemState extends State<ImageUploadViewItem> {
                   flex: 7,
                   child: InkWell(
                     onTap: () {
-                      imageUploadRequest = true;
-                      getImage(ImgSource.Both, widget.images);
+                      if (widget.isEditable) {
+                        imageUploadRequest = true;
+                        getImage(ImgSource.Both, widget.images);
+                      }
                     },
                     child: Column(children: [
                       ImageIcon(AssetImage("assets/icons/upload_cloud.png")),

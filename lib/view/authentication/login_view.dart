@@ -13,10 +13,8 @@ import 'package:amargari/uril/validators.dart';
 import 'package:amargari/widgets/widgets.dart';
 
 class Login extends StatefulWidget {
-
   @override
   _LoginState createState() => _LoginState();
-
 }
 
 class _LoginState extends State<Login> {
@@ -26,7 +24,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-
     AuthProvider auth = Provider.of<AuthProvider>(context);
 
     final usernameField = TextFormField(
@@ -47,7 +44,8 @@ class _LoginState extends State<Login> {
       obscureText: true,
       initialValue: "",
       textInputAction: TextInputAction.done,
-      validator: (value) => value!.isEmpty ? "Please enter password".tr() : null,
+      validator: (value) =>
+          value!.isEmpty ? "Please enter password".tr() : null,
       onSaved: (value) => _password = value!,
       decoration: buildInputDecoration("Confirm password".tr(), Icons.lock),
     );
@@ -90,22 +88,25 @@ class _LoginState extends State<Login> {
             auth.login(_username, _password);
 
         successfulMessage.then((response) {
-          print("response login " + response.toString() +" ");
+          print("response login " + response.toString() + " ");
           if (response['status']) {
             UserInfoModel user = response['user'];
-            print("response login " + user.id.toString() +" ");
+            print("response login " + user.id.toString() + " ");
             Provider.of<UserProvider>(context, listen: false).setUser(user);
             final Future<String?> aToken = auth.getDeviceToken();
 
             aToken.then((value) {
-            print("aToken"+value!);
-                final Future<dynamic> updateToken = auth.updateFireBaseToken(user.id.toString(), value);
-                print(updateToken.toString());
-
+              print("aToken" + value!);
+              final Future<dynamic> updateToken =
+                  auth.updateFireBaseToken(user.id.toString(), value);
+              print(updateToken.toString());
             });
 
-            Navigator.pushReplacementNamed(context, MyRoutes.dashboardRoute);
-
+            if (user.password == "1234") {
+              displayTextInputDialog(context, mobile: user.mobileNo);
+            } else {
+              Navigator.pushReplacementNamed(context, MyRoutes.dashboardRoute);
+            }
           } else {
             Flushbar(
               title: "Failed Login",
@@ -133,7 +134,7 @@ class _LoginState extends State<Login> {
                     Image.asset('assets/images/logo.png',
                         height: 100, width: 100),
                     SizedBox(height: 5.0),
-                   // titleLabel("Amar Gari".tr()),
+                    // titleLabel("Amar Gari".tr()),
                     SizedBox(height: 15.0),
                     Padding(
                       padding: const EdgeInsets.all(16.0),

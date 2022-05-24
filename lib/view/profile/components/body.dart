@@ -27,7 +27,7 @@ class Body extends StatelessWidget {
             press: () => {
             Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MyProfileScreen()))
+            MaterialPageRoute(builder: (context) => MyProfileScreen(userId: "",)))
             },
           ),
           if (AppConstant.userTypeId != 2) ...[

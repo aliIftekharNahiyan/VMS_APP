@@ -1,6 +1,9 @@
 import 'package:amargari/get_state/selected_dropdown.dart';
+import 'package:amargari/model/user_model.dart';
 import 'package:amargari/model/usertypemodel.dart';
 import 'package:amargari/providers/service_provider.dart';
+import 'package:amargari/uril/shared_preference.dart';
+import 'package:amargari/view/profile/adddriver/search_driver.dart';
 import 'package:amargari/widgets/drop_down_list_border.dart';
 import 'package:amargari/widgets/drop_down_list_item.dart';
 import 'package:another_flushbar/flushbar.dart';
@@ -18,25 +21,26 @@ import 'package:amargari/uril/routes.dart';
 import 'package:amargari/uril/validators.dart';
 import 'package:amargari/widgets/widgets.dart';
 
-class Register extends StatefulWidget {
+class DriverRegistration extends StatefulWidget {
   @override
-  _RegisterState createState() => _RegisterState();
-}
-void _loadData(BuildContext context) async {
-    Provider.of<ServiceProvider>(context, listen: false)
-        .getUserType(type: "OWNER");
+  _DriverRegistrationState createState() => _DriverRegistrationState();
 }
 
-class _RegisterState extends State<Register> {
+void _loadData(BuildContext context) async {
+  Provider.of<ServiceProvider>(context, listen: false)
+      .getUserType(type: "DRIVER");
+}
+
+class _DriverRegistrationState extends State<DriverRegistration> {
   final formKey = new GlobalKey<FormState>();
   late String _username, _userNumber, _password, _confirmPassword;
-    bool userTypeLoad = true;
+  bool userTypeLoad = true;
 
   @override
   Widget build(BuildContext context) {
     AuthProvider auth = Provider.of<AuthProvider>(context);
-    if(userTypeLoad) {
-     _loadData(context);
+    if (userTypeLoad) {
+      _loadData(context);
     }
     SelectedDropDown _selectedDropItem = Get.find();
 
@@ -63,96 +67,80 @@ class _RegisterState extends State<Register> {
       autofocus: false,
       obscureText: true,
       textInputAction: TextInputAction.next,
-      validator: (value) => value!.isEmpty ? "Please enter password".tr() : null,
+      validator: (value) =>
+          value!.isEmpty ? "Please enter password".tr() : null,
       onSaved: (value) => _password = value!,
       decoration: buildInputDecoration("Password".tr(), Icons.lock),
     );
 
     final confirmPassword = TextFormField(
       autofocus: false,
-      validator: (value) => value!.isEmpty ? "Please enter password".tr() : null,
+      validator: (value) =>
+          value!.isEmpty ? "Please enter password".tr() : null,
       onSaved: (value) => _confirmPassword = value!,
       textInputAction: TextInputAction.done,
       obscureText: true,
       decoration: buildInputDecoration("Confirm password".tr(), Icons.lock),
     );
 
-    var loading = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        CircularProgressIndicator(),
-        Text("Registering ... Please wait")
-      ],
-    );
-    final forgotLabel = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        TextButton(
-          //  padding: EdgeInsets.all(0.0),
-          child: label("Forgot password?".tr()),
-          onPressed: () {
-            displayTextInputDialog(context);
-
-          },
-        ),
-        TextButton(
-          //  padding: EdgeInsets.only(left: 0.0),
-          child:
-          label("Login".tr()),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, MyRoutes.loginRoute);
-          },
-        ),
-      ],
-    );
     var doRegister = () {
       final form = formKey.currentState;
       if (form!.validate()) {
         form.save();
 
-        if(_selectedDropItem.userTypeId != "" && _username != "" && _userNumber != "" && _password != "") {
-          auth
-              .register(
-              _selectedDropItem.userTypeId,
-              _username,
-              _userNumber,
-              _password,
-              "",
-              "",
-              "",
-              "",
-              "",
-              "",
-              "",
-              "",
-              "",
-              "", 0)
-              .then((response) {
-            print("response " + response.toString());
-            if (response['status']) {
-              // Navigator.pushReplacementNamed(context, MyRoutes.oTPRoute);
-              RegistrationModel registrationModel = response['data'];
-              registrationModel.result = _userNumber;
-              Navigator.pushNamed(
-                context,
-                MyRoutes.oTPRoute,
-                arguments: registrationModel,
-              );
-            } else {
-              Flushbar(
-                title: "Registration Failed",
-                message: response['message'],
-                duration: Duration(seconds: 10),
-              ).show(context);
-            }
-          });
-        }else{
-          Flushbar(
-            title: "Registration Failed",
-            message: "Please fill up all field",
-            duration: Duration(seconds: 10),
-          ).show(context);
-        }
+        Future<UserInfoModel> getUserData() => UserPreferences().getUser();
+        getUserData().then((value) {
+          if (_selectedDropItem.userTypeId != "" &&
+              _username != "" &&
+              _userNumber != "" &&
+              _password != "") {
+            auth
+                .register(
+                    _selectedDropItem.userTypeId,
+                    _username,
+                    _userNumber,
+                    _password,
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    value.id!)
+                .then((response) {
+              print("response " + response.toString());
+              if (response['status']) {
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchDriver()));
+                // Navigator.pushReplacementNamed(context, MyRoutes.oTPRoute);
+                // RegistrationModel registrationModel = response['data'];
+                // registrationModel.result = _userNumber;
+                // Navigator.pushNamed(
+                //   context,
+                //   MyRoutes.oTPRoute,
+                //   arguments: registrationModel,
+                // );
+              } else {
+                Flushbar(
+                  title: "Registration Failed",
+                  message: response['message'],
+                  duration: Duration(seconds: 10),
+                ).show(context);
+              }
+            });
+          } else {
+            Flushbar(
+              title: "Registration Failed",
+              message: "Please fill up all field",
+              duration: Duration(seconds: 10),
+            ).show(context);
+          }
+        });
       } else {
         Flushbar(
           title: "Invalid form",
@@ -163,6 +151,9 @@ class _RegisterState extends State<Register> {
     };
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Driver Create"),
+      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -172,29 +163,32 @@ class _RegisterState extends State<Register> {
             child: SingleChildScrollView(
               padding: EdgeInsets.all(16.0),
               child: Consumer<ServiceProvider>(
-              builder: (context, services, child) {
-
-                if(_selectedDropItem.userTypeId == ""){
-                  if (services.userTypeModel.isNotEmpty){
-                    _selectedDropItem.userTypeId = services.userTypeModel[0].id.toString();
-                    print("vechileId 2  ${services.userTypeModel[0].id.toString()}");
-                  }
-                }else{
+                  builder: (context, services, child) {
+                if (_selectedDropItem.userTypeId == "") {
                   if (services.userTypeModel.isNotEmpty) {
-                    bool exists = services.userTypeModel.any((file) => file.id == _selectedDropItem.userTypeId);
+                    _selectedDropItem.userTypeId =
+                        services.userTypeModel[0].id.toString();
+                    print(
+                        "vechileId 2  ${services.userTypeModel[0].id.toString()}");
+                  }
+                } else {
+                  if (services.userTypeModel.isNotEmpty) {
+                    bool exists = services.userTypeModel
+                        .any((file) => file.id == _selectedDropItem.userTypeId);
 
-                    if (!exists){
-                      _selectedDropItem.userTypeId = services.userTypeModel[0].id.toString();
+                    if (!exists) {
+                      _selectedDropItem.userTypeId =
+                          services.userTypeModel[0].id.toString();
                     }
                   }
                 }
                 return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/images/logo.png',
-                          height: 100, width: 100),
+                      // Image.asset('assets/images/logo.png',
+                      //     height: 100, width: 100),
                       SizedBox(height: 5.0),
-                      //titleLabel("Amar Gari".tr()),
+                      titleLabel("Driver Registration".tr()),
                       SizedBox(height: 15.0),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -222,16 +216,16 @@ class _RegisterState extends State<Register> {
                                   SizedBox(height: 15.0),
                                   label("User Type".tr()),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: DropDownBorderItem(
                                         textTitle: "UserType :",
                                         list: services.userTypeModel,
-                                        requestType: "UserType", selectedItem:   _selectedDropItem.userTypeId),
+                                        requestType: "UserType",
+                                        selectedItem:
+                                            _selectedDropItem.userTypeId),
                                   ),
-                                  auth.loggedInStatus == Status.Authenticating
-                                      ? loading
-                                      : longButtons("Sign up".tr(), doRegister),
-                                  forgotLabel
+                                  longButtons("Create".tr(), doRegister)
                                 ],
                               ),
                             ),
@@ -239,26 +233,11 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                     ]);
-              }
-              ),
+              }),
             ),
           ),
         ],
       ),
     );
   }
-
-
-
-/*  @override
-  void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    super.dispose();
-  }
-
-  @override
-  initState() {
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    super.initState();
-  }*/
 }

@@ -97,7 +97,8 @@ class AuthProvider with ChangeNotifier {
       String salary,
       String bouns,
       String tradeLicense,
-      String tin_Bin) async {
+      String tin_Bin,
+      int ownerId) async {
     final Map<String, dynamic> registrationData = {
       'UserTypeId': UserTypeId,
       'Name': name,
@@ -113,7 +114,7 @@ class AuthProvider with ChangeNotifier {
       "Bouns": bouns,
       "TradeLicense": tradeLicense,
       "Tin_Bin": tin_Bin,
-      "OwnerId": 0
+      "OwnerId": ownerId
     };
     print("registrationData ${registrationData}");
     return await post(Uri.parse(AppUrl.register),

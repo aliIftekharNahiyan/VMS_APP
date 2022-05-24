@@ -9,8 +9,10 @@ import 'package:amargari/model/PoliceFreezingDocModel.dart';
 import 'package:amargari/model/ServiceNameModel.dart';
 import 'package:amargari/model/expense_report_model.dart';
 import 'package:amargari/model/garage/GarageModel.dart';
+import 'package:amargari/model/login_model.dart';
 import 'package:amargari/model/rtp/ReportServiceDropdownResponse.dart';
 import 'package:amargari/model/service/service_model.dart';
+import 'package:amargari/model/user_model.dart';
 import 'package:amargari/model/usertypemodel.dart';
 import 'package:amargari/model/vehicleinfo/vechile_general_info_model.dart';
 import 'package:amargari/model/vehicleinfo/vehicle_type.dart';
@@ -46,6 +48,8 @@ class ServiceProvider with ChangeNotifier {
   List<CommonDropDownModel> expenseTypeList = [];
   List<CommonDropDownModel> expenseTypeStatusList = [];
   List<CommonDropDownModel> reportServiceList = [];
+
+  UserInfoModel userInfo = new UserInfoModel();
 
   SendRequestRes sendRequestRes = new SendRequestRes();
 
@@ -367,7 +371,7 @@ class ServiceProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getUserType() async {
+  Future<void> getUserType({type: String}) async {
     Response response = await get(
       Uri.parse(AppUrl.getusertype),
       headers: {'Content-Type': 'application/json'},
@@ -379,9 +383,19 @@ class ServiceProvider with ChangeNotifier {
 
       userTypeModel.clear();
       for (var _list in userType.result!) {
-        CommonDropDownModel service = new CommonDropDownModel(
-            id: _list.id.toString(), name: _list.userTypeName, title: "");
-        userTypeModel.add(service);
+        if (type == "DRIVER") {
+          if (_list.id == 2) {
+            CommonDropDownModel service = new CommonDropDownModel(
+                id: _list.id.toString(), name: _list.userTypeName, title: "");
+            userTypeModel.add(service);
+          }
+        } else {
+          if (_list.id != 2) {
+            CommonDropDownModel service = new CommonDropDownModel(
+                id: _list.id.toString(), name: _list.userTypeName, title: "");
+            userTypeModel.add(service);
+          }
+        }
       }
       notifyListeners();
     } else {
@@ -391,10 +405,12 @@ class ServiceProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getSearchDriverList(String mobileNo, String name) async {
+  Future<void> getSearchDriverList(
+      String mobileNo, String name, int ownerId) async {
     final response = await http.get(Uri.parse(AppUrl.searchDriver
         .replaceAll("_mobileno", mobileNo)
-        .replaceAll("_name", name)));
+        .replaceAll("_name", name)
+        .replaceAll("_ownerId", ownerId.toString())));
     print(AppUrl.searchDriver.replaceAll("_mobileno", mobileNo));
     if (response.statusCode == 200) {
       // final Map<String, dynamic> responseData = json.decode(response.body);
@@ -620,5 +636,5 @@ class ServiceProvider with ChangeNotifier {
     }
   }
 
-
+  
 }
