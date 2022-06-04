@@ -1,24 +1,23 @@
 import 'package:amargari/get_state/selected_dropdown.dart';
+import 'package:amargari/model/AddDriver/search_driver_model.dart';
 import 'package:amargari/model/user_model.dart';
-import 'package:amargari/model/usertypemodel.dart';
 import 'package:amargari/providers/service_provider.dart';
 import 'package:amargari/uril/shared_preference.dart';
+import 'package:amargari/view/common_view/all_drop_down_Item.dart';
+import 'package:amargari/view/common_view/edit_List_Item.dart';
+import 'package:amargari/view/profile/adddriver/DriverAddRemoveWidget.dart';
 import 'package:amargari/view/profile/adddriver/search_driver.dart';
+import 'package:amargari/view/profile/my_account_details_view.dart';
+import 'package:amargari/widgets/TextEditingControllerWithEndCursor.dart';
 import 'package:amargari/widgets/drop_down_list_border.dart';
-import 'package:amargari/widgets/drop_down_list_item.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:provider/provider.dart';
-import 'package:amargari/model/registration_model.dart';
-import 'package:amargari/providers/Status.dart';
 import 'package:amargari/providers/auth.dart';
-import 'package:amargari/uril/routes.dart';
-import 'package:amargari/uril/validators.dart';
 import 'package:amargari/widgets/widgets.dart';
 
 class DriverRegistration extends StatefulWidget {
@@ -29,12 +28,32 @@ class DriverRegistration extends StatefulWidget {
 void _loadData(BuildContext context) async {
   Provider.of<ServiceProvider>(context, listen: false)
       .getUserType(type: "DRIVER");
+  Future<UserInfoModel> getUserData() => UserPreferences().getUser();
+  getUserData().then((value) => {
+        print("UserId::::::: ${value.id}"),
+        Provider.of<ServiceProvider>(context, listen: false)
+            .getSearchDriverList(value.id!)
+      });
 }
 
 class _DriverRegistrationState extends State<DriverRegistration> {
   final formKey = new GlobalKey<FormState>();
   late String _username, _userNumber, _password, _confirmPassword;
   bool userTypeLoad = true;
+
+  var id = new TextEditingControllerWithEndCursor(text: '0');
+  var fullName = new TextEditingControllerWithEndCursor(text: '');
+  var mobileNumber = new TextEditingControllerWithEndCursor(text: '');
+  var password = new TextEditingControllerWithEndCursor(text: '1234');
+
+  void update(SearchDriverModel searchDriverModel) {
+    setState(() {
+      id.text = searchDriverModel.id.toString();
+      fullName.text = searchDriverModel.name!;
+      mobileNumber.text = searchDriverModel.mobileNo!;
+      password.text = searchDriverModel.password.toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +64,8 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     SelectedDropDown _selectedDropItem = Get.find();
 
     final fullNameField = TextFormField(
-      autofocus: true,
+      autofocus: false,
       focusNode: FocusNode(),
-      //validator: va,
-      //style: TextStyle(color: Colors.white),
       onSaved: (value) => _username = value!,
       textInputAction: TextInputAction.next,
       decoration: buildInputDecoration(
@@ -89,18 +106,18 @@ class _DriverRegistrationState extends State<DriverRegistration> {
       final form = formKey.currentState;
       if (form!.validate()) {
         form.save();
-
         Future<UserInfoModel> getUserData() => UserPreferences().getUser();
         getUserData().then((value) {
           if (_selectedDropItem.userTypeId != "" &&
-              _username != "" &&
-              _userNumber != "") {
+              fullName.text != "" &&
+              mobileNumber.text != "") {
             auth
                 .register(
+                    int.parse(id.text),
                     _selectedDropItem.userTypeId,
-                    _username,
-                    _userNumber,
-                    "1234",
+                    fullName.text,
+                    mobileNumber.text,
+                    password.text,
                     "",
                     "",
                     "",
@@ -115,17 +132,13 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                 .then((response) {
               print("response " + response.toString());
               if (response['status']) {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SearchDriver()));
-                // Navigator.pushReplacementNamed(context, MyRoutes.oTPRoute);
-                // RegistrationModel registrationModel = response['data'];
-                // registrationModel.result = _userNumber;
-                // Navigator.pushNamed(
-                //   context,
-                //   MyRoutes.oTPRoute,
-                //   arguments: registrationModel,
-                // );
+                setState(() {
+                  id.text = "";
+                  fullName.text = "";
+                  mobileNumber.text = "";
+                  password.text = "1234";
+                });
+                _loadData(context);
               } else {
                 Flushbar(
                   title: "Registration Failed",
@@ -153,89 +166,203 @@ class _DriverRegistrationState extends State<DriverRegistration> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("Driver Create"),
       ),
       body: Stack(
         children: <Widget>[
           Container(
-            decoration: linearGradientDecoration(),
-          ),
-          Center(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(16.0),
-              child: Consumer<ServiceProvider>(
-                  builder: (context, services, child) {
-                if (_selectedDropItem.userTypeId == "") {
-                  if (services.userTypeModel.isNotEmpty) {
+              decoration: BoxDecoration(
+                  color: Colors.white) //linearGradientDecoration(),
+              ),
+          SingleChildScrollView(
+            // padding: EdgeInsets.all(4.0),
+            child:
+                Consumer<ServiceProvider>(builder: (context, services, child) {
+              if (_selectedDropItem.userTypeId == "") {
+                if (services.userTypeModel.isNotEmpty) {
+                  _selectedDropItem.userTypeId =
+                      services.userTypeModel[0].id.toString();
+                  print(
+                      "vechileId 2  ${services.userTypeModel[0].id.toString()}");
+                }
+              } else {
+                if (services.userTypeModel.isNotEmpty) {
+                  bool exists = services.userTypeModel
+                      .any((file) => file.id == _selectedDropItem.userTypeId);
+
+                  if (!exists) {
                     _selectedDropItem.userTypeId =
                         services.userTypeModel[0].id.toString();
-                    print(
-                        "vechileId 2  ${services.userTypeModel[0].id.toString()}");
-                  }
-                } else {
-                  if (services.userTypeModel.isNotEmpty) {
-                    bool exists = services.userTypeModel
-                        .any((file) => file.id == _selectedDropItem.userTypeId);
-
-                    if (!exists) {
-                      _selectedDropItem.userTypeId =
-                          services.userTypeModel[0].id.toString();
-                    }
                   }
                 }
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Image.asset('assets/images/logo.png',
-                      //     height: 100, width: 100),
-                      SizedBox(height: 5.0),
-                      titleLabel("Driver Registration".tr()),
-                      SizedBox(height: 15.0),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.all(16.0),
-                            child: Form(
-                              key: formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 15.0),
-                                  label("Full name".tr()),
-                                  SizedBox(height: 5.0),
-                                  fullNameField,
-                                  SizedBox(height: 15.0),
-                                  label("Mobile Number".tr()),
-                                  SizedBox(height: 5.0),
-                                  usernameField,
-                                  SizedBox(height: 15.0),
-                                  label("Password Default".tr()),
-                                  SizedBox(height: 10.0),
-                                  passwordField,
-                                  SizedBox(height: 15.0),
-                                  label("User Type".tr()),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: DropDownBorderItem(
-                                        textTitle: "UserType :",
-                                        list: services.userTypeModel,
-                                        requestType: "UserType",
-                                        selectedItem:
-                                            _selectedDropItem.userTypeId),
-                                  ),
-                                  longButtons("Create".tr(), doRegister)
-                                ],
-                              ),
-                            ),
+              }
+              return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Card(
+                      child: Container(
+                        // padding: EdgeInsets.all(16.0),
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // SizedBox(height: 15.0),
+                              // label("Full name".tr()),
+                              SizedBox(height: 5.0),
+                              // fullNameField,
+                              EditListItem(
+                                  text: 'Full Name',
+                                  nameController: fullName,
+                                  hintText: "Enter full name",
+                                  isRequired: true),
+                              SizedBox(height: 15.0),
+                              // label("Mobile Number".tr()),
+                              // SizedBox(height: 5.0),
+                              // usernameField,
+                              EditListItem(
+                                  text: 'Mobile Number',
+                                  nameController: mobileNumber,
+                                  hintText: "Enter mobile number",
+                                  isRequired: true),
+                              SizedBox(height: 15.0),
+                              EditListItem(
+                                  text: 'Password (Default: 1234)',
+                                  nameController: password,
+                                  hintText: "Enter password",
+                                  obscureText: true,
+                                  isEditAble: false,
+                                  isRequired: true),
+                              SizedBox(height: 15.0),
+                              AllDropDownItem(
+                                  textTitle: "User Type",
+                                  list: services.userTypeModel,
+                                  requestType: "UserType",
+                                  isRequired: true,
+                                  selectedItem: _selectedDropItem.userTypeId),
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: longButtons(
+                                    "${id.text == "0" ? "Create" : "Update"}"
+                                        .tr(),
+                                    doRegister),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                    ]);
-              }),
-            ),
+                    ),
+                    services.searchDriverModel.length != 0
+                        ? new ListView.builder(
+                            itemCount: services.searchDriverModel.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return InkWell(
+                                onTap: () {
+                                  update(services.searchDriverModel[i]);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: new Card(
+                                    child: new ListTile(
+                                      leading: services.searchDriverModel[i]
+                                                      .profilePicture !=
+                                                  "" &&
+                                              services.searchDriverModel[i]
+                                                      .profilePicture !=
+                                                  null
+                                          ? new CircleAvatar(
+                                              backgroundImage: new NetworkImage(
+                                                  services.searchDriverModel[i]
+                                                      .profilePicture))
+                                          : CircleAvatar(
+                                              child: Image.asset(
+                                                  "assets/images/profile.png"),
+                                            ),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            flex: 8,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(services
+                                                          .searchDriverModel[i]
+                                                          .name ??
+                                                      ""),
+                                                  Text(services
+                                                          .searchDriverModel[i]
+                                                          .mobileNo ??
+                                                      ""),
+                                                ]),
+                                          ),
+                                          // DriverAddRemoveWidget(
+                                          //     searchDriverModel:
+                                          //         services.searchDriverModel[i])
+                                        ],
+                                      ),
+                                    ),
+                                    margin: const EdgeInsets.all(0.0),
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        : new ListView.builder(
+                            itemCount: services.searchDriverModel.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return new Card(
+                                child: new ListTile(
+                                    leading: services.searchDriverModel[i]
+                                                .profilePicture ==
+                                            ""
+                                        ? new CircleAvatar(
+                                            backgroundImage: new NetworkImage(
+                                              services.searchDriverModel[i]
+                                                  .profilePicture,
+                                            ),
+                                          )
+                                        : CircleAvatar(
+                                            child: Image.asset(
+                                                "assets/images/profile.png"),
+                                          ),
+                                    title: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 8,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                label(services
+                                                        .searchDriverModel[i]
+                                                        .name ??
+                                                    ""),
+                                                label(services
+                                                        .searchDriverModel[i]
+                                                        .mobileNo ??
+                                                    ""),
+                                              ]),
+                                        ),
+                                        DriverAddRemoveWidget(
+                                            searchDriverModel:
+                                                services.searchDriverModel[i])
+                                      ],
+                                    )),
+                                margin: const EdgeInsets.all(0.0),
+                              );
+                            },
+                          ),
+                  ]);
+            }),
           ),
         ],
       ),

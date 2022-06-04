@@ -113,6 +113,7 @@ class _RegisterState extends State<Register> {
         if(_selectedDropItem.userTypeId != "" && _username != "" && _userNumber != "" && _password != "") {
           auth
               .register(
+                0,
               _selectedDropItem.userTypeId,
               _username,
               _userNumber,

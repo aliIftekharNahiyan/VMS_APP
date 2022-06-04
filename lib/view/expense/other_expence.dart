@@ -174,6 +174,7 @@ class _OtherExpenseState extends State<OtherExpense> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text("Other Expense"),
         ),
         body: WillPopScope(
@@ -220,17 +221,6 @@ class _OtherExpenseState extends State<OtherExpense> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 ExpenseType()));
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             GarageDetailsView(
-                                    //               vcDataModel: GarageModel(),
-                                    //               requestType: "addFromService",
-                                    //               serviceDataModel:
-                                    //                   widget.serviceDataModel,
-                                    //               vehicleId: widget.vehicleId,
-                                    //             )));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.fromLTRB(

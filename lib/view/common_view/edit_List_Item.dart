@@ -24,6 +24,7 @@ class EditListItem extends StatefulWidget {
       this.isRequired = false,
       this.hintText = '',
       this.multiLine = false,
+      this.obscureText = false,
       required this.nameController});
 
   final String text, images;
@@ -37,6 +38,7 @@ class EditListItem extends StatefulWidget {
   final bool isRequired;
   final String hintText;
   final bool multiLine;
+  final bool obscureText;
   TextEditingController nameController;
 
   @override
@@ -128,30 +130,29 @@ class _EditListItemState extends State<EditListItem> {
 
   @override
   void initState() {
+    if (widget.nameController.text == "null") {
+      widget.nameController.text = "";
+    }
     if (widget.isDate) {
-      widget.nameController.text =
-          DateFormat('dd-MMM-yyyy').format(DateTime.now());
+      if (widget.nameController.text == "") {
+        widget.nameController.text =
+            DateFormat('dd-MMM-yyyy').format(DateTime.now());
+      }
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.nameController.text == "null") {
+      widget.nameController.text = "";
+    }
     if (_image != null) {
       if (imageUploadRequest) {
         imageUploadRequest = false;
         imageUpload(context, _image.path);
       }
     }
-
-    //  DateTime _selectedDate;
-    // getUserData.then((user) => setState(()
-    // {
-    //   uploadFile(_image, widget.images, user.name, user.mobileNo, context);
-    // }
-    // ));
-    // print("fuelSlipImgURL:  "+AppConstant.fuelSlipImgURL);
-    //Method for showing the date picker
     void _pickDateDialog() {
       showDatePicker(
               context: context,
@@ -191,48 +192,6 @@ class _EditListItemState extends State<EditListItem> {
         });
     }
 
-    // Future<void> _pickTimeDialog() async {
-    //
-    //   final TimeOfDay? _timePicked = await showTimePicker(
-    //     context: context,
-    //     initialTime: TimeOfDay.now(),
-    //   );
-    //   if (_timePicked != null) {
-    //     // _dt = DateTime(
-    //     //   _selectedDate.year,
-    //     //   _selectedDate.month,
-    //     //   _selectedDate.day,
-    //       _timePicked.hour,
-    //       _timePicked.minute,
-    //     );
-    //     setState(() {
-    //       eventStartTimeController.text = DateFormat('h:mm a')
-    //           .format(_timePicked.hour: _t); //_timePicked.format(context);
-    //       eventProvider.changeeventstarttime(_dt);
-    //     });
-    //   }
-    //   // final TimeOfDay _timePicked = showTimePicker(
-    //   //     context: context,
-    //   //     initialTime: TimeOfDay.now(),
-    //   //     //which date will display when user open the picker
-    //   //     )
-    //   //
-    //   // //what will be the up to supported date in picker
-    //   //     .then((pickedTime) {
-    //   //   //then usually do the future job
-    //   //   if (pickedTime == null) {
-    //   //     //if user tap cancel then this function will stop
-    //   //     return;
-    //   //   }
-    //   //   setState(() {
-    //   //     //String formattedDate = DateFormat('dd-MMM-yyyy').format(pickedTime);
-    //   //     //for rebuilding the u
-    //   //     widget.nameController.text =
-    //   //         DateFormat('h:mm a')
-    //   //             .format(pickedTime ? ""); //  _selectedDate = pickedDate;
-    //   //   });
-    //   // });
-    // }
     void _pickYearDialog() {
       showDialog(
         context: context,
@@ -293,6 +252,7 @@ class _EditListItemState extends State<EditListItem> {
                   ? TextField(
                       controller: widget.nameController,
                       enabled: true,
+                      obscureText: widget.obscureText,
                       textInputAction: TextInputAction.next,
                       decoration:
                           commonInputDecoration(widget.text, widget.hintText),
@@ -323,6 +283,7 @@ class _EditListItemState extends State<EditListItem> {
                       textInputAction: TextInputAction.next,
                       maxLines: widget.multiLine ? 5 : 1,
                       minLines: widget.multiLine ? 2 : 1,
+                      obscureText: widget.obscureText,
                       decoration:
                           commonInputDecoration(widget.text, widget.hintText),
                       onTap: () {

@@ -6,8 +6,10 @@ import 'package:amargari/providers/common_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/TripManagement/TripManagementHome.dart';
+import 'package:amargari/view/authentication/driver_registration.dart';
 import 'package:amargari/view/map/show_info_map.dart';
 import 'package:amargari/view/monthly_report.dart';
+import 'package:amargari/view/profile/adddriver/search_driver.dart';
 import 'package:amargari/widgets/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:amargari/view/Service/service_list_view.dart';
@@ -146,50 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               color: Colors.blueGrey[800])
                                         ]),
                                   ),
-                                )
-                                // Container(
-                                //   height: 200,
-                                //   child: Card(
-                                //       semanticContainer: true,
-                                //       color: Color.fromARGB(255, 245, 184, 105),
-                                //       child: Padding(
-                                //         padding: const EdgeInsets.all(8.0),
-                                //         child: Column(
-                                //           mainAxisAlignment:
-                                //               MainAxisAlignment.start,
-                                //           crossAxisAlignment:
-                                //               CrossAxisAlignment.start,
-                                //           children: [
-                                //             SizedBox(height: 5),
-                                //             Text(
-                                //               "You may need",
-                                //               textAlign: TextAlign.center,
-                                //               style: TextStyle(
-                                //                   fontSize: 18,
-                                //                   fontWeight: FontWeight.bold),
-                                //             ),
-                                //             Divider(
-                                //               height: 10,
-                                //               color: Colors.white,
-                                //             ),
-                                //             for (var string in snapshot
-                                //                     .data!.data!.needToknow ??
-                                //                 [])
-                                //               Padding(
-                                //                 padding:
-                                //                     const EdgeInsets.all(2.0),
-                                //                 child: Text(
-                                //                   " * $string",
-                                //                   style: TextStyle(fontSize: 13),
-                                //                   maxLines: 2,
-                                //                   overflow: TextOverflow.ellipsis,
-                                //                 ),
-                                //               )
-                                //           ],
-                                //         ),
-                                //       )),
-                                // ),
-                                ),
+                                )),
                             Expanded(
                               flex: 50,
                               child: Container(
@@ -228,12 +187,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                               height: 10,
                                               color: Colors.white,
                                             ),
-                                            SizedBox(height: 5),
-                                            Text(
-                                                "Total Fuel: ${snapshot.data!.data!.monthlyReport!.analytics![0].data!.fuel}",
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.white)),
+                                            // SizedBox(height: 5),
+                                            // Text(
+                                            //     "Total Fuel: ${snapshot.data!.data!.monthlyReport!.analytics![0].data!.fuel}",
+                                            //     style: TextStyle(
+                                            //         fontSize: 13,
+                                            //         color: Colors.white)),
                                             SizedBox(height: 5),
                                             Text(
                                                 "Fuel Cost: ${snapshot.data!.data!.monthlyReport!.analytics![0].data!.fuelCost}",
@@ -246,13 +205,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     color: Colors.white)),
-                                            SizedBox(height: 5),
-                                            Text(
-                                              "Total Earn: ${snapshot.data!.data!.monthlyReport!.analytics![0].data!.totalEarned}",
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: Colors.white),
-                                            ),
+                                            // SizedBox(height: 5),
+                                            // Text(
+                                            //   "Total Earn: ${snapshot.data!.data!.monthlyReport!.analytics![0].data!.totalEarned}",
+                                            //   style: TextStyle(
+                                            //       fontSize: 13,
+                                            //       color: Colors.white),
+                                            // ),
                                             SizedBox(height: 5),
                                             Text(
                                               "Servicing: ${snapshot.data!.data!.monthlyReport!.analytics![0].data!.servicing}",
@@ -386,6 +345,144 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       ),
+                      if (AppConstant.userTypeId != 2) ...[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Driver Info"),
+                        ),
+                        GridView.count(
+                          physics: NeverScrollableScrollPhysics(),
+                          crossAxisCount: 3,
+                          shrinkWrap: true,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DriverRegistration()));
+                                },
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Material(
+                                            shape: CircleBorder(),
+                                            elevation: 1.0,
+                                            child: Image.asset(
+                                              "assets/images/createdriver.png",
+                                              fit: BoxFit.fitWidth,
+                                              height: 80,
+                                              width: 80,
+                                            ),
+                                          ),
+                                          SizedBox(height: 6.0),
+                                          Text(
+                                            "Driver Create",
+                                            style: TextStyle(fontSize: 10),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SearchDriver(
+                                                title: "Driver Settings",
+                                                isSettings: true,
+                                              )));
+                                },
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Material(
+                                            shape: CircleBorder(),
+                                            elevation: 1.0,
+                                            child: Image.asset(
+                                              "assets/images/drivercarsetting.png",
+                                              fit: BoxFit.fitWidth,
+                                              height: 80,
+                                              width: 80,
+                                              // color: Colors.white,
+                                            ),
+                                          ),
+                                          SizedBox(height: 6.0),
+                                          Text(
+                                            "Driver Settings",
+                                            style: TextStyle(fontSize: 10),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SearchDriver(
+                                                title: "Driver Info",
+                                              )));
+                                },
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Material(
+                                            shape: CircleBorder(),
+                                            elevation: 1.0,
+                                            child: Image.asset(
+                                              "assets/images/driverinfo.png",
+                                              fit: BoxFit.fitWidth,
+                                              height: 80,
+                                              width: 80,
+                                              // color: Colors.white,
+                                            ),
+                                          ),
+                                          SizedBox(height: 6.0),
+                                          Text(
+                                            "Driver Info",
+                                            style: TextStyle(fontSize: 10),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text("Emergency"),
@@ -411,8 +508,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                ShowInfoOnMap(infoTypeId: e.id)));
+                                            builder: (context) => ShowInfoOnMap(
+                                                infoTypeId: e.id,
+                                                title: e.informationTypeName)));
                                     // Get.to(ShowInfoOnMap(infoTypeId: e.id));
                                   }
                                 },
@@ -452,58 +550,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ),
                             );
-                            // Container(
-                            //   padding: EdgeInsets.all(0),
-                            //   child: Card(
-                            //     child: Padding(
-                            //       padding: const EdgeInsets.all(8.0),
-                            //       child: Center(
-                            //         child: Column(
-                            //           mainAxisSize: MainAxisSize.min,
-                            //           children: [
-                            //             Material(
-                            //               shape: CircleBorder(),
-                            //               elevation: 1.0,
-                            //               child: Image.asset(
-                            //                 "assets/images/mechanic.png",
-                            //                 fit: BoxFit.fitWidth,
-                            //                 height: 50,
-                            //                 width: 50,
-                            //               ),
-                            //             ),
-                            //             SizedBox(height: 6.0),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            // Container(
-                            //   padding: EdgeInsets.all(0),
-                            //   child: Card(
-                            //     child: Padding(
-                            //       padding: const EdgeInsets.all(8.0),
-                            //       child: Center(
-                            //         child: Column(
-                            //           mainAxisSize: MainAxisSize.min,
-                            //           children: [
-                            //             Material(
-                            //               shape: CircleBorder(),
-                            //               elevation: 1.0,
-                            //               child: Image.asset(
-                            //                 "assets/images/statistics.png",
-                            //                 fit: BoxFit.fitWidth,
-                            //                 height: 50,
-                            //                 width: 50,
-                            //               ),
-                            //             ),
-                            //             SizedBox(height: 6.0),
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                           })
                         ],
                       )

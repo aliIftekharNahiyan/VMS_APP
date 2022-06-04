@@ -44,6 +44,7 @@ class _DetailsBodyState extends State<DetailsBody> {
 
   var fatherMobileNo = new TextEditingControllerWithEndCursor(text: '');
   var spouseMobileNo = new TextEditingControllerWithEndCursor(text: '');
+  var referanceController = new TextEditingControllerWithEndCursor(text: '');
 
   var joiningDate = new TextEditingControllerWithEndCursor(text: '');
 
@@ -60,6 +61,7 @@ class _DetailsBodyState extends State<DetailsBody> {
 
   // static String username = "Md. Tariqul Islam";
   static bool isEditAble = true;
+  static bool isDownloadAble = false;
   var userTypeId = "";
 
   Future<void> getDriverProfile(String userId) async {
@@ -72,12 +74,16 @@ class _DetailsBodyState extends State<DetailsBody> {
       setState(() {
         updateModel(authUser.userinfo);
         isEditAble = false;
+        isDownloadAble = true;
       });
     } else {}
   }
 
   updateModel(value) {
+    AppConstant.userTypeId = value.userTypeId;
     userTypeId = value.userTypeId.toString();
+    referanceController =
+        new TextEditingControllerWithEndCursor(text: value.reference ?? "");
     nameController =
         new TextEditingControllerWithEndCursor(text: value.name ?? "");
     mobileNumber =
@@ -143,6 +149,7 @@ class _DetailsBodyState extends State<DetailsBody> {
     } else {
       getUserData.then((value) => setState(() {
             updateModel(value);
+            isEditAble = false;
           }));
     }
 
@@ -179,10 +186,11 @@ class _DetailsBodyState extends State<DetailsBody> {
               AppConstant.DP_URL,
               AppConstant.BD_URL2,
               fatherMobileNo.text,
-              spouseMobileNo.text)
+              spouseMobileNo.text,
+              referanceController.text)
           .then((response) {
         //print("profileupdate "+response );
-        snackBar(context, "Successfully updated");
+        snackBar(context, "Successfully updated", success: true);
 
         Navigator.pop(context);
         Navigator.pop(context);
@@ -200,128 +208,153 @@ class _DetailsBodyState extends State<DetailsBody> {
           EditListItem(
             text: 'Full Name',
             nameController: nameController,
-            isEditAble: isEditAble,
-            hintText: "Type your name",
+            isEditAble: widget.userId == "",
+            hintText: !(widget.userId == "") ? 'n/a' : "Type your name",
           ),
           SizedBox(height: 5),
           EditListItem(
               text: 'Mobile No',
               nameController: mobileNumber,
               isEditAble: false,
-              hintText: 'Type your mobile number'),
+              hintText:
+                  !(widget.userId == "") ? 'n/a' : 'Type your mobile number'),
           SizedBox(height: 5),
           if (AppConstant.userTypeId != 3) ...[
-            ImageUploadViewItem(
-                text: 'Birth certificate 1',
-                nameController: birthDayCirtificate1,
-                isVisible: true,
-                isEditable: isEditAble,
-                images: "bc1"),
-            SizedBox(height: 5),
-            ImageUploadViewItem(
-                text: 'Birth certificate 2',
-                nameController: birthDayCirtificate2,
-                isEditable: isEditAble,
-                isVisible: true,
-                images: "bc2"),
-            SizedBox(height: 5),
+            if (AppConstant.userTypeId != 1) ...[
+              ImageUploadViewItem(
+                  text: 'Birth certificate 1',
+                  nameController: birthDayCirtificate1,
+                  isVisible: true,
+                  isDownloadAble: widget.userId != "",
+                  isEditable: widget.userId == "",
+                  images: "bc1"),
+              SizedBox(height: 5),
+              ImageUploadViewItem(
+                  text: 'Birth certificate 2',
+                  nameController: birthDayCirtificate2,
+                  isEditable: widget.userId == "",
+                  isDownloadAble: widget.userId != "",
+                  isVisible: true,
+                  images: "bc2"),
+              SizedBox(height: 5),
+            ],
             ImageUploadViewItem(
                 text: 'NID',
                 nameController: nID,
                 isVisible: true,
-                isEditable: isEditAble,
+                isDownloadAble: widget.userId != "",
+                isEditable: widget.userId == "",
                 images: "nid"),
             SizedBox(height: 5),
-            ImageUploadViewItem(
-                text: 'Chairman Certificate 1',
-                nameController: chairmanCirtificate1,
-                isVisible: true,
-                isEditable: isEditAble,
-                images: "cc1"),
-            SizedBox(height: 5),
-            ImageUploadViewItem(
-                text: 'Chairman Certificate 2',
-                nameController: chairmanCirtificate2,
-                isVisible: true,
-                isEditable: isEditAble,
-                images: "cc2"),
-            SizedBox(height: 5),
+            if (AppConstant.userTypeId != 1) ...[
+              ImageUploadViewItem(
+                  text: 'Chairman Certificate 1',
+                  nameController: chairmanCirtificate1,
+                  isVisible: true,
+                  isDownloadAble: widget.userId != "",
+                  isEditable: widget.userId == "",
+                  images: "cc1"),
+              SizedBox(height: 5),
+              ImageUploadViewItem(
+                  text: 'Chairman Certificate 2',
+                  nameController: chairmanCirtificate2,
+                  isVisible: true,
+                  isDownloadAble: widget.userId != "",
+                  isEditable: widget.userId == "",
+                  images: "cc2"),
+              SizedBox(height: 5),
+            ],
             ImageUploadViewItem(
                 text: 'Driver Image',
                 nameController: driverImage,
-                isEditable: isEditAble,
+                isEditable: widget.userId == "",
+                isDownloadAble: widget.userId != "",
                 isVisible: true,
                 images: "driverImage"),
             SizedBox(height: 5),
-            ImageUploadViewItem(
-                text: 'Bio Data',
-                nameController: bioData,
-                isEditable: isEditAble,
-                isVisible: true,
-                images: "bioData"),
-            SizedBox(height: 5),
+            if (AppConstant.userTypeId != 1) ...[
+              ImageUploadViewItem(
+                  text: 'Bio Data',
+                  nameController: bioData,
+                  isEditable: widget.userId == "",
+                  isDownloadAble: widget.userId != "",
+                  isVisible: true,
+                  images: "bioData"),
+              SizedBox(height: 5),
+            ],
             EditListItem(
               text: 'Address',
               nameController: address,
-              isEditAble: isEditAble,
-              hintText: "Type your address",
+              isEditAble: widget.userId == "",
+              hintText: !(widget.userId == "") ? 'n/a' : "Type your address",
             ),
             SizedBox(height: 5),
-            EditListItem(
-              text: 'Gender',
-              nameController: gender,
-              isEditAble: isEditAble,
-              hintText: "Type your gender",
-            ),
-            SizedBox(height: 5),
+            if (AppConstant.userTypeId != 1) ...[
+              EditListItem(
+                text: 'Gender',
+                nameController: gender,
+                isEditAble: widget.userId == "",
+                hintText: !(widget.userId == "") ? 'n/a' : "Type your gender",
+              ),
+              SizedBox(height: 5),
+            ],
             EditListItem(
                 text: 'Father mobile No',
                 nameController: fatherMobileNo,
-                isEditAble: isEditAble,
-                hintText: 'Type your father mobile number'),
+                isEditAble: widget.userId == "",
+                hintText: !(widget.userId == "")
+                    ? 'n/a'
+                    : 'Type your father mobile number'),
             SizedBox(height: 5),
             EditListItem(
                 text: 'Spouse mobile No',
                 nameController: spouseMobileNo,
-                isEditAble: isEditAble,
-                hintText: 'Type your spouse mobile number'),
+                isEditAble: widget.userId == "",
+                hintText: !(widget.userId == "")
+                    ? 'n/a'
+                    : 'Type your spouse mobile number'),
             SizedBox(height: 5),
             ImageUploadViewItem(
                 text: 'Driving License',
                 nameController: drivingLicense,
                 isVisible: true,
-                isEditable: isEditAble,
+                isEditable: widget.userId == "",
+                isDownloadAble: widget.userId != "",
                 images: "drivingLicense"),
             SizedBox(height: 5),
-            EditListItem(
-                text: 'Joining date',
-                nameController: joiningDate,
-                isDate: true,
-                isFutureDate: true,
-                isEditAble: isEditAble,
-                hintText: "Click to select date"),
-            SizedBox(height: 5),
+            if (AppConstant.userTypeId != 1) ...[
+              EditListItem(
+                  text: 'Joining date',
+                  nameController: joiningDate,
+                  isDate: true,
+                  isFutureDate: true,
+                  isEditAble: widget.userId == "",
+                  hintText:
+                      !(widget.userId == "") ? 'n/a' : "Click to select date"),
+              SizedBox(height: 5),
+            ],
             EditListItem(
                 text: 'License expiry date',
                 nameController: licenseExpiryDate,
                 isDate: true,
-                isEditAble: isEditAble,
+                isEditAble: widget.userId == "",
                 isFutureDate: true,
-                hintText: "Click to select date"),
+                hintText:
+                    !(widget.userId == "") ? 'n/a' : "Click to select date"),
           ],
           SizedBox(height: 5),
           if (AppConstant.userTypeId == 2) ...[
             EditListItem(
                 text: 'Salary',
                 nameController: salary,
-                isEditAble: isEditAble,
-                hintText: "Type your salary"),
+                isEditAble: widget.userId == "",
+                hintText: !(widget.userId == "") ? 'n/a' : "Type your salary"),
             SizedBox(height: 5),
             EditListItem(
                 text: 'Bonus',
                 nameController: bouns,
-                isEditAble: isEditAble,
-                hintText: "Type your bonus"),
+                isEditAble: widget.userId == "",
+                hintText: !(widget.userId == "") ? 'n/a' : "Type your bonus"),
             SizedBox(height: 5),
           ],
           if (AppConstant.userTypeId == 3) ...[
@@ -329,21 +362,32 @@ class _DetailsBodyState extends State<DetailsBody> {
                 text: 'Trade License',
                 nameController: tradeLicense,
                 isVisible: true,
-                isEditable: isEditAble,
+                isDownloadAble: widget.userId != "",
+                isEditable: widget.userId == "",
                 images: "TradeLicense"),
             SizedBox(height: 5),
             EditListItem(
                 text: 'Tin Bin:',
                 nameController: tinBin,
-                isEditAble: isEditAble,
-                hintText: "Type your tin bin"),
+                isEditAble: widget.userId == "",
+                hintText: !(widget.userId == "") ? 'n/a' : "Type your tin bin"),
             SizedBox(height: 5),
           ],
-          widget.userId == "" ?
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: longButtons("SAVE", doUpdate),
-          ): Container(),
+          if (AppConstant.userTypeId == 2) ...[
+            EditListItem(
+                text: 'Referance',
+                nameController: referanceController,
+                isEditAble: widget.userId == "",
+                multiLine: true,
+                hintText: !(widget.userId == "") ? 'n/a' : "Type referance"),
+            SizedBox(height: 5),
+          ],
+          widget.userId == ""
+              ? Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: longButtons("SAVE", doUpdate),
+                )
+              : Container(),
         ],
       ),
     );

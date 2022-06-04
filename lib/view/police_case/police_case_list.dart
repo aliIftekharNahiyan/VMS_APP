@@ -52,6 +52,7 @@ class _PoliceCaseViewState extends State<PoliceCaseView> {
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(widget.title),
       ),
       body: FutureBuilder<List<PoliceCaseModel>>(
@@ -88,7 +89,8 @@ class _PoliceCaseViewState extends State<PoliceCaseView> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(3.0),
                                     child:
-                                        policeCaseModel.policeCaseList?.img == ""
+                                        policeCaseModel.policeCaseList?.img ==
+                                                ""
                                             ? Image.asset(
                                                 "assets/icons/edit_image.png",
                                                 height: 100,

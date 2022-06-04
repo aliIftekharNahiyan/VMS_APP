@@ -12,7 +12,7 @@ import 'package:amargari/widgets/widgets.dart';
 class FilePickerDemo extends StatefulWidget {
   //FilePickerDemo(var images);
 
-  FilePickerDemo({ required this.requestFileType, required this.imageURL}) ;
+  FilePickerDemo({required this.requestFileType, required this.imageURL});
   final String requestFileType;
   final String imageURL;
 
@@ -21,7 +21,6 @@ class FilePickerDemo extends StatefulWidget {
 }
 
 class _FilePickerDemoState extends State<FilePickerDemo> {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String? _fileName;
   List<PlatformFile>? _paths;
@@ -29,7 +28,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
   String? _extension;
   bool _loadingPath = false;
   bool _multiPick = false;
-  FileType  _pickingType = FileType.any;
+  FileType _pickingType = FileType.any;
   TextEditingController _controller = TextEditingController();
 
   _FilePickerDemoState();
@@ -63,7 +62,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
       _loadingPath = false;
       print(_paths!.first.extension);
       _fileName =
-      _paths != null ? _paths!.map((e) => e.name).toString() : '...';
+          _paths != null ? _paths!.map((e) => e.name).toString() : '...';
     });
   }
 
@@ -88,77 +87,70 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
 
   @override
   Widget build(BuildContext context) {
-   CommonProvider commonProvider = Provider.of<CommonProvider>(context);
-   var getUserData  = UserPreferences().getUser();
-   var doUploadFile = (String path) {
-     snackBar(context,"Start to upload image, please wait");
+    CommonProvider commonProvider = Provider.of<CommonProvider>(context);
+    var getUserData = UserPreferences().getUser();
+    var doUploadFile = (String path) {
+      snackBar(context, "Start to upload image, please wait");
 
-     getUserData.then((user) => setState(() {
-       print("path:  " + path);
-       final Future<String> url = commonProvider.uploadImage(
-           user.name ?? "", user.mobileNo ?? "",  path);
-       url.then((value){
-         print("Response output " + value);
+      getUserData.then((user) => setState(() {
+            print("path:  " + path);
+            final Future<String> url = commonProvider.uploadImage(
+                user.name ?? "", user.mobileNo ?? "", path);
+            url.then((value) {
+              print("Response output " + value);
 
+              if (widget.requestFileType == "nid") {
+                AppConstant.NidURL = value;
+              } else if (widget.requestFileType == "drivingLicense") {
+                AppConstant.drivingLicenseURL = value;
+              } else if (widget.requestFileType == "VehicleImage") {
+                AppConstant.vehicleImageURL = value;
+              } else if (widget.requestFileType == "AccidentImage") {
+                AppConstant.accidentImageURL = value;
+              } else if (widget.requestFileType == "InsuranceImgURL") {
+                AppConstant.insuranceImgURL = value;
+              } else if (widget.requestFileType == "FuelSlipImage") {
+                AppConstant.fuelSlipImgURL = value;
+              }
 
-         if (widget.requestFileType == "nid") {
-           AppConstant.NidURL = value;
-         }else if (widget.requestFileType == "drivingLicense") {
-           AppConstant.drivingLicenseURL = value;
-         }else if (widget.requestFileType == "VehicleImage") {
-           AppConstant.vehicleImageURL = value;
-         }else if (widget.requestFileType == "AccidentImage") {
-           AppConstant.accidentImageURL = value;
-         }
-         else if (widget.requestFileType == "InsuranceImgURL") {
-           AppConstant.insuranceImgURL = value;
-         }  else if (widget.requestFileType == "FuelSlipImage") {
-           AppConstant.fuelSlipImgURL = value;
-         }
-
-         snackBar(context,"Successfully upload user Image");
-         print("fuelSlipImgURL:  "+AppConstant.fuelSlipImgURL);
-       }
-       );
-
-     }
-
-
-     ));
+              snackBar(context, "Successfully upload user Image");
+              print("fuelSlipImgURL:  " + AppConstant.fuelSlipImgURL);
+            });
+          }));
     };
     return Scaffold(
-       appBar: AppBar(
-         title: Text("File Picker"),
-       ),
-        key: _scaffoldKey,
-        body: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-              child: SingleChildScrollView(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text("File Picker"),
+      ),
+      key: _scaffoldKey,
+      body: Center(
+          child: Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 50.0, bottom: 20.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    Text(
+                      "Your Image",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 5),
+                    Image.network(
+                      widget.imageURL,
+                      height: 200,
+                    ),
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => _openFileExplorer(),
+                      child: const Text("Select file or Image"),
+                    ),
 
-                    Padding(
-                      padding: const EdgeInsets.only(top: 50.0, bottom: 20.0),
-                      child: Column(
-                        children: <Widget>[
-
-                          Text("Your Image", style: TextStyle(fontSize: 16),),
-                          SizedBox(height: 5),
-                          Image.network(
-                            widget.imageURL,
-                            height: 200,
-                          ),
-                          SizedBox(height: 16),
-
-                          ElevatedButton(
-                            onPressed: () => _openFileExplorer(),
-                            child: const Text("Select file or Image"),
-                          ),
-
-
-                         /* ElevatedButton(
+                    /* ElevatedButton(
                             onPressed: () => _selectFolder(),
                             child: const Text("Pick folder"),
                           ),
@@ -166,86 +158,87 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
                             onPressed: () => _clearCachedFiles(),
                             child: const Text("Clear temporary files"),
                           ),*/
-                        ],
-                      ),
-                    ),
-                    Builder(
-                      builder: (BuildContext context) => _loadingPath
-                          ? Padding(
+                  ],
+                ),
+              ),
+              Builder(
+                builder: (BuildContext context) => _loadingPath
+                    ? Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: const CircularProgressIndicator(),
                       )
-                          : _directoryPath != null
-                          ? ListTile(
-                        title: const Text('Directory path'),
-                        subtitle: Text(_directoryPath!),
-                      )
-                          : _paths != null
-                          ? Container(
-                        padding: const EdgeInsets.only(bottom: 30.0),
-                        height:
-                        MediaQuery.of(context).size.height * 0.50,
-                        child: Scrollbar(
-                            child: ListView.separated(
-                              itemCount:
-                              _paths != null && _paths!.isNotEmpty
-                                  ? _paths!.length
-                                  : 1,
-                              itemBuilder:
-                                  (BuildContext context, int index) {
-                                final bool isMultiPath =
-                                    _paths != null && _paths!.isNotEmpty;
-                                final String name = 'File $index: ' +
-                                    (isMultiPath
-                                        ? _paths!
-                                        .map((e) => e.name)
+                    : _directoryPath != null
+                        ? ListTile(
+                            title: const Text('Directory path'),
+                            subtitle: Text(_directoryPath!),
+                          )
+                        : _paths != null
+                            ? Container(
+                                padding: const EdgeInsets.only(bottom: 30.0),
+                                height:
+                                    MediaQuery.of(context).size.height * 0.50,
+                                child: Scrollbar(
+                                    child: ListView.separated(
+                                  itemCount:
+                                      _paths != null && _paths!.isNotEmpty
+                                          ? _paths!.length
+                                          : 1,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final bool isMultiPath =
+                                        _paths != null && _paths!.isNotEmpty;
+                                    final String name = 'File $index: ' +
+                                        (isMultiPath
+                                            ? _paths!
+                                                .map((e) => e.name)
+                                                .toList()[index]
+                                            : _fileName ?? '...');
+                                    final path = _paths!
+                                        .map((e) => e.path)
                                         .toList()[index]
-                                        : _fileName ?? '...');
-                                final path = _paths!
-                                    .map((e) => e.path)
-                                    .toList()[index]
-                                    .toString();
+                                        .toString();
 
-                                return Column(
-                                  children: [
-                                   /* ListTile(
+                                    return Column(
+                                      children: [
+                                        /* ListTile(
                                       title: Text(
                                         name,
                                       ),
                                       subtitle: Text("File Path: "+path),
 
                                     ),*/
-                                    //Image.file(new File(path), height: 200),
-                                    Text("do you want to upload new Image?", style: TextStyle(fontSize: 16),),
-                                    SizedBox(height: 5),
+                                        //Image.file(new File(path), height: 200),
+                                        Text(
+                                          "do you want to upload new Image?",
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                        SizedBox(height: 5),
 
-                                    Image.network(
-                                      widget.imageURL,
-                                      height: 200,
-                                    ),
+                                        Image.network(
+                                          widget.imageURL,
+                                          height: 200,
+                                        ),
 
-                                    SizedBox(height: 10.0),
-                                    //longButtons("Upload", doUploadFile(path))
-                                    ElevatedButton(
-
-                                      onPressed: () => doUploadFile(path),
-                                      child: const Text("Upload"),
-                                    ),
-                                    ],
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                              const Divider(),
-                            )),
-                      )
-                          : const SizedBox(),
-                    ),
-                  ],
-                ),
+                                        SizedBox(height: 10.0),
+                                        //longButtons("Upload", doUploadFile(path))
+                                        ElevatedButton(
+                                          onPressed: () => doUploadFile(path),
+                                          child: const Text("Upload"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          const Divider(),
+                                )),
+                              )
+                            : const SizedBox(),
               ),
-            ))
-      ,
+            ],
+          ),
+        ),
+      )),
     );
   }
 }

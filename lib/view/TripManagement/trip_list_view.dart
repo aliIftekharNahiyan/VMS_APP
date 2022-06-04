@@ -46,6 +46,7 @@ class _TripListViewState extends State<TripListView> {
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(widget.title),
       ),
       body: FutureBuilder<List<TripListModel>>(

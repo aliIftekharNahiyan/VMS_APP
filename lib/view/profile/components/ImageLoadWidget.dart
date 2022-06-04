@@ -160,7 +160,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.expenseSlipURL);
         },
-        child: AppConstant.vehicleImageURL == "" || AppConstant.vehicleImageURL == "null"
+        child: AppConstant.expenseSlipURL == "" || AppConstant.expenseSlipURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.expenseSlipURL,

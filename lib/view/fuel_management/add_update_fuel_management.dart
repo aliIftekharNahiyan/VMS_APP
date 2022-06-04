@@ -124,7 +124,8 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
       //   return;
       // }
 
-      if (amount.text != "" && _selectedDropItem.vehicleId != "" &&
+      if (amount.text != "" &&
+          _selectedDropItem.vehicleId != "" &&
           _selectedDropItem.driverId != "" &&
           fuelTaken.text != "" &&
           fuelTime.text != "") {
@@ -171,6 +172,7 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("Fuel Details"),
       ),
       body: SingleChildScrollView(
@@ -228,11 +230,19 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
                 ),
                 SizedBox(height: 10),
                 EditListItem(
-                  text: 'Amount',
+                  text: 'Money Amount',
                   nameController: amount,
                   isNumber: true,
                   isRequired: true,
-                  hintText: 'Type fuel paid amount',
+                  hintText: 'Type money amount',
+                ),
+                SizedBox(height: 10),
+                EditListItem(
+                  text: 'Fuel Volume',
+                  nameController: fuelTaken,
+                  isRequired: true,
+                  hintText: "Type fuel volume",
+                  isNumber: true,
                 ),
                 SizedBox(height: 10),
                 ImageUploadViewItem(
@@ -241,34 +251,34 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
                     isVisible: true,
                     images: AppConstant.fuelSlipImg),
 
-                SizedBox(height: 10),
+                // SizedBox(height: 10),
                 // AccountItem(
                 //     text: 'Have Fuel Alert:',
                 //     nameController: haveFuelAlert
                 // ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(30, 0, 20, 0),
-                  child: Row(children: [
-                    Expanded(
-                      child: Text("Have Fuel Alert",
-                          style: TextStyle(fontSize: 17)),
-                    ),
-                    SizedBox(width: 1),
-                    CupertinoSwitch(
-                      value: _switchValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _switchValue = value;
-                          if (_switchValue) {
-                            haveFuelAlert.text = "1";
-                          } else {
-                            haveFuelAlert.text = "0";
-                          }
-                        });
-                      },
-                    ),
-                  ]),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.fromLTRB(30, 0, 20, 0),
+                //   child: Row(children: [
+                //     Expanded(
+                //       child: Text("Have Fuel Alert",
+                //           style: TextStyle(fontSize: 17)),
+                //     ),
+                //     SizedBox(width: 1),
+                //     CupertinoSwitch(
+                //       value: _switchValue,
+                //       onChanged: (value) {
+                //         setState(() {
+                //           _switchValue = value;
+                //           if (_switchValue) {
+                //             haveFuelAlert.text = "1";
+                //           } else {
+                //             haveFuelAlert.text = "0";
+                //           }
+                //         });
+                //       },
+                //     ),
+                //   ]),
+                // ),
 
                 SizedBox(height: 10),
                 EditListItem(
@@ -284,14 +294,7 @@ class _AddUpdateFuelManagementState extends State<AddUpdateFuelManagement> {
                     list: services.vehicleEnergyType,
                     requestType: "getVehicleEnergyType",
                     selectedItem: _selectedDropItem.vehicleEnergyTypeId),
-                SizedBox(height: 10),
-                EditListItem(
-                  text: 'Fuel Amount',
-                  nameController: fuelTaken,
-                  isRequired: true,
-                  hintText: "Type fuel amount",
-                  isNumber: true,
-                ),
+
                 SizedBox(height: 10),
                 AllDropDownItem(
                     textTitle: "Vehicle",

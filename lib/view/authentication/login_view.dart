@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
           // padding: EdgeInsets.all(0.0),
           child: label("Forgot password?".tr()),
           onPressed: () {
-            displayTextInputDialog(context);
+             displayTextInputDialog(context, mobile: null);
           },
         ),
         TextButton(

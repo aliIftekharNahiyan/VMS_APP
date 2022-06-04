@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchDriver extends StatefulWidget {
+  SearchDriver({this.title, this.isSettings = false});
+  final title;
+  final isSettings;
   @override
   _SearchDriverState createState() => new _SearchDriverState();
 }
@@ -20,16 +23,15 @@ class _SearchDriverState extends State<SearchDriver> {
   void _loadData(BuildContext context, String mobile, String name) async {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
     getUserData().then((value) => {
+          print("UserId::::::: ${value.id}"),
           Provider.of<ServiceProvider>(context, listen: false)
-              .getSearchDriverList(mobile, name, value.id!)
+              .getSearchDriverList(value.id!)
         });
   }
 
   @override
   void initState() {
     super.initState();
-
-    // getUserDetails();
   }
 
   @override
@@ -38,7 +40,8 @@ class _SearchDriverState extends State<SearchDriver> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Search'),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: new Text(widget.title),
         elevation: 0.0,
       ),
       body: Consumer<ServiceProvider>(builder: (context, services, child) {
@@ -68,23 +71,8 @@ class _SearchDriverState extends State<SearchDriver> {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    // removeDriver(context, widget.searchDriverModel);
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DriverRegistration()),
-                        ModalRoute.withName('/'));
-                  },
-                  child: Text("New Driver"),
-                  color: Colors.white,
-                ),
-              ),
+            SizedBox(
+              height: 10,
             ),
             new Expanded(
               child: services.searchDriverModel.length != 0 ||
@@ -93,15 +81,7 @@ class _SearchDriverState extends State<SearchDriver> {
                       itemCount: services.searchDriverModel.length,
                       itemBuilder: (context, i) {
                         return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MyProfileScreen(userId: "${services.searchDriverModel[i].id}",)));
-                            // snackBar2(
-                            //     context, "${services.searchDriverModel[i].id}",
-                            //     success: false);
-                          },
+                          onTap: () {},
                           child: new Card(
                             child: new ListTile(
                               leading: services.searchDriverModel[i]
@@ -135,9 +115,32 @@ class _SearchDriverState extends State<SearchDriver> {
                                               ""),
                                         ]),
                                   ),
-                                  DriverAddRemoveWidget(
-                                      searchDriverModel:
-                                          services.searchDriverModel[i])
+                                  widget.isSettings
+                                      ? DriverAddRemoveWidget(
+                                          searchDriverModel:
+                                              services.searchDriverModel[i])
+                                      : MaterialButton(
+                                          minWidth: 20,
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MyProfileScreen(
+                                                          userId:
+                                                              "${services.searchDriverModel[i].id}",
+                                                        )));
+                                            // addDriver(
+                                            //     context, widget.searchDriverModel);
+                                          },
+                                          child: Text(
+                                            "View",
+                                            style: TextStyle(
+                                                fontSize: 11,
+                                                color: Colors.white),
+                                          ),
+                                          color: Colors.blue,
+                                        ),
                                 ],
                               ),
                             ),
@@ -151,9 +154,7 @@ class _SearchDriverState extends State<SearchDriver> {
                       itemBuilder: (context, i) {
                         return new Card(
                           child: new ListTile(
-                              leading: services.searchDriverModel[i]
-                                          .profilePicture ==
-                                      ""
+                              leading: services.searchDriverModel[i].profilePicture == "" || services.searchDriverModel[i].profilePicture == "null"
                                   ? new CircleAvatar(
                                       backgroundImage: new NetworkImage(
                                         services.searchDriverModel[i]

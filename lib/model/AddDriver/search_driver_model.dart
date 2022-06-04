@@ -68,7 +68,7 @@ class SearchDriverModel {
     _password = json['Password'];
     _isOtpVerified = json['IsOtpVerified'];
     _ownerId = json['OwnerId'];
-    _profilePicture = json['ProfilePicture'];
+    _profilePicture = json['ProfilePicture'] == "null" ? "" : json['ProfilePicture'];
     _status = json['Status'];
     _vechileId = json['VechileId'];
     _isDriverAllocated = json['IsDriverAllocated'];

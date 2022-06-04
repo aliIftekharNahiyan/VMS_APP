@@ -13,10 +13,10 @@ import 'package:amargari/uril/routes.dart';
 import 'package:amargari/view/profile/profile_screen.dart';
 import 'package:amargari/widgets/MyDrawer.dart';
 import 'package:amargari/widgets/themes.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'home_view.dart';
-
 
 class DashBoard extends StatefulWidget {
   @override
@@ -31,15 +31,17 @@ class _DashBoardState extends State<DashBoard> {
 
   void _onProfilePress() {
     Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ProfileScreen()));
+        context, MaterialPageRoute(builder: (context) => ProfileScreen()));
   }
-  void _onNotificationPress(NotificationList notification ) {
 
+  void _onNotificationPress(NotificationList notification) {
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => NotificationListView(title: 'Notifications', notification: notification)));
+        MaterialPageRoute(
+            builder: (context) => NotificationListView(
+                title: 'Notifications', notification: notification)));
   }
+
   @override
   void initState() {
     isLoaded = true;
@@ -54,76 +56,85 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     CommonProvider commonProvider = Provider.of<CommonProvider>(context);
 
-
     //  notificationList = commonProvider.getNotificationList("10040");
-    if (isLoaded){
-      notificationList = commonProvider.getNotificationList(AppConstant.userId.toString());
+    if (isLoaded) {
+      notificationList =
+          commonProvider.getNotificationList(AppConstant.userId.toString());
       notificationList!.then((value) => {
-       // setState(() {
-          notification = value,
-          isLoaded = false ,
-          print("notification  ${notification.unread}")
-      //  })
-      });
-    };
+            // setState(() {
+            notification = value,
+            isLoaded = false,
+            print("notification  ${notification.unread}")
+            //  })
+          });
+    }
+    ;
     //   User user = Provider.of<UserProvider>(context).user;
     return Scaffold(
         appBar: AppBar(
+          systemOverlayStyle: SystemUiOverlayStyle(
+            // Status bar color
+            statusBarColor: MyTheme.statusBarColor,
+
+            // Status bar brightness (optional)
+            statusBarIconBrightness:
+                Brightness.dark, // For Android (dark icons)
+            statusBarBrightness: Brightness.light, // For iOS (dark icons)
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.white
+          ),
           title: Text(
             "Amar Gari".tr(),
-            style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-              child: NotificationIcon(
-                iconData: Icons.notifications,
-                notificationCount: notification.unread ?? 0,
-                onTap: () {
-                  print(notification.unread ?? 0);
-                  _onNotificationPress(notification);
-                },
-              ),
+            NotificationIcon(
+              iconData: Icons.notifications,
+              notificationCount: notification.unread ?? 0,
+              onTap: () {
+                print(notification.unread ?? 0);
+                _onNotificationPress(notification);
+              },
             ),
             IconButton(
               icon: new Icon(Icons.account_circle),
-              onPressed: (){_onProfilePress();},
+              onPressed: () {
+                _onProfilePress();
+              },
             ),
-
+            
           ],
         ),
-
         body: FutureBuilder<NotificationList>(
             future: notificationList,
-            builder: (BuildContext context, AsyncSnapshot<NotificationList> snapshot) {
-
+            builder: (BuildContext context,
+                AsyncSnapshot<NotificationList> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-
                 if (notificationList == null) {
                   return Center(child: CircularProgressIndicator());
                 } else {
                   return MyHomePage();
                 }
-              }else {
+              } else {
                 return Center(child: CircularProgressIndicator());
               }
-
             })
 
-
-      // bottomNavigationBar: FancyBottomNavigation(
-      //   tabs: [
-      //     TabData(iconData: Icons.home, title: "Home"),
-      //     TabData(iconData: Icons.search, title: "Search"),
-      //     TabData(iconData: Icons.shopping_cart, title: "Basket")
-      //   ],
-      //   onTabChangedListener: (position) {
-      //     setState(() {
-      //       currentPage = position;
-      //     });
-      //   },
-      // ),
-      // drawer: MyDrawer(),
-    );
+        // bottomNavigationBar: FancyBottomNavigation(
+        //   tabs: [
+        //     TabData(iconData: Icons.home, title: "Home"),
+        //     TabData(iconData: Icons.search, title: "Search"),
+        //     TabData(iconData: Icons.shopping_cart, title: "Basket")
+        //   ],
+        //   onTabChangedListener: (position) {
+        //     setState(() {
+        //       currentPage = position;
+        //     });
+        //   },
+        // ),
+        // drawer: MyDrawer(),
+        );
   }
 }

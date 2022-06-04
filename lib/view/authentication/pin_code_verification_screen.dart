@@ -64,6 +64,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("OTP View"),
       ),
       body: GestureDetector(

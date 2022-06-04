@@ -150,6 +150,7 @@ class _AddUpdateAccidentViewState extends State<AddUpdateAccidentView> {
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("Accident Details"),
       ),
       body: SingleChildScrollView(
@@ -224,11 +225,15 @@ class _AddUpdateAccidentViewState extends State<AddUpdateAccidentView> {
                     hintText: 'Type if you have any other comments'),
                 SizedBox(height: 10),
                 AllDropDownItem(
-                        textTitle: "Vehicle",
-                        list: _selectedDropItem.vehicleId == "" ? services.vehicleShortList : services.vehicleShortList.where((e)=> e.id == _selectedDropItem.vehicleId).toList(),
-                        requestType: "vehicleList",
-                        isRequired: true,
-                        selectedItem: _selectedDropItem.vehicleId),
+                    textTitle: "Vehicle",
+                    list: _selectedDropItem.vehicleId == ""
+                        ? services.vehicleShortList
+                        : services.vehicleShortList
+                            .where((e) => e.id == _selectedDropItem.vehicleId)
+                            .toList(),
+                    requestType: "vehicleList",
+                    isRequired: true,
+                    selectedItem: _selectedDropItem.vehicleId),
                 SizedBox(height: 10),
                 AllDropDownItem(
                   textTitle: "Driver",
@@ -240,7 +245,9 @@ class _AddUpdateAccidentViewState extends State<AddUpdateAccidentView> {
                 SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: longButtons("${widget.vcDataModel.id != null ? "Update" : "SAVE"}", doUpdate),
+                  child: longButtons(
+                      "${widget.vcDataModel.id != null ? "Update" : "SAVE"}",
+                      doUpdate),
                 ),
               ],
             );

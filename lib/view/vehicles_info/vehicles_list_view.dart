@@ -59,30 +59,10 @@ class _VehicleInfoState extends State<VehicleInfo> {
               builder: (context) =>
                   VehicleAddEditView(vcDataModel: vehicleInfoDataModel)));
     };
-    // var removeItem = (VehicleInfoDataModel vehicleInfoDataModel) {
-    //   vehicleListUpdate = VehicleInfoProvider().vehicleDetailsUpdate(
-    //       "",
-    //       vehicleInfoDataModel.vechileTypeId,
-    //       vehicleInfoDataModel.id.toString(),
-    //       vehicleInfoDataModel.vechileImage,
-    //       vehicleInfoDataModel.vechileNumber,
-    //       vehicleInfoDataModel.engineNumber,
-    //       vehicleInfoDataModel.chasisNumber,
-    //       vehicleInfoDataModel.modelName,
-    //       vehicleInfoDataModel.brandName,
-    //       vehicleInfoDataModel.vechileTierSize,
-    //       vehicleInfoDataModel.registrationDate,
-    //       vehicleInfoDataModel.registrationExpireDate,
-    //       vehicleInfoDataModel.vechileRentId,
-    //       vehicleInfoDataModel.cc,
-    //       vehicleInfoDataModel.milage,
-    //       vehicleInfoDataModel.milage,
-    //       _selectedDropItem.vehicleStatusId,
-    //       _selectedDropItem.vehicleColourName
-    //   ),
-    // };
+
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(widget.title),
       ),
       body: FutureBuilder<List<VehicleInfoDataModel>>(
@@ -169,31 +149,36 @@ class _VehicleInfoState extends State<VehicleInfo> {
                                         ""),
                                 VehicleListItem(
                                     textTitle: 'Fitness Expire date:',
-                                    text:"${convertDate2(vehicleInfoDataModel?.fitnessExpireDate ?? "")}"),
+                                    text:
+                                        "${convertDateWithRemaning(vehicleInfoDataModel?.fitnessExpireDate ?? "")}"),
                                 VehicleListItem(
                                     textTitle: 'Tax Token Expire date:',
-                                    text:"${convertDate2(vehicleInfoDataModel?.taxTokenExpireDate ?? "")}"),
-                                
-                                vehicleInfoDataModel?.routePermitExpireDate != null ?
-                                VehicleListItem(
-                                    textTitle: 'Road Permit Expire date:',
                                     text:
-                                        "${convertDate2(vehicleInfoDataModel?.routePermitExpireDate ?? "")}"): Container(),
-                                vehicleInfoDataModel?.insuranceExpireDate != null ?
-                                VehicleListItem(
-                                    textTitle: 'Insurance Expire date:',
-                                    text:
-                                        "${convertDate2(vehicleInfoDataModel?.insuranceExpireDate ?? "")}"): Container(),
+                                        "${convertDateWithRemaning(vehicleInfoDataModel?.taxTokenExpireDate ?? "")}"),
+                                vehicleInfoDataModel?.routePermitExpireDate !=
+                                        null
+                                    ? VehicleListItem(
+                                        textTitle: 'Road Permit Expire date:',
+                                        text:
+                                            "${convertDate2(vehicleInfoDataModel?.routePermitExpireDate ?? "")}")
+                                    : Container(),
+                                vehicleInfoDataModel?.insuranceExpireDate !=
+                                        null
+                                    ? VehicleListItem(
+                                        textTitle: 'Insurance Expire date:',
+                                        text:
+                                            "${convertDate2(vehicleInfoDataModel?.insuranceExpireDate ?? "")}")
+                                    : Container(),
                                 VehicleListItem(
                                     textTitle: 'Cc:',
                                     text: vehicleInfoDataModel?.cc ?? ""),
                                 VehicleListItem(
                                     textTitle: 'Chassis no:',
-                                    text: vehicleInfoDataModel?.vechileNumber ??
+                                    text: vehicleInfoDataModel?.chasisNumber ??
                                         ""),
                                 VehicleListItem(
                                     textTitle: 'Engine no:',
-                                    text: vehicleInfoDataModel?.vechileNumber ??
+                                    text: vehicleInfoDataModel?.engineNumber ??
                                         ""),
                                 VehicleListItem(
                                     textTitle: 'Tire size:',

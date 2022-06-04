@@ -48,6 +48,9 @@ class _AccidentManagementViewState extends State<AccidentManagementView> {
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+            color: Colors.white
+          ),
         title: Text(widget.title),
       ),
       body: Column(

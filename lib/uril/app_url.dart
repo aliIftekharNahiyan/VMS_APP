@@ -61,6 +61,11 @@ class AppUrl {
   static const String getVehicleList =
       baseURL + "/vechile/GetvechileList?userid=_userId";
 
+  static const String getAssignedVehicle =
+      baseURL + "/DriverSelection/GetVechileInfoOfDriver?ownerid=_ownerid&driverid=_driverid";
+
+  // https://vms.griho.app/api/DriverSelection/GetVechileInfoOfDriver?ownerid=2&driverid=3
+
   static const String vehicleGeneralInfo = baseURL +
       "/vechile/VechileGeneralInfoList?infoId=_infoId&parentId=_parentId&VechileTypeForModelId=_vehicleTypeForModelId&ownerId=_ownerId";
 
@@ -110,8 +115,10 @@ class AppUrl {
   static const String featureForHome =
       baseURL + "/Notification/GetMajorFeatureForHome?ownerId=_ownerId";
 
-  static const String searchDriver =
-      baseURL + "/DriverSelection/SearchDriver?mobileno=_mobileno&name=_name&ownerId=_ownerId";
+  static const String searchDriver = baseURL +
+      "/DriverSelection/SearchDriver?mobileno=_mobileno&name=_name&ownerId=_ownerId";
+  static const String searchDriverQ =
+      baseURL + "/DriverSelection/SearchDriver?ownerId=_ownerId";
 
   static const String sendDriverAllocateRequest = baseURL +
       "/DriverSelection/SendDriverAllocateRequest?driverId=_driverId&ownerId=_ownerId&vechileId=_vechileId&hash=";
@@ -127,11 +134,15 @@ class AppUrl {
   static const String sendListOfDriverAllocateRequest =
       baseURL + "/DriverSelection/SendListOfDriverAllocateRequest";
 
-  static const String localInfoType = baseURL +"/LocalInfo/GetLocalInfoSaveType";
-  static const String localInfo = baseURL +"/LocalInfo/GetLocalInfoDetailsFromLocal";
-  static const String fuelChart = baseURL +"/Notification/GetFuelDataForHome?userId=_userId";
-  static const String userProfile = baseURL +"/Login/GetUserProfileInfoById?userId=_userId";
+  static const String localInfoType =
+      baseURL + "/LocalInfo/GetLocalInfoSaveType";
+  static const String localInfo =
+      baseURL + "/LocalInfo/GetLocalInfoDetailsFromLocal";
+  static const String fuelChart =
+      baseURL + "/Notification/GetFuelDataForHome?userId=_userId";
+  static const String userProfile =
+      baseURL + "/Login/GetUserProfileInfoById?userId=_userId";
 
-  // 
+  //
 
 }

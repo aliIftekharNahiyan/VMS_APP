@@ -9,9 +9,12 @@ class MyProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Profile"),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text( userId == "" ? "My Profile": "Driver Profile"),
       ),
-      body: DetailsBody(userId: userId,),
+      body: DetailsBody(
+        userId: userId,
+      ),
       // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile),
     );
   }

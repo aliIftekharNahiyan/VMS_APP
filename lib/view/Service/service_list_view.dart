@@ -14,7 +14,7 @@ class ServiceListView extends StatefulWidget {
   final String title;
 
   // In the constructor, require a Todo.
-  ServiceListView({ required this.title}) ;
+  ServiceListView({required this.title});
 
   @override
   _ServiceListState createState() => _ServiceListState();
@@ -28,8 +28,8 @@ class _ServiceListState extends State<ServiceListView> {
   void initState() {
     super.initState();
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
-    getUserData().then(
-        (value) => {vehicleList = ServiceProvider().getServicingList("", "${value.id}")});
+    getUserData().then((value) =>
+        {vehicleList = ServiceProvider().getServicingList("", "${value.id}")});
     new Future.delayed(new Duration(seconds: 3), () {
       setState(() {
         isVisible = false;
@@ -43,11 +43,14 @@ class _ServiceListState extends State<ServiceListView> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  AddServiceView(serviceDataModel: serviceDataModel,vehicleId: "",)));
+              builder: (context) => AddServiceView(
+                    serviceDataModel: serviceDataModel,
+                    vehicleId: "",
+                  )));
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(widget.title),
       ),
       body: FutureBuilder<List<ServiceDataModel>>(
@@ -72,53 +75,88 @@ class _ServiceListState extends State<ServiceListView> {
                               SizedBox(height: 5),
                               ServiceItem(
                                   textTitle: 'Entry Date:',
-                                  text: serviceDataModel.serviceList?.date != null ? 
-                                  DateFormat('yyyy-MM-dd').parse(serviceDataModel.serviceList?.date.toString() ?? "").toString().split(" ")[0]: ""
-                                  ),
-                                  
+                                  text:
+                                      serviceDataModel.serviceList?.date != null
+                                          ? DateFormat('yyyy-MM-dd')
+                                              .parse(serviceDataModel
+                                                      .serviceList?.date
+                                                      .toString() ??
+                                                  "")
+                                              .toString()
+                                              .split(" ")[0]
+                                          : ""),
+
                               ServiceItem(
                                   textTitle: 'Driver Name:',
-                                  text:
-                                  serviceDataModel.serviceList?.driverName ?? ""),
+                                  text: serviceDataModel
+                                          .serviceList?.driverName ??
+                                      ""),
                               ServiceItem(
                                   textTitle: 'Garage Name:',
-                                  text: serviceDataModel.serviceList?.gargeName ?? ""),
+                                  text:
+                                      serviceDataModel.serviceList?.gargeName ??
+                                          ""),
                               ServiceItem(
                                   textTitle: 'Garage Location:',
                                   text: serviceDataModel
-                                      .serviceList?.gargeNameLocation ?? ""),
+                                          .serviceList?.gargeNameLocation ??
+                                      ""),
                               ServiceItem(
                                   textTitle: 'Vehicle Number:',
                                   text: serviceDataModel
-                                      .serviceList?.vechileNumber ?? ""),
-                              SizedBox(height: 10,),
-                              ServiceImageItem(textTitle: 'Parts Image:',image: serviceDataModel
-                                  .serviceList?.partsImg ?? "",),
-                              SizedBox(height: 10,),
-                              ServiceImageItem(textTitle: 'Expense Slip:',image: serviceDataModel
-                                  .serviceList?.expenseSlip ?? "",),
-                              SizedBox(height: 10,),
+                                          .serviceList?.vechileNumber ??
+                                      ""),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ServiceImageItem(
+                                textTitle: 'Parts Image:',
+                                image: serviceDataModel.serviceList?.partsImg ??
+                                    "",
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ServiceImageItem(
+                                textTitle: 'Expense Slip:',
+                                image:
+                                    serviceDataModel.serviceList?.expenseSlip ??
+                                        "",
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
                               // Container(
                               //     alignment: Alignment.topLeft,
                               //     child: SizedBox(child: Padding(
                               //       padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                               //       child: Text("Service Head", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                               //     ))),
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: ClampingScrollPhysics(),
-                                itemCount: serviceDataModel.serviceCost?.length,
-                                   // ServiceCost serviceDataModel = serviceDataModel.serviceCost![index];
+                              ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: ClampingScrollPhysics(),
+                                  itemCount:
+                                      serviceDataModel.serviceCost?.length,
+                                  // ServiceCost serviceDataModel = serviceDataModel.serviceCost![index];
 
-                                itemBuilder: (context, index) {
-                                return ServiceItem(
-                                    textTitle: serviceDataModel.serviceCost![index].serviceName ?? "",
-                                    text: serviceDataModel.serviceCost![index].cost.toString());Text(serviceDataModel.serviceCost![index].serviceName ?? "");
-                                }),
+                                  itemBuilder: (context, index) {
+                                    return ServiceItem(
+                                        textTitle: serviceDataModel
+                                                .serviceCost![index]
+                                                .serviceName ??
+                                            "",
+                                        text: serviceDataModel
+                                            .serviceCost![index].cost
+                                            .toString());
+                                    Text(serviceDataModel
+                                            .serviceCost![index].serviceName ??
+                                        "");
+                                  }),
 
                               ServiceItem(
                                   textTitle: 'Total Amount:',
-                                  text: serviceDataModel.serviceList!.totalAmount
+                                  text: serviceDataModel
+                                      .serviceList!.totalAmount
                                       .toString()),
                               SizedBox(height: 5)
                             ],
@@ -133,7 +171,7 @@ class _ServiceListState extends State<ServiceListView> {
           // By default, show a loading spinner.
         },
       ),
-    /*  floatingActionButton: Padding(
+      /*  floatingActionButton: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FloatingActionButton(
           onPressed: () {

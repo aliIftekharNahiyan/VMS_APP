@@ -199,35 +199,28 @@ class _PoliceCaseDetailsViewState extends State<PoliceCaseDetailsView> {
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("Police Case Details"),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 5),
         child: Consumer<ServiceProvider>(builder: (context, services, child) {
-          // for(int i = 0, i <  , i++)
-          if(policeCaseLoad) {
+          if (policeCaseLoad) {
             if (widget.vcDataModel.documentFreezeingMapList != null &&
                 services.policeFreezingList.isNotEmpty) {
               for (int i = 0;
-              i < widget.vcDataModel.documentFreezeingMapList!.length;
-              i++) {
-                final index = services.policeFreezingList.indexWhere((
-                    element) =>
-                    identical(element.id,
-                        "${widget.vcDataModel.documentFreezeingMapList?[i]
-                            .policeFreeZingDocumentId}"));
+                  i < widget.vcDataModel.documentFreezeingMapList!.length;
+                  i++) {
+                final index = services.policeFreezingList.indexWhere(
+                    (element) => identical(element.id,
+                        "${widget.vcDataModel.documentFreezeingMapList?[i].policeFreeZingDocumentId}"));
                 print(
-                    "index  $index  ${widget.vcDataModel
-                        .documentFreezeingMapList?.length} "
-                        "  ${widget.vcDataModel
-                        .documentFreezeingMapList}   ${widget.vcDataModel
-                        .documentFreezeingMapList?[i]
-                        .policeFreeZingDocumentId}  ");
+                    "index  $index  ${widget.vcDataModel.documentFreezeingMapList?.length} "
+                    "  ${widget.vcDataModel.documentFreezeingMapList}   ${widget.vcDataModel.documentFreezeingMapList?[i].policeFreeZingDocumentId}  ");
 
                 if (index != -1) {
                   policeFreezingSelectList
                       .add(services.policeFreezingList[index]);
-
                 }
                 policeCaseLoad = false;
                 //  print("policeFreezingSelectList   ${policeFreezingSelectList.length}");
@@ -435,7 +428,11 @@ class _PoliceCaseDetailsViewState extends State<PoliceCaseDetailsView> {
               SizedBox(height: 15),
               AllDropDownItem(
                 textTitle: "Vehicle",
-                list: _selectedDropItem.vehicleId == "" ? services.vehicleShortList : services.vehicleShortList.where((e)=> e.id == _selectedDropItem.vehicleId).toList(),
+                list: _selectedDropItem.vehicleId == ""
+                    ? services.vehicleShortList
+                    : services.vehicleShortList
+                        .where((e) => e.id == _selectedDropItem.vehicleId)
+                        .toList(),
                 requestType: "vehicleList",
                 isRequired: true,
                 selectedItem: _selectedDropItem.vehicleId,

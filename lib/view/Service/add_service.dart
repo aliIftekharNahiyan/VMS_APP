@@ -44,7 +44,8 @@ class _AddServiceViewState extends State<AddServiceView> {
   List<Widget> _children = [];
   List<TextEditingControllerWithEndCursor> controllers = [];
   List<TextEditingControllerWithEndCursor> controllers2 = [];
-  List<TextEditingControllerWithEndCursor> controllers3 = []; //the controllers list
+  List<TextEditingControllerWithEndCursor> controllers3 =
+      []; //the controllers list
   bool initialForm = false;
 
   SelectedDropDown _selectedDropItem = Get.find();
@@ -147,14 +148,9 @@ class _AddServiceViewState extends State<AddServiceView> {
                               AppConstant.expenseSlipURL,
                               AppConstant.partsImageURL,
                               AppConstant.requestList),
-                  serviceModel?.whenComplete(() => {
-                        Navigator.pop(context),
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ServiceListView(
-                                    title: "Vehicle Servicing")))
-                      })
+                  serviceModel?.whenComplete(() =>
+                      { Navigator.pop(context),
+                        Get.off(ServiceListView(title: "Vehicle Servicing"))})
                 }
               else
                 {
@@ -174,7 +170,8 @@ class _AddServiceViewState extends State<AddServiceView> {
                               AppConstant.partsImageURL,
                               AppConstant.requestList),
                   serviceModel?.whenComplete(() => {
-                    snackBar(context, "Services Updated Successfully", success: true),
+                        snackBar(context, "Services Updated Successfully",
+                            success: true),
                         Navigator.pop(context),
                         Navigator.push(
                             context,
@@ -195,6 +192,7 @@ class _AddServiceViewState extends State<AddServiceView> {
       controllers.removeAt(position);
       controllers2.removeAt(position);
       controllers3.removeAt(position);
+      // initialForm = false;
     }
 
     void editItem(int position) {
@@ -217,10 +215,10 @@ class _AddServiceViewState extends State<AddServiceView> {
       controllers.add(serviceName); //adding the current controller to the list
       controllers2.add(serviceCost);
       controllers3.add(serviceDetails);
-      for (int i = 0; i < controllers.length; i++) {
-        print(controllers[i]
-            .text); //printing the values to show that it's working
-      }
+      // for (int i = 0; i < controllers.length; i++) {
+      //   print(controllers[i]
+      //       .text); //printing the values to show that it's working
+      // }
 
       _children = List.from(_children)
         ..add(Padding(
@@ -327,12 +325,16 @@ class _AddServiceViewState extends State<AddServiceView> {
     }
 
     if ((widget.serviceDataModel.serviceCost?.length ?? 0) > 0) {
-      _children.clear();
+      // _children.clear();
+      // AppConstant.requestList.clear();
       print("isCalling everytime ");
       if (!initialForm) {
-        for (var i = 0; i < (widget.serviceDataModel.serviceCost?.length ?? 0); i++) {
+        for (var i = 0;
+            i < (widget.serviceDataModel.serviceCost?.length ?? 0);
+            i++) {
           RequestServiceModel requestServiceModel = new RequestServiceModel();
-          requestServiceModel.Id = "";
+          requestServiceModel.Id =
+              widget.serviceDataModel.serviceCost![i].id.toString();
           requestServiceModel.ServiceName =
               widget.serviceDataModel.serviceCost![i].serviceName.toString();
           requestServiceModel.Amount =
@@ -357,6 +359,7 @@ class _AddServiceViewState extends State<AddServiceView> {
     EasyLoading.dismiss();
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("Add Service Details"),
       ),
       body: SingleChildScrollView(
@@ -511,7 +514,9 @@ class _AddServiceViewState extends State<AddServiceView> {
                 ),
                 Container(
                   child: ListView(
-                      primary: false, shrinkWrap: true, children: _children),
+                      primary: false, shrinkWrap: true, 
+                      children: _children
+                      ),
                 ),
                 ElevatedButton(
                   onPressed: () {

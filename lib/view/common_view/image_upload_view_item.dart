@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:amargari/providers/common_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
@@ -8,7 +10,9 @@ import 'package:amargari/widgets/ImageFullScreen.dart';
 import 'package:amargari/widgets/image_picker_gallery_camera.dart';
 import 'package:amargari/widgets/themes.dart';
 import 'package:amargari/widgets/widgets.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:provider/provider.dart';
 
 class ImageUploadViewItem extends StatefulWidget {
@@ -17,6 +21,7 @@ class ImageUploadViewItem extends StatefulWidget {
       this.images = '',
       this.isVisible = false,
       this.isRequired = false,
+      this.isDownloadAble = false,
       this.hintText = '',
       required this.nameController,
       this.isEditable = true});
@@ -24,6 +29,7 @@ class ImageUploadViewItem extends StatefulWidget {
   final String text, images;
   final bool isVisible;
   final bool isRequired;
+  final bool isDownloadAble;
   final String hintText;
   final isEditable;
   TextEditingController nameController;
@@ -69,6 +75,51 @@ class _ImageUploadViewItemState extends State<ImageUploadViewItem> {
     setState(() {
       _image = image;
     });
+  }
+
+  Future downloadImage(String img) async {
+    // print("Download Image::::::: ${imagePath}");
+    var rng = Random();
+    String imagePath = "";
+    if (img == "nid") {
+      imagePath = AppConstant.NidURL;
+    } else if (img == "bc1") {
+      imagePath = AppConstant.BC_URL1;
+    } else if (img == "bc2") {
+      imagePath = AppConstant.BC_URL2;
+    } else if (img == "cc1") {
+      imagePath = AppConstant.CC_URL1;
+    } else if (img == "cc2") {
+      imagePath = AppConstant.CC_URL2;
+    } else if (img == "driverImage") {
+      imagePath = AppConstant.DP_URL;
+    } else if (img == "bioData") {
+      imagePath = AppConstant.BD_URL2;
+    } else if (img == "drivingLicense") {
+      imagePath = AppConstant.drivingLicenseURL;
+    }
+    try {
+      if (imagePath == "") {
+        snackBar2(context, "Image Not Found", success: false);
+        return;
+      }
+      var response = await Dio()
+          .get(imagePath, options: Options(responseType: ResponseType.bytes));
+      final result = await ImageGallerySaver.saveImage(
+          Uint8List.fromList(response.data),
+          quality: 100,
+          name: "image ${rng.nextInt(9999999)}");
+      print(result);
+      if (result['isSuccess']) {
+        snackBar2(context, "Successfully Saved", success: true);
+      } else {
+        snackBar2(context, "Check Your Internet Connection & Try Again",
+            success: false);
+      }
+    } catch (ex) {
+      snackBar2(context, "Check Your Internet Connection & Try Again",
+          success: false);
+    }
   }
 
   imageUpload(BuildContext context, String imagePath) {
@@ -192,14 +243,23 @@ class _ImageUploadViewItemState extends State<ImageUploadViewItem> {
                   flex: 7,
                   child: InkWell(
                     onTap: () {
+                      if (widget.isDownloadAble) {
+                        downloadImage(widget.images);
+                      }
                       if (widget.isEditable) {
                         imageUploadRequest = true;
                         getImage(ImgSource.Both, widget.images);
                       }
                     },
                     child: Column(children: [
-                      ImageIcon(AssetImage("assets/icons/upload_cloud.png")),
-                      label("Upload Image")
+                      !widget.isDownloadAble
+                          ? ImageIcon(
+                              AssetImage("assets/icons/upload_cloud.png"))
+                          : ImageIcon(
+                              AssetImage("assets/icons/computing-cloud.png")),
+                      !widget.isDownloadAble
+                          ? label("Upload Image")
+                          : label("Download Image")
                     ]),
                   ),
                 ),

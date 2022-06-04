@@ -19,7 +19,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class DriverAddRemoveWidget extends StatefulWidget {
-  SearchDriverModel searchDriverModel;
+  final SearchDriverModel searchDriverModel;
   DriverAddRemoveWidget({required this.searchDriverModel});
 
   @override
@@ -40,7 +40,7 @@ class _DriverAddRemoveWidgetState extends State<DriverAddRemoveWidget> {
               addDriver(context, widget.searchDriverModel);
             },
             child: Text(
-              "Update",
+              "Edit",
               style: TextStyle(fontSize: 11, color: Colors.white),
             ),
             color: Colors.orange,
@@ -66,7 +66,7 @@ class _DriverAddRemoveWidgetState extends State<DriverAddRemoveWidget> {
         onPressed: () {
           addDriver(context, widget.searchDriverModel);
         },
-        child: Text("Add Driver"),
+        child: Text("Add Vehicle", style: TextStyle(color: Colors.white),),
         color: Colors.orange,
       );
     }
@@ -97,7 +97,12 @@ Future<void> displayVehicle(BuildContext context,
     SearchDriverModel searchDriverModel, String userId) async {
   Provider.of<ServiceProvider>(context, listen: false)
       .fetchVehicleDetails(userId, "");
+
+  Provider.of<ServiceProvider>(context, listen: false).fetchAssignedVehicle(
+      driverId: searchDriverModel.id.toString(), ownerId: userId);
+
   String otpCode = "";
+  bool isInit = false;
 
   List<String> vList = [];
   _onAdded(v) {
@@ -122,10 +127,21 @@ Future<void> displayVehicle(BuildContext context,
           }
         }
 
+        if (services.vehicleAssignedShortList.isNotEmpty) {
+          if (!isInit) {
+            vList.clear();
+            isInit = true;
+            services.vehicleAssignedShortList.forEach((e) {
+              vList.add(e.id.toString());
+            });
+          }
+        }
+
         return AlertDialog(
           title: Text('Add Vehicle'),
           content: ContantChip(
             list: services.vehicleShortList,
+            selectedList: vList,
             selected: _selectedDropItem.vehicleTypeId,
             onAdded: _onAdded,
             onRemove: _onRemove,
@@ -148,8 +164,9 @@ Future<void> displayVehicle(BuildContext context,
                           searchDriverModel.id.toString(), userId, vList);
 
                   Navigator.pop(context);
+                  snackBar(context, "Success fully added", success: true);
 
-                  confirmRequest(context, services.sendRequestRes);
+                  // confirmRequest(context, services.sendRequestRes);
                 } else {
                   snackBar(context, "Please select vehicle", success: false);
                 }
@@ -246,12 +263,14 @@ Future<void> confirmRequest(
 class ContantChip extends StatefulWidget {
   final list;
   final selected;
+  final selectedList;
   Function onAdded;
   Function onRemove;
   ContantChip(
       {Key? key,
       this.list,
       this.selected,
+      this.selectedList,
       required this.onAdded,
       required this.onRemove})
       : super(key: key);
@@ -262,6 +281,11 @@ class ContantChip extends StatefulWidget {
 
 class _ContantChipState extends State<ContantChip> {
   var vList = [];
+  @override
+  void initState() {
+    super.initState();
+    vList = widget.selectedList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -276,8 +300,10 @@ class _ContantChipState extends State<ContantChip> {
             selectedItem: widget.selected,
             onCallback: (v) {
               if (!vList.contains(v)) {
-                vList.add(v);
+                // setState(() {
+                // vList.add(v);
                 widget.onAdded(v);
+                // });
               } else {
                 snackBar(context, "Already Added", success: false);
               }
@@ -298,10 +324,12 @@ class _ContantChipState extends State<ContantChip> {
                   },
                   elevation: 3,
                   backgroundColor: Colors.amber[200],
-                  label: Text(widget.list
-                      .firstWhere((l) => l.id == e)
-                      .name
-                      .toString())))
+                  label: Text(widget.list.length == 0
+                      ? ""
+                      : widget.list
+                          .firstWhere((l) => l.id == e)
+                          .name
+                          .toString())))
             ]),
           )
         ],
