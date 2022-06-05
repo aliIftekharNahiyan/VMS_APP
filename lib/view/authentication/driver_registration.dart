@@ -324,7 +324,7 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                                                       .searchDriverModel[i].id);
                                             },
                                             child: Text(
-                                              "${services.searchDriverModel[i].isDriverAllocated == 1 ? "Active" : "Deactive"}",
+                                              "${services.searchDriverModel[i].isDriverAllocated == 1 ? "Activate" : "Deactivate"}",
                                               style: TextStyle(
                                                   color: services
                                                               .searchDriverModel[
