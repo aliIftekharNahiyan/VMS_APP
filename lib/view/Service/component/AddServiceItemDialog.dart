@@ -20,7 +20,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<void> AddServiceItemDialog(
-    BuildContext context, String userId, int position) async {
+    BuildContext context, ServiceDataModel serviceModel, String userId, int position, bool initial) async {
   Provider.of<ServiceProvider>(context, listen: false)
       .getServiceListDropDown(userId);
   SelectedDropDown _selectedDropItem = Get.find();
@@ -67,7 +67,7 @@ Future<void> AddServiceItemDialog(
                           onPressed: () {
                             Navigator.pop(context);
                             CreateNewServiceDialog(
-                                context, "${AppConstant.userId}", -1);
+                                context, serviceModel, "${AppConstant.userId}", -1, initial);
                           },
                           child: Padding(
                             padding:
@@ -99,24 +99,6 @@ Future<void> AddServiceItemDialog(
                   isNumber: true,
                 ),
               ]),
-
-          /*        DropdownSearch<ServiceNameModel>(
-              showSelectedItems: true,
-            // compareFn: (i, s) => (i?.serviceName ?? "") == (s?.serviceName ?? "") ?? false,
-              dropdownSearchDecoration: InputDecoration(
-                labelText: "Person",
-                contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                border: OutlineInputBorder(),
-              ),
-              mode: Mode.MENU,
-              onFind: (String? filter) => getServiceListDropDown(userId),
-              onChanged: (data) {
-                print(data);
-              },
-              dropdownBuilder: _customDropDownExample,
-              popupItemBuilder: _customPopupItemBuilderExample2,
-            ),
-*/
           actions: <Widget>[
             TextButton(
               child: Text('CANCEL'),
@@ -153,9 +135,8 @@ Future<void> AddServiceItemDialog(
                       context,
                       MaterialPageRoute(
                           builder: (context) => AddServiceView(
-                              serviceDataModel: ServiceDataModel(),
-                              vehicleId:
-                                  ""))); //  confirmRequest(context, services.sendRequestRes);
+                              serviceDataModel: serviceModel,
+                              vehicleId:"", initial: initial))); //  confirmRequest(context, services.sendRequestRes);
                 } else {
                   snackBar(context, "Please select vehicle");
                 }

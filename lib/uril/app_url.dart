@@ -143,6 +143,9 @@ class AppUrl {
   static const String userProfile =
       baseURL + "/Login/GetUserProfileInfoById?userId=_userId";
 
-  //
+      static const String driverAllocationDeallocation =
+      baseURL + "/DriverSelection/DriverAllocationFlip?ownerId=_ownerId&driverId=_driverId";
+
+  // https://vms.griho.app/api/DriverSelection/DriverAllocationFlip?ownerId=98&driverId=99
 
 }

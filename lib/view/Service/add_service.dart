@@ -1,5 +1,3 @@
-import 'package:amargari/model/ServiceNameModel.dart';
-import 'package:amargari/model/common_dropdown_model.dart';
 import 'package:amargari/model/garage/GarageModel.dart';
 import 'package:amargari/model/service/service_model.dart';
 import 'package:amargari/uril/app_constant.dart';
@@ -10,7 +8,6 @@ import 'package:amargari/view/common_view/all_drop_down_Item.dart';
 import 'package:amargari/view/common_view/edit_List_Item.dart';
 import 'package:amargari/view/common_view/image_upload_view_item.dart';
 import 'package:amargari/view/garage/add_update_garage_details_view.dart';
-import 'package:amargari/view/garage/garage_list_view.dart';
 import 'package:amargari/widgets/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -25,10 +22,14 @@ import 'package:amargari/widgets/TextEditingControllerWithEndCursor.dart';
 import 'package:amargari/widgets/widgets.dart';
 
 class AddServiceView extends StatefulWidget {
-  AddServiceView({required this.serviceDataModel, required this.vehicleId});
+  AddServiceView(
+      {required this.serviceDataModel,
+      required this.vehicleId,
+      this.initial = false});
 
   final ServiceDataModel serviceDataModel;
   final String vehicleId;
+  final bool initial;
 
   @override
   _AddServiceViewState createState() => _AddServiceViewState();
@@ -46,43 +47,19 @@ class _AddServiceViewState extends State<AddServiceView> {
   List<TextEditingControllerWithEndCursor> controllers2 = [];
   List<TextEditingControllerWithEndCursor> controllers3 =
       []; //the controllers list
-  bool initialForm = false;
+  bool initialForm = true;
 
   SelectedDropDown _selectedDropItem = Get.find();
 
   @override
   void initState() {
     EasyLoading.show();
-    initialForm = false;
-    // isRemove = false;
+    initialForm = widget.initial;
     _selectedDropItem.vehicleId = "";
     _selectedDropItem.garageId = "";
     _selectedDropItem.driverId = "";
 
-    if (widget.serviceDataModel.serviceList != null) {
-      dateText.text =
-          convertDate2(widget.serviceDataModel.serviceList?.date ?? "");
-      nextDateText.text = convertDate2(
-          widget.serviceDataModel.serviceList?.nextServiceDate ?? "");
-      _selectedDropItem.vehicleId =
-          widget.serviceDataModel.serviceList!.vechileId.toString();
-      print(
-          "vechileId  ${_selectedDropItem.vehicleId}    ${widget.serviceDataModel.serviceList!.vechileId.toString()}");
-      _selectedDropItem.garageId =
-          widget.serviceDataModel.serviceList!.gargeId.toString();
-      _selectedDropItem.driverId =
-          widget.serviceDataModel.serviceList!.driverId.toString();
-      AppConstant.expenseSlipURL =
-          widget.serviceDataModel.serviceList!.expenseSlip.toString();
-      AppConstant.partsImageURL =
-          widget.serviceDataModel.serviceList!.partsImg.toString();
-      //expenseSlip.text =  widget.serviceDataModel.serviceList!.expenseSlip.toString();
-    } else {
-      AppConstant.expenseSlipURL = "";
-      AppConstant.partsImageURL = "";
-      _selectedDropItem.vehicleId = widget.vehicleId;
-    }
-
+    _loadData(context);
     super.initState();
   }
 
@@ -98,6 +75,140 @@ class _AddServiceViewState extends State<AddServiceView> {
           Provider.of<ServiceProvider>(context, listen: false)
               .getServiceListDropDown(value.id.toString())
         });
+  }
+
+  void removeItem(int position) {
+    AppConstant.requestList..removeAt(position);
+    _children = List.from(_children)..removeAt(position);
+    controllers.removeAt(position);
+    controllers2.removeAt(position);
+    controllers3.removeAt(position);
+    // initialForm = false;
+  }
+
+  void editItem(int position) {
+    AddServiceItemDialog(context, widget.serviceDataModel,
+        "${AppConstant.userId}", position, initialForm);
+  }
+
+  void add(RequestServiceModel requestList) {
+    TextEditingControllerWithEndCursor serviceName =
+        TextEditingControllerWithEndCursor(text: '');
+    TextEditingControllerWithEndCursor serviceDetails =
+        TextEditingControllerWithEndCursor(text: '');
+    TextEditingControllerWithEndCursor serviceCost =
+        TextEditingControllerWithEndCursor(text: '');
+
+    print("requestList  ${AppConstant.requestList.length}");
+    serviceDetails.text = requestList.details ?? "";
+    serviceCost.text = requestList.Amount.toString();
+    serviceName.text = requestList.ServiceName.toString();
+
+    controllers.add(serviceName);
+    controllers2.add(serviceCost);
+    controllers3.add(serviceDetails);
+
+    _children = List.from(_children)
+      ..add(Padding(
+        padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
+        child: Container(
+          decoration:
+              BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: new Stack(children: <Widget>[
+              Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: serviceName,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(hintText: "Service Name"),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: serviceDetails,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(hintText: "Service Details"),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: serviceCost,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(hintText: "Service Cost"),
+                    ),
+                  )
+                ],
+              ),
+              new Align(
+                alignment: Alignment.topRight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      height: 25.0,
+                      width: 25.0,
+                      child: FittedBox(
+                        child: IconButton(
+                          icon: Icon(Icons.cancel),
+                          onPressed: () {
+                            setState(() {
+                              for (int i = 0; i < controllers.length; i++) {
+                                if (serviceName.text == controllers[i].text) {
+                                  print(
+                                      "removeView   ${i}    ${serviceDetails.text}");
+                                  removeItem(i);
+                                }
+                                //   print("controllers   ${controllers[i].text}   ${serviceName.text}" ); //printing the values to show that it's working
+                              }
+
+                              print(
+                                  "calling after click ${_children.length}   ${serviceDetails.text}");
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 25.0,
+                      width: 25.0,
+                      child: FittedBox(
+                        child: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            print(
+                                "calling after  ${_children.length}   ${serviceDetails.text}");
+
+                            for (int i = 0; i < controllers.length; i++) {
+                              print(
+                                  "controllers   ${controllers[i].text}   ${serviceName.text}");
+                              if (serviceName.text == controllers[i].text) {
+                                print(
+                                    "EditView   ${i}    ${serviceDetails.text}");
+                                editItem(i);
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ]),
+          ),
+        ),
+      ));
+    // setState(() => ++_count);
   }
 
   @override
@@ -148,9 +259,22 @@ class _AddServiceViewState extends State<AddServiceView> {
                               AppConstant.expenseSlipURL,
                               AppConstant.partsImageURL,
                               AppConstant.requestList),
-                  serviceModel?.whenComplete(() =>
-                      { Navigator.pop(context),
-                        Get.off(ServiceListView(title: "Vehicle Servicing"))})
+                  serviceModel?.whenComplete(() => {
+                        snackBar(context, "Services Updated Successfully",
+                            success: true),
+                        // widget.serviceDataModel.serviceList = null,
+                        _selectedDropItem.garageId = "",
+                        _selectedDropItem.vehicleId = "",
+                        _selectedDropItem.driverId,
+                        dateText.text = "",
+                        nextDateText.text = "",
+                        totalCost = 0,
+                        AppConstant.expenseSlipURL = "",
+                        AppConstant.partsImageURL = "",
+                        AppConstant.requestList = [],
+                        Navigator.pop(context),
+                        Get.off(ServiceListView(title: "Vehicle Servicing"))
+                      })
                 }
               else
                 {
@@ -170,8 +294,18 @@ class _AddServiceViewState extends State<AddServiceView> {
                               AppConstant.partsImageURL,
                               AppConstant.requestList),
                   serviceModel?.whenComplete(() => {
-                        snackBar(context, "Services Updated Successfully",
+                        snackBar(context, "Services Saved Successfully",
                             success: true),
+                        // widget.serviceDataModel.serviceList = null,
+                        _selectedDropItem.garageId = "",
+                        _selectedDropItem.vehicleId = "",
+                        _selectedDropItem.driverId,
+                        dateText.text = "",
+                        nextDateText.text = "",
+                        totalCost = 0,
+                        AppConstant.expenseSlipURL = "",
+                        AppConstant.partsImageURL = "",
+                        AppConstant.requestList = [],
                         Navigator.pop(context),
                         Navigator.push(
                             context,
@@ -186,142 +320,29 @@ class _AddServiceViewState extends State<AddServiceView> {
       }
     };
 
-    void removeItem(int position) {
-      AppConstant.requestList..removeAt(position);
-      _children = List.from(_children)..removeAt(position);
-      controllers.removeAt(position);
-      controllers2.removeAt(position);
-      controllers3.removeAt(position);
-      // initialForm = false;
-    }
+    if (widget.serviceDataModel.serviceList != null) {
+      dateText.text =
+          convertDate2(widget.serviceDataModel.serviceList?.date ?? "");
+      nextDateText.text = convertDate2(
+          widget.serviceDataModel.serviceList?.nextServiceDate ?? "");
+      _selectedDropItem.vehicleId =
+          widget.serviceDataModel.serviceList!.vechileId.toString();
+      _selectedDropItem.garageId =
+          widget.serviceDataModel.serviceList!.gargeId.toString();
+      _selectedDropItem.driverId =
+          widget.serviceDataModel.serviceList!.driverId.toString();
+      if (!initialForm) {
+        AppConstant.expenseSlipURL =
+            widget.serviceDataModel.serviceList!.expenseSlip.toString();
+        AppConstant.partsImageURL =
+            widget.serviceDataModel.serviceList!.partsImg.toString();
+      }
 
-    void editItem(int position) {
-      AddServiceItemDialog(context, "${AppConstant.userId}", position);
-    }
-
-    void add(RequestServiceModel requestList) {
-      TextEditingControllerWithEndCursor serviceName =
-          TextEditingControllerWithEndCursor(text: '');
-      TextEditingControllerWithEndCursor serviceDetails =
-          TextEditingControllerWithEndCursor(text: '');
-      TextEditingControllerWithEndCursor serviceCost =
-          TextEditingControllerWithEndCursor(text: '');
-
-      print("requestList  ${AppConstant.requestList.length}");
-      serviceDetails.text = requestList.details ?? "";
-      serviceCost.text = requestList.Amount.toString();
-      serviceName.text = requestList.ServiceName.toString();
-
-      controllers.add(serviceName); //adding the current controller to the list
-      controllers2.add(serviceCost);
-      controllers3.add(serviceDetails);
-      // for (int i = 0; i < controllers.length; i++) {
-      //   print(controllers[i]
-      //       .text); //printing the values to show that it's working
-      // }
-
-      _children = List.from(_children)
-        ..add(Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 8.0),
-          child: Container(
-            decoration:
-                BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: new Stack(children: <Widget>[
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: serviceName,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(hintText: "Service Name"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: serviceDetails,
-                        textInputAction: TextInputAction.next,
-                        decoration:
-                            InputDecoration(hintText: "Service Details"),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: serviceCost,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(hintText: "Service Cost"),
-                      ),
-                    )
-                  ],
-                ),
-                new Align(
-                  alignment: Alignment.topRight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        height: 25.0,
-                        width: 25.0,
-                        child: FittedBox(
-                          child: IconButton(
-                            icon: Icon(Icons.cancel),
-                            onPressed: () {
-                              setState(() {
-                                for (int i = 0; i < controllers.length; i++) {
-                                  if (serviceName.text == controllers[i].text) {
-                                    print(
-                                        "removeView   ${i}    ${serviceDetails.text}");
-                                    removeItem(i);
-                                  }
-                                  //   print("controllers   ${controllers[i].text}   ${serviceName.text}" ); //printing the values to show that it's working
-                                }
-
-                                print(
-                                    "calling after click ${_children.length}   ${serviceDetails.text}");
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 25.0,
-                        width: 25.0,
-                        child: FittedBox(
-                          child: IconButton(
-                            icon: Icon(Icons.edit),
-                            onPressed: () {
-                              print(
-                                  "calling after  ${_children.length}   ${serviceDetails.text}");
-
-                              for (int i = 0; i < controllers.length; i++) {
-                                print(
-                                    "controllers   ${controllers[i].text}   ${serviceName.text}");
-                                if (serviceName.text == controllers[i].text) {
-                                  print(
-                                      "EditView   ${i}    ${serviceDetails.text}");
-                                  editItem(i);
-                                }
-                              }
-                            },
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ]),
-            ),
-          ),
-        ));
-      // setState(() => ++_count);
+      //expenseSlip.text =  widget.serviceDataModel.serviceList!.expenseSlip.toString();
+    } else {
+      // AppConstant.expenseSlipURL = "";
+      // AppConstant.partsImageURL = "";
+      _selectedDropItem.vehicleId = widget.vehicleId;
     }
 
     if ((widget.serviceDataModel.serviceCost?.length ?? 0) > 0) {
@@ -346,8 +367,13 @@ class _AddServiceViewState extends State<AddServiceView> {
           AppConstant.requestList.add(requestServiceModel);
           add(requestServiceModel);
         }
+        initialForm = true;
+      } else {
+        _children.clear();
+        for (int i = 0; i < AppConstant.requestList.length; i++) {
+          add(AppConstant.requestList[i]);
+        }
       }
-      initialForm = true;
     } else {
       _children.clear();
       for (int i = 0; i < AppConstant.requestList.length; i++) {
@@ -355,7 +381,6 @@ class _AddServiceViewState extends State<AddServiceView> {
       }
     }
 
-    _loadData(context);
     EasyLoading.dismiss();
     return Scaffold(
       appBar: AppBar(
@@ -514,14 +539,13 @@ class _AddServiceViewState extends State<AddServiceView> {
                 ),
                 Container(
                   child: ListView(
-                      primary: false, shrinkWrap: true, 
-                      children: _children
-                      ),
+                      primary: false, shrinkWrap: true, children: _children),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     // add(null, services.serviceNameList);
-                    AddServiceItemDialog(context, "${AppConstant.userId}", -1);
+                    AddServiceItemDialog(context, widget.serviceDataModel,
+                        "${AppConstant.userId}", -1, initialForm);
                   },
                   child: Text("Add New"),
                 ),
@@ -547,7 +571,7 @@ class _AddServiceViewState extends State<AddServiceView> {
               ])),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: longButtons("SAVE", doUpdate),
+                child: longButtons("${widget.serviceDataModel.serviceList != null ? "Update": "Save"}", doUpdate),
               ),
             ],
           );

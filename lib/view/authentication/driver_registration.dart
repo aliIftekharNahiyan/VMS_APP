@@ -36,6 +36,20 @@ void _loadData(BuildContext context) async {
       });
 }
 
+void _driverAllocationDeallocation(BuildContext context, {driverId: String}) {
+  Future<UserInfoModel> getUserData() => UserPreferences().getUser();
+  getUserData().then((value) => {
+        print("UserId::::::: ${value.id}"),
+        Provider.of<ServiceProvider>(context, listen: false)
+            .getAllocationDeallocation(ownerId: value.id!, driverId: driverId)
+            .then((value) {
+          if (value) {
+            _loadData(context);
+          }
+        })
+      });
+}
+
 class _DriverRegistrationState extends State<DriverRegistration> {
   final formKey = new GlobalKey<FormState>();
   late String _username, _userNumber, _password, _confirmPassword;
@@ -302,9 +316,25 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                                                       ""),
                                                 ]),
                                           ),
-                                          // DriverAddRemoveWidget(
-                                          //     searchDriverModel:
-                                          //         services.searchDriverModel[i])
+                                          TextButton(
+                                            onPressed: () {
+                                              _driverAllocationDeallocation(
+                                                  context,
+                                                  driverId: services
+                                                      .searchDriverModel[i].id);
+                                            },
+                                            child: Text(
+                                              "${services.searchDriverModel[i].isDriverAllocated == 1 ? "Active" : "Deactive"}",
+                                              style: TextStyle(
+                                                  color: services
+                                                              .searchDriverModel[
+                                                                  i]
+                                                              .isDriverAllocated ==
+                                                          1
+                                                      ? Colors.blue
+                                                      : Colors.red),
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),

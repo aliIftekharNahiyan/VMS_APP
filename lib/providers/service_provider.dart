@@ -651,6 +651,16 @@ class ServiceProvider with ChangeNotifier {
         .catchError(onError);
   }
 
+  Future<bool> getAllocationDeallocation({ownerId: String, driverId: String}) async {
+    var response = await get(Uri.parse(AppUrl.driverAllocationDeallocation
+        .replaceAll("_ownerId", ownerId.toString())
+        .replaceAll("_driverId", driverId.toString())));
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
   Future<FutureOr> onServiceReport(Response response) async {
     if (response.statusCode == 200) {
       expenseReportModel.clear();
