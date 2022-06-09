@@ -72,7 +72,7 @@ class _ServiceListState extends State<ServiceListView> {
                           },
                           child: Column(
                             children: <Widget>[
-                              SizedBox(height: 5),
+                              SizedBox(height: 10),
                               ServiceItem(
                                   textTitle: 'Entry Date:',
                                   text:
@@ -147,18 +147,15 @@ class _ServiceListState extends State<ServiceListView> {
                                             "",
                                         text: serviceDataModel
                                             .serviceCost![index].cost
-                                            .toString());
-                                    Text(serviceDataModel
-                                            .serviceCost![index].serviceName ??
-                                        "");
+                                            .toString() + " tk");
                                   }),
 
                               ServiceItem(
                                   textTitle: 'Total Amount:',
                                   text: serviceDataModel
                                       .serviceList!.totalAmount
-                                      .toString()),
-                              SizedBox(height: 5)
+                                      .toString() + " tk"),
+                              SizedBox(height: 10),
                             ],
                           ),
                         ),

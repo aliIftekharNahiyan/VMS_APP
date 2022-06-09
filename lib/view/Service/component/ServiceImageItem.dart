@@ -35,25 +35,25 @@ class _ServiceImageItemState extends State<ServiceImageItem> {
               flex: 1,
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ImageFullScreen(imageURL: widget.image)
-                    )        
-                  );
+                  if (widget.image != "") {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ImageFullScreen(imageURL: widget.image)));
+                  }
                 },
                 child: widget.image == ""
                     ? Align(
-                      alignment: Alignment.centerLeft,
-                      child: Image.asset(
+                        alignment: Alignment.centerLeft,
+                        child: Image.asset(
                           "assets/icons/edit_image.png",
                           height: 100,
                           width: 100,
                           fit: BoxFit.contain,
                           color: Colors.black,
                         ),
-                    )
+                      )
                     : Container(
                         alignment: Alignment.centerLeft,
                         child: CachedNetworkImage(

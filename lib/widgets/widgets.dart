@@ -2,17 +2,13 @@ import 'package:amargari/model/forget_password_model.dart';
 import 'package:amargari/view/authentication/password_reset_dialog.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:amargari/providers/auth.dart';
 import 'package:amargari/widgets/themes.dart';
-import 'dart:ui' as ui;
-// import 'package:fluttertoast/fluttertoast.dart';
 
 MaterialButton longButtons(String title, VoidCallback fun,
     {Color textColor: Colors.white}) {
@@ -155,7 +151,8 @@ Future<void> displayTextInputDialog(BuildContext context,
                         ).show(context),
 
                         passwordResetDialog(
-                            context, _textFieldController.text, value.otp, type: type),
+                            context, _textFieldController.text, value.otp,
+                            type: type),
 
                         //Navigator.pop(context),
                       }

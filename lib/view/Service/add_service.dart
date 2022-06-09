@@ -122,31 +122,56 @@ class _AddServiceViewState extends State<AddServiceView> {
                   SizedBox(
                     height: 10,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: serviceName,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(hintText: "Service Name"),
-                    ),
+                  Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.centerLeft,
+                      child: Text("Service Name: ${serviceName.text} ")),
+                  Divider(
+                    color: Colors.grey,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: serviceDetails,
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(hintText: "Service Details"),
-                    ),
+                  Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.centerLeft,
+                      child:
+                          Text("Service Description: ${serviceDetails.text} ")),
+                  Divider(
+                    color: Colors.grey,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: serviceCost,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(hintText: "Service Cost"),
-                    ),
-                  )
+                  Container(
+                      padding: EdgeInsets.all(10),
+                      alignment: Alignment.centerLeft,
+                      child: Text("Service Cost: ${serviceCost.text} tk.")),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: TextFormField(
+                  //     enabled: false,
+                  //     controller: serviceName,
+                  //     textInputAction: TextInputAction.next,
+                  //     decoration: InputDecoration(hintText: "Service Name"),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: TextFormField(
+                  //     controller: serviceDetails,
+                  //     enabled: false,
+                  //     textInputAction: TextInputAction.next,
+                  //     decoration: InputDecoration(hintText: "Service Details"),
+                  //   ),
+                  // ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: TextFormField(
+                  //     controller: serviceCost,
+                  //     enabled: false,
+                  //     textInputAction: TextInputAction.next,
+                  //     keyboardType: TextInputType.number,
+                  //     decoration: InputDecoration(hintText: "Service Cost"),
+                  //   ),
+                  // )
                 ],
               ),
               new Align(
@@ -571,7 +596,9 @@ class _AddServiceViewState extends State<AddServiceView> {
               ])),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: longButtons("${widget.serviceDataModel.serviceList != null ? "Update": "Save"}", doUpdate),
+                child: longButtons(
+                    "${widget.serviceDataModel.serviceList != null ? "Update" : "Save"}",
+                    doUpdate),
               ),
             ],
           );
