@@ -36,6 +36,7 @@ class UserPreferences {
     prefs.setString("tinBin", user.tinBin.toString());
     prefs.setString("createdBy", user.createdBy.toString());
     prefs.setString("profilePicture", user.profilePicture.toString());
+    prefs.setString("reference", user.reference.toString());
 
     print("object prefere");
     //print(user.renewalToken);
@@ -73,6 +74,7 @@ class UserPreferences {
     String? bioData = prefs.getString("bioData");
     String? fatherNumber = prefs.getString("fatherNumber");
     String? spouseNumber = prefs.getString("spouseNumber");
+    String? reference = prefs.getString("reference");
 
 
     return UserInfoModel(
@@ -102,6 +104,7 @@ class UserPreferences {
       tinBin: tinBin,
       createdBy: createdBy,
       profilePicture: profilePicture,
+      reference: reference
 
     );
   }

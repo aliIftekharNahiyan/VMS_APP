@@ -14,7 +14,7 @@ class FuelManagementView extends StatefulWidget {
   final String vehicleId;
 
   // In the constructor, require a Todo.
-  FuelManagementView({ required this.title, required this.vehicleId});
+  FuelManagementView({required this.title, required this.vehicleId});
 
   @override
   _FuelManagementViewState createState() => _FuelManagementViewState();
@@ -31,27 +31,32 @@ class _FuelManagementViewState extends State<FuelManagementView> {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
     /*   getUserData()
         .then((value) => {policeCaseList = fetchPoliceCaseList(value.id.toString())});*/
-    getUserData().then((value) => {fuelList = getFuelList(value.id.toString())});
+    getUserData()
+        .then((value) => {fuelList = getFuelList(value.id.toString())});
     new Future.delayed(new Duration(seconds: 3), () {
       setState(() {
         isVisible = false;
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     var addFuelInfo = (FuelListModel insurancePolicyModel) {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  AddUpdateFuelManagement(vcDataModel: insurancePolicyModel, vehicleId: '',)));
+              builder: (context) => AddUpdateFuelManagement(
+                    vcDataModel: insurancePolicyModel,
+                    vehicleId: '',
+                  )));
     };
 
     print("calling fuel ");
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(widget.title),
       ),
       body: FutureBuilder<List<FuelListModel>>(
@@ -65,48 +70,58 @@ class _FuelManagementViewState extends State<FuelManagementView> {
                     itemBuilder: (context, index) {
                       FuelListModel fuelList = snapshot.data![index];
                       return Padding(
-                        padding: const EdgeInsets.fromLTRB(0,2,0,0),
+                        padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                         child: Card(
                           child: new InkResponse(
                               onTap: () {
                                 print(index);
                                 addFuelInfo(fuelList);
                               },
-                              child: Row(
-                                children:[ Expanded(
+                              child: Row(children: [
+                                Expanded(
                                     flex: 2,
                                     child: InkWell(
-                                      onTap: (){
+                                      onTap: () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ImageFullScreen(imageURL: fuelList.slipImg.toString())));
+                                                    ImageFullScreen(
+                                                        imageURL: fuelList
+                                                            .slipImg
+                                                            .toString())));
                                       },
-                                      child: fuelList.slipImg == "" ? Image.asset(
-                                                  "assets/icons/edit_image.png",
-                                                  height: 100,
-                                                  width: 100,
-                                                  fit: BoxFit.contain,
-                                                  color: Colors.black,
-                                                  ): CachedNetworkImage(
-                                        imageUrl: fuelList.slipImg.toString(),
-                                        placeholder: (context, url) =>  Center(
-                                          child: SizedBox(
-                                            width: 30.0,
-                                            height: 30.0,
-                                            child: new CircularProgressIndicator(),
-                                          ),
-                                        ),
-                                        errorWidget: (context, url, error) =>  ImageIcon(AssetImage("assets/icons/edit_image.png")),
-                                        width: 90,
-                                        height: 90,
-                                      ),
-                                    )
-                                ),
-                                  Expanded(
-                                    flex: 8,
-                                    child: Column(
+                                      child: fuelList.slipImg == ""
+                                          ? Image.asset(
+                                              "assets/icons/edit_image.png",
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.contain,
+                                              color: Colors.black,
+                                            )
+                                          : CachedNetworkImage(
+                                              imageUrl:
+                                                  fuelList.slipImg.toString(),
+                                              placeholder: (context, url) =>
+                                                  Center(
+                                                child: SizedBox(
+                                                  width: 30.0,
+                                                  height: 30.0,
+                                                  child:
+                                                      new CircularProgressIndicator(),
+                                                ),
+                                              ),
+                                              errorWidget: (context, url,
+                                                      error) =>
+                                                  ImageIcon(AssetImage(
+                                                      "assets/icons/edit_image.png")),
+                                              width: 90,
+                                              height: 90,
+                                            ),
+                                    )),
+                                Expanded(
+                                  flex: 8,
+                                  child: Column(
                                     children: <Widget>[
                                       SizedBox(height: 5),
                                       ServiceItem(
@@ -115,27 +130,26 @@ class _FuelManagementViewState extends State<FuelManagementView> {
                                       ServiceItem(
                                           textTitle: 'Vehicle Name',
                                           text: fuelList.brandName.toString()),
-
                                       ServiceItem(
                                           textTitle: 'Station Name',
-                                          text: fuelList.stationName.toString()),
-
+                                          text:
+                                              fuelList.stationName.toString()),
                                       ServiceItem(
                                           textTitle: 'Fuel Amount',
                                           text: fuelList.fuleTaken.toString()),
-
                                       ServiceItem(
                                           textTitle: 'Fuel Date',
-                                          text: convertDate(fuelList.timeStamp.toString())),
-
+                                          text: convertDate2(
+                                              fuelList.fuelTime.toString())),
                                       ServiceItem(
                                           textTitle: 'Amount',
-                                          text: "${fuelList.amount.toString()} Taka" ),
+                                          text:
+                                              "${fuelList.amount.toString()} Taka"),
                                       SizedBox(height: 5),
                                     ],
+                                  ),
                                 ),
-                                  ),]
-                              )),
+                              ])),
                         ),
                       );
                     },
@@ -146,7 +160,7 @@ class _FuelManagementViewState extends State<FuelManagementView> {
           // By default, show a loading spinner.
         },
       ),
-     /* floatingActionButton: Padding(
+      /* floatingActionButton: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FloatingActionButton(
           onPressed: () {

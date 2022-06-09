@@ -3,10 +3,7 @@ import 'package:amargari/view/TripManagement/add_modify_trip.dart';
 import 'package:amargari/view/TripManagement/trip_list_view.dart';
 import 'package:flutter/material.dart';
 
-
 class TripManagementHome extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     final myImageAndCaption = [
@@ -14,17 +11,14 @@ class TripManagementHome extends StatelessWidget {
       ["assets/icons/Trip Completed.png", "Trip Completed"],
       ["assets/icons/Trip Request.png", "Trip Request"]
     ];
-     addTrip() {
-
+    addTrip() {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  AddUpdateTrip()));
+          context, MaterialPageRoute(builder: (context) => AddUpdateTrip()));
     }
-    return Scaffold(
 
+    return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("Trip Management"),
       ),
       body: GridView.count(
@@ -37,18 +31,24 @@ class TripManagementHome extends StatelessWidget {
                   print("InkResponse " + i.last);
                   //Navigator.pushNamed(context, MyRoutes.vehicleInfo);
 
-                  if(i.last == "On Going Trip"){
+                  if (i.last == "On Going Trip") {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => TripListView(title: "On Going Trip", statusId: "1")));
-                  }else if(i.last == "Trip Completed"){
+                        MaterialPageRoute(
+                            builder: (context) => TripListView(
+                                title: "On Going Trip", statusId: "1")));
+                  } else if (i.last == "Trip Completed") {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>TripListView(title: "Trip Completed", statusId: "2")));
-                  }else if(i.last == "Trip Request"){
+                        MaterialPageRoute(
+                            builder: (context) => TripListView(
+                                title: "Trip Completed", statusId: "2")));
+                  } else if (i.last == "Trip Request") {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => TripListView(title: "Trip Request", statusId: "-1")));
+                        MaterialPageRoute(
+                            builder: (context) => TripListView(
+                                title: "Trip Request", statusId: "-1")));
                   }
                 },
                 child: Center(
@@ -75,28 +75,26 @@ class TripManagementHome extends StatelessWidget {
           ),
         ],
       ),
-
-
-      floatingActionButton: AppConstant.userTypeId != 2 ? Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: FloatingActionButton(
-          onPressed: () {
-            addTrip();
-          },
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 29,
-          ),
-          backgroundColor: Colors.orange,
-          tooltip: 'Add More',
-          elevation: 5,
-          splashColor: Colors.grey,
-        ),
-      ) : Container(),
+      floatingActionButton: AppConstant.userTypeId != 2
+          ? Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  addTrip();
+                },
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: 29,
+                ),
+                backgroundColor: Colors.orange,
+                tooltip: 'Add More',
+                elevation: 5,
+                splashColor: Colors.grey,
+              ),
+            )
+          : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
-
-
 }

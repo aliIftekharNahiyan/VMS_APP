@@ -136,6 +136,7 @@ class _MonthlyReportViewState extends State<MonthlyReportView> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("Expense report"),
       ),
       body: SingleChildScrollView(

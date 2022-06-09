@@ -83,6 +83,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<dynamic> register(
+      int Id,
       String UserTypeId,
       String name,
       String mobileNo,
@@ -96,8 +97,11 @@ class AuthProvider with ChangeNotifier {
       String salary,
       String bouns,
       String tradeLicense,
-      String tinBin) async {
+      String tin_Bin,
+      int ownerId) async {
+
     final Map<String, dynamic> registrationData = {
+      'Id': Id,
       'UserTypeId': UserTypeId,
       'Name': name,
       'MobileNo': mobileNo,
@@ -111,8 +115,8 @@ class AuthProvider with ChangeNotifier {
       "Salary": salary,
       "Bouns": bouns,
       "TradeLicense": tradeLicense,
-      "Tin_Bin": tinBin,
-      "OwnerId": 0
+      "Tin_Bin": tin_Bin,
+      "OwnerId": ownerId
     };
     print("registrationData $registrationData");
     return await post(Uri.parse(AppUrl.register),
@@ -185,6 +189,8 @@ class AuthProvider with ChangeNotifier {
       'OTPCode': OTPCode,
     };
 
+    print("OTP CODE $OTPCode");
+
     return await post(Uri.parse(AppUrl.updatePassword),
             body: json.encode(registrationData),
             headers: {'Content-Type': 'application/json'})
@@ -246,7 +252,8 @@ class AuthProvider with ChangeNotifier {
       String drivarProfileImage,
       String bioData,
       String fatherMobile,
-      String spouseMobile) async {
+      String spouseMobile,
+      String referance) async {
     final Map<String, dynamic> registrationData = {
       'UserTypeId': userTypeId,
       'Name': name,
@@ -271,7 +278,8 @@ class AuthProvider with ChangeNotifier {
       "BirthCertificateImg2": birthCertificate2,
       "ChairmanCertificateImg2": chairmanCertificate2,
       "DriverPictureImg2": drivarProfileImage,
-      "SpouseMobileNumber": spouseMobile
+      "SpouseMobileNumber": spouseMobile,
+      "Reference": referance
     };
     return await post(Uri.parse(AppUrl.profileUpdate),
             body: json.encode(registrationData),

@@ -17,7 +17,9 @@ const double CAMERA_BEARING = 30;
 
 class ShowInfoOnMap extends StatefulWidget {
   final infoTypeId;
-  const ShowInfoOnMap({Key? key, this.infoTypeId}) : super(key: key);
+  final title;
+  const ShowInfoOnMap({Key? key, this.infoTypeId, this.title})
+      : super(key: key);
 
   @override
   State<ShowInfoOnMap> createState() => _ShowInfoOnMapState();
@@ -165,6 +167,10 @@ class _ShowInfoOnMapState extends State<ShowInfoOnMap> {
         });
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
+          title: Text(widget.title ?? ""),
+        ),
         body: GoogleMap(
           myLocationEnabled: true,
           compassEnabled: false,

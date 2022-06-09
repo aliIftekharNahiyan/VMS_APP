@@ -87,33 +87,43 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
         isVisible = false;
       });
     });
+    _loadData();
+  }
+
+  _loadData() {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
     getUserData().then((value) => {
-      if(widget.requestType == AppConstant.docRegistrationImg) {
-        vehicleList =
-            VehicleDocumentInfoProvider().fetchDocumentHistory(widget.vehicleId, "4","")
-      }else if(widget.requestType == AppConstant.docFitnessImg) {
-        vehicleList =
-            VehicleDocumentInfoProvider().fetchDocumentHistory(widget.vehicleId, "3","")
-      }else if(widget.requestType == AppConstant.docInsuranceImg) {
-        vehicleList =
-            VehicleDocumentInfoProvider().fetchDocumentHistory(widget.vehicleId, "1","")
-      }else if(widget.requestType == AppConstant.docTaxTokenImg) {
-        vehicleList =
-            VehicleDocumentInfoProvider().fetchDocumentHistory(widget.vehicleId, "2","")
-      }else if(widget.requestType == AppConstant.docRoadPermitImg) {
-        vehicleList =
-            VehicleDocumentInfoProvider().fetchDocumentHistory(widget.vehicleId, "5","")
-      }
-
-    });
+          if (widget.requestType == AppConstant.docRegistrationImg)
+            {
+              vehicleList = VehicleDocumentInfoProvider()
+                  .fetchDocumentHistory(widget.vehicleId, "4", "")
+            }
+          else if (widget.requestType == AppConstant.docFitnessImg)
+            {
+              vehicleList = VehicleDocumentInfoProvider()
+                  .fetchDocumentHistory(widget.vehicleId, "3", "")
+            }
+          else if (widget.requestType == AppConstant.docInsuranceImg)
+            {
+              vehicleList = VehicleDocumentInfoProvider()
+                  .fetchDocumentHistory(widget.vehicleId, "1", "")
+            }
+          else if (widget.requestType == AppConstant.docTaxTokenImg)
+            {
+              vehicleList = VehicleDocumentInfoProvider()
+                  .fetchDocumentHistory(widget.vehicleId, "2", "")
+            }
+          else if (widget.requestType == AppConstant.docRoadPermitImg)
+            {
+              vehicleList = VehicleDocumentInfoProvider()
+                  .fetchDocumentHistory(widget.vehicleId, "5", "")
+            }
+        });
   }
 
   @override
   Widget build(BuildContext context) {
-    var viewVehicleInfo = (VehicleDocDetailsModel vehicleInfoDataModel) {
-
-    };
+    var viewVehicleInfo = (VehicleDocDetailsModel vehicleInfoDataModel) {};
     VehicleDocumentInfoProvider vehicleDocumentInfoProvider =
         Provider.of<VehicleDocumentInfoProvider>(context);
     doUpdate() {
@@ -132,9 +142,10 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
                 AppConstant.docRegistrationImgURL,
                 "4",
                 expiryDate.text,
-                regDate.text,  otherExpense.text,
+                regDate.text,
+                otherExpense.text,
                 feesAmount.text,
-                 regNumber.text);
+                regNumber.text);
             widget.vcDataModel.registrationDate = convertDate4(regDate.text);
             widget.vcDataModel.registrationExpireDate =
                 convertDate4(expiryDate.text);
@@ -197,24 +208,17 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
           }
 
           vehicleDoc?.whenComplete(() => {
-                setState(() { }),
-                snackBar(context, "Document save successfully"),
-
-          regDate.text = "",
-              regNumber.text = "",
-          expiryDate.text = '',
-          feesAmount.text = '',
-          otherExpense.text = '',
-          uploadImage.text = '',
-
-               /* Navigator.pop(context),
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VehicleDocumentDetailsView(
-                            requestType: widget.requestType,
-                            vehicleId: widget.vcDataModel.id.toString(),
-                            vcDataModel: widget.vcDataModel)))*/
+                setState(() => {
+                      snackBar2(context, "Document save successfully",
+                          success: true),
+                      regDate.text = "",
+                      regNumber.text = "",
+                      expiryDate.text = '',
+                      feesAmount.text = '',
+                      otherExpense.text = '',
+                      uploadImage.text = '',
+                      _loadData()
+                    })
               });
         } else {
           if (widget.requestType == AppConstant.docRegistrationImg) {
@@ -291,27 +295,17 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
           }
 
           vehicleDoc?.whenComplete(() => {
-            setState(() { }),
-            snackBar(context, "Document save successfully"),
-
-            regDate.text = "",
-            regNumber.text = "",
-            expiryDate.text = '',
-            feesAmount.text = '',
-            otherExpense.text = '',
-            uploadImage.text = '',
-
-
-        // Navigator.pop(context),
-        /*  Navigator.push(
-                context,
-                MaterialPageRoute(Fees Amount
-                    builder: (context) => VehicleDocumentDetailsView(
-                        requestType: widget.requestType,
-                        vehicleId: widget.vcDataModel.id.toString(),
-                        vcDataModel: widget.vcDataModel)))*/
-
-          });
+                setState(() => {
+                      snackBar2(context, "Document save successfully", success: true),
+                      regDate.text = "",
+                      regNumber.text = "",
+                      expiryDate.text = '',
+                      feesAmount.text = '',
+                      otherExpense.text = '',
+                      uploadImage.text = '',
+                      _loadData()
+                    }),
+              });
         }
       } else {
         print("calling");
@@ -319,9 +313,9 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
       }
     }
 
-
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(widget.requestType),
       ),
       body: SingleChildScrollView(
@@ -347,14 +341,14 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
                 hintText: 'Type registration number',
               ),
               SizedBox(height: 10),
-          if (widget.requestType != AppConstant.docRegistrationImg) ...[
-             EditListItem(
-                  text: 'Expiry Date',
-                  nameController: expiryDate,
-                  isDate: true,
-                  isFutureDate: true,
-                  isRequired: true,
-                  hintText: 'Click to select date'),
+              if (widget.requestType != AppConstant.docRegistrationImg) ...[
+                EditListItem(
+                    text: 'Expiry Date',
+                    nameController: expiryDate,
+                    isDate: true,
+                    isFutureDate: true,
+                    isRequired: true,
+                    hintText: 'Click to select date'),
               ],
               SizedBox(height: 10),
               EditListItem(
@@ -386,7 +380,6 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                     
                       SizedBox(width: 20),
                       MaterialButton(
                         onPressed: () {
@@ -404,97 +397,130 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
               FutureBuilder<List<VehicleDocDetailsModel>>(
                 future: vehicleList,
                 builder: (context, snapshot) {
-
                   if (snapshot.connectionState == ConnectionState.done) {
-
                     return snapshot.data!.isEmpty
                         ? Center(child: Text('Not found any information '))
                         : Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                      child: ListView.builder(
-                        primary: false,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          VehicleDocDetailsModel vehicleInfoDataModel =
-                          snapshot.data![index];
+                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                            child: ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                VehicleDocDetailsModel vehicleInfoDataModel =
+                                    snapshot.data![index];
 
-                          int totalCost = int.parse(vehicleInfoDataModel.feesAmount ?? "0") + int.parse(vehicleInfoDataModel.otherExpense ?? "0");
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                            child: Card(
-                              child: new InkResponse(
-                                onTap: () {
-                                  print(index);
-                                  viewVehicleInfo(vehicleInfoDataModel);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children:[
-                                      Expanded(
-                                          flex: 3,
-                                          child: InkWell(
-                                            onTap: (){
-                                              
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ImageFullScreen(imageURL: vehicleInfoDataModel.insuranceImg ?? "",)));
+                                int totalCost = int.parse(
+                                        vehicleInfoDataModel.feesAmount ??
+                                            "0") +
+                                    int.parse(
+                                        vehicleInfoDataModel.otherExpense ??
+                                            "0");
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                  child: Card(
+                                    child: new InkResponse(
+                                      onTap: () {
+                                        print(index);
+                                        viewVehicleInfo(vehicleInfoDataModel);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                                flex: 3,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ImageFullScreen(
+                                                                  imageURL:
+                                                                      vehicleInfoDataModel
+                                                                              .insuranceImg ??
+                                                                          "",
+                                                                )));
+                                                  },
+                                                  child: vehicleInfoDataModel
+                                                              .insuranceImg ==
+                                                          ""
+                                                      ? Image.asset(
+                                                          "assets/icons/edit_image.png",
+                                                          color: Colors.black,
+                                                        )
+                                                      : CachedNetworkImage(
+                                                          imageUrl:
+                                                              vehicleInfoDataModel
+                                                                      .insuranceImg ??
+                                                                  "",
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              CircularProgressIndicator(),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              ImageIcon(AssetImage(
+                                                                  "assets/icons/edit_image.png")),
+                                                          height: 100,
+                                                        ),
+                                                )),
+                                            Expanded(
+                                                flex: 7,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => VehicleDocumentView(
+                                                                requestType: widget
+                                                                    .requestType,
+                                                                vehicleId: widget
+                                                                    .vcDataModel
+                                                                    .id
+                                                                    .toString(),
+                                                                vcDataModel: widget
+                                                                    .vcDataModel,
+                                                                vcDocDetailsModel:
+                                                                    vehicleInfoDataModel)));
+                                                  },
+                                                  child:
+                                                      Column(children: <Widget>[
+                                                    VehicleListItem(
+                                                        textTitle: 'Reg date:',
+                                                        text: convertDate2(
+                                                            vehicleInfoDataModel
+                                                                    .regdate ??
+                                                                "")),
+                                                    VehicleListItem(
+                                                        textTitle:
+                                                            'Reg Number:',
+                                                        text: vehicleInfoDataModel
+                                                                .registrationNumber ??
+                                                            ""),
+                                                    VehicleListItem(
+                                                        textTitle:
+                                                            'Fees Amount:',
+                                                        text: vehicleInfoDataModel
+                                                                .feesAmount ??
+                                                            ""),
+                                                    VehicleListItem(
+                                                        textTitle:
+                                                            'Others Expense:',
+                                                        text: vehicleInfoDataModel
+                                                                .otherExpense ??
+                                                            ""),
+                                                    VehicleListItem(
+                                                        textTitle:
+                                                            'Total Cost:',
+                                                        text: totalCost
+                                                            .toString())
+                                                  ]),
+                                                )),
 
-                                            },
-                                            child: vehicleInfoDataModel.insuranceImg == "" ? 
-                                              Image.asset("assets/icons/edit_image.png", color: Colors.black,) :
-                                             CachedNetworkImage(
-                                              imageUrl: vehicleInfoDataModel.insuranceImg ?? "",
-                                              placeholder: (context, url) => CircularProgressIndicator(),
-                                              errorWidget: (context, url, error) =>  ImageIcon(AssetImage("assets/icons/edit_image.png")),
-                                              height: 100,
-                                            ),
-                                          )
-                                      ),
-                                      Expanded(
-                                          flex: 7,
-                                          child:InkWell(
-                                            onTap: (){
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          VehicleDocumentView(
-                                                              requestType: widget.requestType,
-                                                              vehicleId: widget
-                                                                  .vcDataModel.id
-                                                                  .toString(),
-                                                              vcDataModel:
-                                                              widget.vcDataModel,
-                                                              vcDocDetailsModel: vehicleInfoDataModel
-                                                          )));
-                                            },
-                                            child: Column(children: <Widget>[
-                                              VehicleListItem(
-                                                  textTitle: 'Reg date:',
-                                                  text: convertDate2(vehicleInfoDataModel.regdate ?? "")),
-                                              VehicleListItem(
-                                                  textTitle: 'Reg Number:',
-                                                  text: vehicleInfoDataModel.registrationNumber ?? ""),
-                                              VehicleListItem(
-                                                  textTitle: 'Fees Amount:',
-                                                  text: vehicleInfoDataModel.feesAmount ?? ""),
-                                              VehicleListItem(
-                                                  textTitle: 'Others Expense:',
-                                                  text: vehicleInfoDataModel.otherExpense ?? ""),
-                                              VehicleListItem(
-                                                  textTitle: 'Total Cost:',
-                                                  text: totalCost.toString())
-                                            ]),
-                                          )
-                                      ),
-
-
-                                      /*Column(children: <Widget>[
+                                            /*Column(children: <Widget>[
                                       VehicleListItem(
                                           textTitle: 'Brand Name:',
                                           text: vehicleInfoDataModel.brandName),
@@ -502,15 +528,15 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
                                           textTitle: 'Model Name:',
                                           text: vehicleInfoDataModel.modelName),
                                     ]),*/
-                                    ],
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
+                                );
+                              },
                             ),
                           );
-                        },
-                      ),
-                    );
                   } else {
                     return Center(child: CircularProgressIndicator());
                   }

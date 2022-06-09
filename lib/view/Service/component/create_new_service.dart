@@ -11,10 +11,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../../../model/service/service_model.dart';
 import 'AddServiceItemDialog.dart';
 
 Future<void> CreateNewServiceDialog(
-    BuildContext context, String userId, int position) async {
+    BuildContext context,  ServiceDataModel serviceModel, String userId, int position, bool initial) async {
   Provider.of<ServiceProvider>(context, listen: false)
       .getServiceListDropDown(userId);
   SelectedDropDown _selectedDropItem = Get.find();
@@ -52,7 +53,7 @@ Future<void> CreateNewServiceDialog(
                   if (value) {
                     Navigator.pop(context);
                     AddServiceItemDialog(
-                        context, "${AppConstant.userId}", position);
+                        context, serviceModel, "${AppConstant.userId}", position, initial);
                   }
                 });
               },

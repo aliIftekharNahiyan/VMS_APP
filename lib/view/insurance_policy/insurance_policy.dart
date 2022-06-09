@@ -26,8 +26,8 @@ class _InsurancePolicyViewState extends State<InsurancePolicyView> {
     super.initState();
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
 
-    getUserData()
-        .then((value) => {insurancePolicy = getInsurancePolicyList(value.id.toString())});
+    getUserData().then((value) =>
+        {insurancePolicy = getInsurancePolicyList(value.id.toString())});
     new Future.delayed(new Duration(seconds: 3), () {
       setState(() {
         isVisible = false;
@@ -46,6 +46,7 @@ class _InsurancePolicyViewState extends State<InsurancePolicyView> {
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(widget.title),
       ),
       body: FutureBuilder<List<InsurancePolicyModel>>(

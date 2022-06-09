@@ -16,7 +16,6 @@ class AllDropDownItemWithOutPadding extends StatefulWidget {
   final bool isRequired;
   List<CommonDropDownModel> list;
   String selectedItem;
-  
 
   @override
   _AllDropDownItemWithOutPaddingState createState() =>
@@ -25,10 +24,16 @@ class AllDropDownItemWithOutPadding extends StatefulWidget {
 
 class _AllDropDownItemWithOutPaddingState
     extends State<AllDropDownItemWithOutPadding> {
+  String selectedItem = "";
+
+  @override
+  void initState() {
+    selectedItem = widget.list.firstWhere((e) => e.name == widget.selectedItem).id.toString();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(
-        " selectedItem dropdown ${widget.requestType}  ${widget.selectedItem}    ");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: Row(children: [
@@ -56,21 +61,14 @@ class _AllDropDownItemWithOutPaddingState
                           EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0))),
-                  child: Row(children: [
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 0.0),
-                        child: DropDown(
-                          widget.list,
-                          isExpanded: true,
-                          requestType: widget.requestType,
-                          selectedItem: widget.selectedItem,
-                          isUnderline: false,
-                          onCallback: () {},
-                        ),
-                      ),
-                    ),
-                  ]),
+                  child: DropDown(
+                    widget.list,
+                    isExpanded: true,
+                    requestType: widget.requestType,
+                    selectedItem: selectedItem,
+                    isUnderline: false,
+                    onCallback: () {},
+                  ),
                 )
               : InputDecorator(
                   decoration: InputDecoration(
@@ -81,12 +79,6 @@ class _AllDropDownItemWithOutPaddingState
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0))),
                   child: Row(children: [
-                    /*  Padding(
-                padding: const EdgeInsets.only(bottom: 0),
-                child: Row(children: [Visibility(child: Icon(Icons.star, color: Colors.red, size: 10), visible: widget.isRequired,),
-                  Visibility(child: SizedBox(width: 10,),visible: widget.isRequired),]),
-              ),
-              label(widget.textTitle),*/
                     Expanded(
                       child: hintLabelLeft("No value found"),
                     )

@@ -28,6 +28,8 @@ class DropDown extends StatefulWidget {
 }
 
 class _DropDownState extends State<DropDown> {
+  SelectedDropDown _selectedDropItem = Get.find();
+
   List<CommonDropDownModel> _list;
   // String? _selecteditem;
   bool? expanded;
@@ -38,9 +40,16 @@ class _DropDownState extends State<DropDown> {
       this.selectedItem);
 
   @override
-  Widget build(BuildContext context) {
-    SelectedDropDown _selectedDropItem = Get.find();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+
+    
+    
     print("dropdown  ${widget.requestType}   ${widget.selectedItem}");
     return DropdownButton(
       isDense: true,

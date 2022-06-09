@@ -118,6 +118,7 @@ class _ExpenseTypeState extends State<ExpenseType> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text("Expense Type"),
         ),
         body: WillPopScope(

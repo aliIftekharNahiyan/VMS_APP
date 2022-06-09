@@ -31,6 +31,7 @@ class UserInfoModel {
   int? isOtpVerified;
   int? ownerId;
   String? profilePicture;
+  String? reference;
 
   UserInfoModel(
       {this.id,
@@ -62,7 +63,8 @@ class UserInfoModel {
       this.password,
       this.isOtpVerified,
       this.ownerId,
-      this.profilePicture});
+      this.profilePicture, 
+      this.reference});
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
     id = json['Id'];
@@ -70,7 +72,7 @@ class UserInfoModel {
     name = json['Name'];
     mobileNo = json['MobileNo'];
     nid = json['Nid'];
-    joiningDate = json['DriverJoinDate'];
+    joiningDate = json['DriverJoinDate'] == "null" ? "" : json['DriverJoinDate'];
     bc1 = json['BirthCertificateImg1'];
     bc2 = json['BirthCertificateImg2'];
     cc1 = json['ChairmanCertificateImg1'];
@@ -78,15 +80,15 @@ class UserInfoModel {
     driverImg1 = json['DriverPictureImg1'];
     driverImg2 = json['DriverPictureImg2'];
     bioData = json['BioData'];
-    fatherMobile = json['FathersMobileNumber'];
-    spouseMobile = json['SpouseMobileNumber'];
-    occupation = json['Occupation'];
-    address = json['Address'];
-    gender = json['Gender'];
+    fatherMobile = json['FathersMobileNumber'] == "null" ? "" : json['FathersMobileNumber'];
+    spouseMobile = json['SpouseMobileNumber']== "null" ? "" : json['SpouseMobileNumber'];
+    occupation = json['Occupation']== "null" ? "" : json['Occupation'];
+    address = json['Address']== "null" ? "" : json['Address'];
+    gender = json['Gender']== "null" ? "" : json['Gender'];
     drivingLicense = json['DrivingLicense'];
-    licenseExpiryDate = json['LicenseExpiryDate'];
-    salary = json['Salary'];
-    bouns = json['Bouns'];
+    licenseExpiryDate = json['LicenseExpiryDate']== "null" ? "" : json['LicenseExpiryDate'];
+    salary = json['Salary']== "null" ? "" : json['Salary'];
+    bouns = json['Bouns']== "null" ? "" : json['Bouns'];
     tradeLicense = json['TradeLicense'];
     tinBin = json['Tin_Bin'];
     createdBy = json['CreatedBy'];
@@ -95,6 +97,7 @@ class UserInfoModel {
     isOtpVerified = json['IsOtpVerified'];
     ownerId = json['OwnerId'];
     profilePicture = json['ProfilePicture'];
+    reference = json['Reference']== "null" ? "" : json['Reference'];
   }
 
   Map<String, dynamic> toJson() {
@@ -129,6 +132,7 @@ class UserInfoModel {
     data['IsOtpVerified'] = this.isOtpVerified;
     data['OwnerId'] = this.ownerId;
     data['profilePicture'] = this.profilePicture;
+    data['Reference'] = this.reference;
     return data;
   }
 }

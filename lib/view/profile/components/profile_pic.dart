@@ -116,7 +116,7 @@ class _ProfilePicState extends State<ProfilePic> {
                     width: 120,
                     fit: BoxFit.cover
                 )
-                    : AppConstant.profileImageUrl == "" ? SvgPicture.asset("assets/icons/User Icon.svg") : Image.network(AppConstant.profileImageUrl, height: 120,
+                    : AppConstant.profileImageUrl == "" || AppConstant.profileImageUrl == "null"  ? Image.asset("assets/images/profile.png") : Image.network(AppConstant.profileImageUrl, height: 120,
                     width: 120, fit: BoxFit.cover),
               )),
           if(widget.requestType == "details" )

@@ -14,7 +14,7 @@ import 'package:amargari/widgets/drop_down_list_item.dart';
 import 'package:amargari/widgets/widgets.dart';
 
 class AddUpdateInsurancePolicy extends StatefulWidget {
-  AddUpdateInsurancePolicy({ required this.vcDataModel});
+  AddUpdateInsurancePolicy({required this.vcDataModel});
   final InsurancePolicyModel vcDataModel;
 
   @override
@@ -51,7 +51,7 @@ class _AddUpdateInsurancePolicyState extends State<AddUpdateInsurancePolicy> {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
     getUserData().then((value) => {
           Provider.of<ServiceProvider>(context, listen: false)
-              .fetchVehicleDetails(value.id.toString(),""),
+              .fetchVehicleDetails(value.id.toString(), ""),
         });
   }
 
@@ -61,7 +61,7 @@ class _AddUpdateInsurancePolicyState extends State<AddUpdateInsurancePolicy> {
     SelectedDropDown _selectedDropItem = Get.find();
     var doUpdate = () {
       //isEditAble = true;
-      if(isRedundantClick(DateTime.now())){
+      if (isRedundantClick(DateTime.now())) {
         print('hold on, processing');
         return;
       }
@@ -90,6 +90,7 @@ class _AddUpdateInsurancePolicyState extends State<AddUpdateInsurancePolicy> {
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("Insurance Policy"),
       ),
       body: SingleChildScrollView(

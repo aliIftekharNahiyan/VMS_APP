@@ -20,7 +20,7 @@ class Register extends StatefulWidget {
 }
 void _loadData(BuildContext context) async {
     Provider.of<ServiceProvider>(context, listen: false)
-        .getUserType();
+        .getUserType(type: "OWNER");
 }
 
 class _RegisterState extends State<Register> {
@@ -109,6 +109,7 @@ class _RegisterState extends State<Register> {
         if(_selectedDropItem.userTypeId != "" && _username != "" && _userNumber != "" && _password != "") {
           auth
               .register(
+                0,
               _selectedDropItem.userTypeId,
               _username,
               _userNumber,
@@ -122,7 +123,7 @@ class _RegisterState extends State<Register> {
               "",
               "",
               "",
-              "")
+              "", 0)
               .then((response) {
             print("response " + response.toString());
             if (response['status']) {

@@ -27,12 +27,10 @@ class _AddLocationState extends State<AddLocation> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text("Add Map Location"),
-
         ),
-        body : Container(
-          child: Text("data")
-        ),
+        body: Container(child: Text("data")),
       ),
     );
   }

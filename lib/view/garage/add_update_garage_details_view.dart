@@ -11,7 +11,12 @@ import 'package:amargari/widgets/TextEditingControllerWithEndCursor.dart';
 import 'package:amargari/widgets/widgets.dart';
 
 class GarageDetailsView extends StatefulWidget {
-  GarageDetailsView({ required this.vcDataModel, required this.requestType,required this.serviceDataModel, required this.vehicleId,});
+  GarageDetailsView({
+    required this.vcDataModel,
+    required this.requestType,
+    required this.serviceDataModel,
+    required this.vehicleId,
+  });
   final GarageModel vcDataModel;
   final String requestType;
   final ServiceDataModel serviceDataModel;
@@ -25,10 +30,10 @@ class _GarageDetailsViewState extends State<GarageDetailsView> {
   var GargeName = new TextEditingControllerWithEndCursor(text: '');
   var GargeNameLocation = new TextEditingControllerWithEndCursor(text: '');
   var GargeOwnerName = new TextEditingControllerWithEndCursor(text: '');
-  var ContactPersonName1  = new TextEditingControllerWithEndCursor(text: '');
-  var ContactPersonNumber1  = new TextEditingControllerWithEndCursor(text: '');
-  var ContactPersonName2  = new TextEditingControllerWithEndCursor(text: '');
-  var ContactPersonNumber2  = new TextEditingControllerWithEndCursor(text: '');
+  var ContactPersonName1 = new TextEditingControllerWithEndCursor(text: '');
+  var ContactPersonNumber1 = new TextEditingControllerWithEndCursor(text: '');
+  var ContactPersonName2 = new TextEditingControllerWithEndCursor(text: '');
+  var ContactPersonNumber2 = new TextEditingControllerWithEndCursor(text: '');
   late Future<dynamic> garageList;
 
   @override
@@ -56,85 +61,84 @@ class _GarageDetailsViewState extends State<GarageDetailsView> {
   Widget build(BuildContext context) {
     var doUpdate = () {
       //isEditAble = true;
-      if(isRedundantClick(DateTime.now())){
+      if (isRedundantClick(DateTime.now())) {
         print('hold on, processing');
         return;
       }
       print('run process');
       if (GargeName.text != "" && GargeNameLocation.text != "") {
         Future<UserInfoModel> getUserData() => UserPreferences().getUser();
-        getUserData().then((value) =>
-        {
-          if (widget.vcDataModel.id == null)
-            {
-              garageList = GarageProvider().garageDetailsUpdate(
-                  "",
-                  GargeName.text,
-                  GargeNameLocation.text,
-                  "1",
-                  value.id.toString(),
-                  value.ownerId.toString(),
-                GargeOwnerName.text.toString(),
-                ContactPersonName1.text.toString(),
-                ContactPersonNumber1.text.toString(),
-                ContactPersonName2.text.toString(),
-                ContactPersonNumber2.text.toString(),
-              ),
+        getUserData().then((value) => {
+              if (widget.vcDataModel.id == null)
+                {
+                  garageList = GarageProvider().garageDetailsUpdate(
+                    "",
+                    GargeName.text,
+                    GargeNameLocation.text,
+                    "1",
+                    value.id.toString(),
+                    value.ownerId.toString(),
+                    GargeOwnerName.text.toString(),
+                    ContactPersonName1.text.toString(),
+                    ContactPersonNumber1.text.toString(),
+                    ContactPersonName2.text.toString(),
+                    ContactPersonNumber2.text.toString(),
+                  ),
+                }
+              else
+                {
+                  garageList = GarageProvider().garageDetailsUpdate(
+                    widget.vcDataModel.id.toString(),
+                    GargeName.text,
+                    GargeNameLocation.text,
+                    "1",
+                    value.id.toString(),
+                    value.ownerId.toString(),
+                    GargeOwnerName.text.toString(),
+                    ContactPersonName1.text.toString(),
+                    ContactPersonNumber1.text.toString(),
+                    ContactPersonName2.text.toString(),
+                    ContactPersonNumber2.text.toString(),
+                  ),
+                },
 
-            } else
-            {
-
-              garageList = GarageProvider().garageDetailsUpdate(
-                  widget.vcDataModel.id.toString(),
-                  GargeName.text,
-                  GargeNameLocation.text,
-                  "1",
-                  value.id.toString(),
-                  value.ownerId.toString(),
-                GargeOwnerName.text.toString(),
-                ContactPersonName1.text.toString(),
-                ContactPersonNumber1.text.toString(),
-                ContactPersonName2.text.toString(),
-                ContactPersonNumber2.text.toString(),),
-            },
-
-          garageList.whenComplete(() =>
-          {
-            //snackBar(context, "Successfully save you police case"),
-            Navigator.pop(context),
-            Navigator.pop(context),
-            if (widget.requestType == "addFromService"){
-
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          AddServiceView(
-                              serviceDataModel: widget.serviceDataModel, vehicleId: widget.vehicleId)))
-
-            }else{
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          GarageInfoView(
-                              title: "Workshop Expense")))
-            }
-          })
-          // garageList.then((value) =>
-          // {
-          //   print("garageList  " + value.toString()),
-          //   GargeName.text = "",
-          //   GargeNameLocation.text = "",
-          //   snackBar(context, "Successfully save garage")
-          // })
-        });
-      }else{
+              garageList.whenComplete(() => {
+                    //snackBar(context, "Successfully save you police case"),
+                    Navigator.pop(context),
+                    Navigator.pop(context),
+                    if (widget.requestType == "addFromService")
+                      {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddServiceView(
+                                    serviceDataModel: widget.serviceDataModel,
+                                    vehicleId: widget.vehicleId)))
+                      }
+                    else
+                      {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    GarageInfoView(title: "Workshop Expense")))
+                      }
+                  })
+              // garageList.then((value) =>
+              // {
+              //   print("garageList  " + value.toString()),
+              //   GargeName.text = "",
+              //   GargeNameLocation.text = "",
+              //   snackBar(context, "Successfully save garage")
+              // })
+            });
+      } else {
         snackBar(context, "Required field should not empty");
       }
     };
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text("Garage Details"),
       ),
       body: SingleChildScrollView(
@@ -143,19 +147,42 @@ class _GarageDetailsViewState extends State<GarageDetailsView> {
           children: [
             SizedBox(height: 20),
             EditListItem(
-                text: 'Garage Name', nameController: GargeName, isRequired: true, hintText: 'Type garage name',),
+              text: 'Garage Name',
+              nameController: GargeName,
+              isRequired: true,
+              hintText: 'Type garage name',
+            ),
             SizedBox(height: 5),
-            EditListItem(text: 'Garage Location', nameController: GargeNameLocation, isRequired: true, hintText: 'Type garage location'),
+            EditListItem(
+                text: 'Garage Location',
+                nameController: GargeNameLocation,
+                isRequired: true,
+                hintText: 'Type garage location'),
             SizedBox(height: 5),
-            EditListItem(text: 'Garage Owner Name', nameController: GargeOwnerName,  hintText: 'Type garage owner name'),
+            EditListItem(
+                text: 'Garage Owner Name',
+                nameController: GargeOwnerName,
+                hintText: 'Type garage owner name'),
             SizedBox(height: 5),
-            EditListItem(text: 'Contact person name 1', nameController: ContactPersonName1,  hintText: 'Type contact person name 1'),
+            EditListItem(
+                text: 'Contact person name 1',
+                nameController: ContactPersonName1,
+                hintText: 'Type contact person name 1'),
             SizedBox(height: 5),
-            EditListItem(text: 'Contact person number 1', nameController: ContactPersonNumber1, hintText: 'Type contact person number 1'),
+            EditListItem(
+                text: 'Contact person number 1',
+                nameController: ContactPersonNumber1,
+                hintText: 'Type contact person number 1'),
             SizedBox(height: 5),
-            EditListItem(text: 'Contact person name 2', nameController: ContactPersonName2,  hintText: 'Type contact person name 2'),
+            EditListItem(
+                text: 'Contact person name 2',
+                nameController: ContactPersonName2,
+                hintText: 'Type contact person name 2'),
             SizedBox(height: 5),
-            EditListItem(text: 'Contact person number 2', nameController: ContactPersonNumber2, hintText: 'Type contact person number 2'),
+            EditListItem(
+                text: 'Contact person number 2',
+                nameController: ContactPersonNumber2,
+                hintText: 'Type contact person number 2'),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: longButtons("SAVE", doUpdate),

@@ -41,12 +41,13 @@ class _NotificationListViewState extends State<NotificationListView> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => DashBoard()),
-              (Route<dynamic> route) => false,
+          (Route<dynamic> route) => false,
         );
         return false;
       },
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text("Notification"),
         ),
         body: ListView.builder(
@@ -54,7 +55,7 @@ class _NotificationListViewState extends State<NotificationListView> {
           itemBuilder: (context, index) {
             Notifications notifications = widget.notification.data![index];
             return Padding(
-              padding: const EdgeInsets.fromLTRB(10.0,10.0,10.0,0),
+              padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
               child: Card(
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -63,12 +64,14 @@ class _NotificationListViewState extends State<NotificationListView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(height: 5),
-                    Text('Notification Details: ${notifications.notificationDetails ?? ""}'),
+                    Text(
+                        'Notification Details: ${notifications.notificationDetails ?? ""}'),
                     SizedBox(height: 5),
-                    Text('Notification Head: ${notifications.notificationHead ?? ""}'),
+                    Text(
+                        'Notification Head: ${notifications.notificationHead ?? ""}'),
                     SizedBox(height: 5),
-                    Text('Notification Time: ${convertDateTime(notifications.timeStamp ?? "")}'),
-
+                    Text(
+                        'Notification Time: ${convertDateTime(notifications.timeStamp ?? "")}'),
                   ],
                 ),
               )),

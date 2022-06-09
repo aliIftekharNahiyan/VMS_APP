@@ -9,9 +9,12 @@ import 'package:amargari/model/PoliceFreezingDocModel.dart';
 import 'package:amargari/model/ServiceNameModel.dart';
 import 'package:amargari/model/expense_report_model.dart';
 import 'package:amargari/model/garage/GarageModel.dart';
+import 'package:amargari/model/login_model.dart';
 import 'package:amargari/model/rtp/ReportServiceDropdownResponse.dart';
 import 'package:amargari/model/service/service_model.dart';
+import 'package:amargari/model/user_model.dart';
 import 'package:amargari/model/usertypemodel.dart';
+import 'package:amargari/model/vechile_list_res.dart';
 import 'package:amargari/model/vehicleinfo/vechile_general_info_model.dart';
 import 'package:amargari/model/vehicleinfo/vehicle_type.dart';
 import 'package:amargari/uril/app_constant.dart';
@@ -29,6 +32,7 @@ import 'package:amargari/widgets/widgets.dart';
 //profile update
 class ServiceProvider with ChangeNotifier {
   List<CommonDropDownModel> vehicleShortList = [];
+  List<CommonDropDownModel> vehicleAssignedShortList = [];
   List<CommonDropDownModel> garageList = [];
   List<CommonDropDownModel> driverCommonList = [];
   List<CommonDropDownModel> vehicleEnergyType = [];
@@ -41,11 +45,15 @@ class ServiceProvider with ChangeNotifier {
   List<CommonDropDownModel> serviceNameList = [];
   List<CommonDropDownModel> userTypeModel = [];
   List<VehicleInfoDataModel> vehicleModelList = [];
+  List<VechileList> vehiclelList = [];
+
   List<SearchDriverModel> searchDriverModel = [];
   List<ExpenseReportModel> expenseReportModel = [];
   List<CommonDropDownModel> expenseTypeList = [];
   List<CommonDropDownModel> expenseTypeStatusList = [];
   List<CommonDropDownModel> reportServiceList = [];
+
+  UserInfoModel userInfo = new UserInfoModel();
 
   SendRequestRes sendRequestRes = new SendRequestRes();
 
@@ -218,6 +226,30 @@ class ServiceProvider with ChangeNotifier {
     }
   }
 
+  Future<void> fetchAssignedVehicle({String? driverId, String? ownerId}) async {
+    vehicleAssignedShortList.clear();
+    final response = await http.get(Uri.parse(AppUrl.getAssignedVehicle
+        .replaceAll("_driverid", driverId.toString())
+        .replaceAll("_ownerid", ownerId.toString())));
+
+    if (response.statusCode == 200) {
+      vehiclelList = VechileListResponse.fromJson(jsonDecode(response.body))
+          .data as List<VechileList>;
+      vehicleAssignedShortList.clear();
+      for (var _list in vehiclelList) {
+        CommonDropDownModel service = new CommonDropDownModel(
+            id: _list.id.toString(),
+            name: "${_list.brandName}-${_list.modelName}",
+            title: _list.brandName);
+        vehicleAssignedShortList.add(service);
+      }
+
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
   Future<void> fetchGarageList(String userId) async {
     final responseData = await http
         .get(Uri.parse(AppUrl.garageList.replaceAll("_userId", userId)));
@@ -309,7 +341,7 @@ class ServiceProvider with ChangeNotifier {
       for (var _list in energyType) {
         CommonDropDownModel service = new CommonDropDownModel(
             id: _list.id.toString(),
-            name: _list.energySourceType,
+            name: "${_list.energySourceType} (${_list.unit?.toLowerCase()})",
             title: _list.createdBy);
         vehicleEnergyType.add(service);
       }
@@ -367,7 +399,7 @@ class ServiceProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getUserType() async {
+  Future<void> getUserType({type: String}) async {
     Response response = await get(
       Uri.parse(AppUrl.getusertype),
       headers: {'Content-Type': 'application/json'},
@@ -379,9 +411,19 @@ class ServiceProvider with ChangeNotifier {
 
       userTypeModel.clear();
       for (var _list in userType.result!) {
-        CommonDropDownModel service = new CommonDropDownModel(
-            id: _list.id.toString(), name: _list.userTypeName, title: "");
-        userTypeModel.add(service);
+        if (type == "DRIVER") {
+          if (_list.id == 2) {
+            CommonDropDownModel service = new CommonDropDownModel(
+                id: _list.id.toString(), name: _list.userTypeName, title: "");
+            userTypeModel.add(service);
+          }
+        } else {
+          if (_list.id != 2) {
+            CommonDropDownModel service = new CommonDropDownModel(
+                id: _list.id.toString(), name: _list.userTypeName, title: "");
+            userTypeModel.add(service);
+          }
+        }
       }
       notifyListeners();
     } else {
@@ -391,11 +433,12 @@ class ServiceProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getSearchDriverList(String mobileNo, String name) async {
-    final response = await http.get(Uri.parse(AppUrl.searchDriver
-        .replaceAll("_mobileno", mobileNo)
-        .replaceAll("_name", name)));
-    print(AppUrl.searchDriver.replaceAll("_mobileno", mobileNo));
+  Future<void> getSearchDriverList(int ownerId) async {
+    final response = await http.get(Uri.parse(AppUrl.searchDriverQ
+        // .replaceAll("_mobileno", mobileNo)
+        // .replaceAll("_name", name)
+        .replaceAll("_ownerId", ownerId.toString())));
+    // print(AppUrl.searchDriver.replaceAll("_mobileno", mobileNo));
     if (response.statusCode == 200) {
       // final Map<String, dynamic> responseData = json.decode(response.body);
       Iterable l = json.decode(response.body)['data'];
@@ -608,6 +651,16 @@ class ServiceProvider with ChangeNotifier {
         .catchError(onError);
   }
 
+  Future<bool> getAllocationDeallocation({ownerId: String, driverId: String}) async {
+    var response = await get(Uri.parse(AppUrl.driverAllocationDeallocation
+        .replaceAll("_ownerId", ownerId.toString())
+        .replaceAll("_driverId", driverId.toString())));
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
+
   Future<FutureOr> onServiceReport(Response response) async {
     if (response.statusCode == 200) {
       expenseReportModel.clear();
@@ -619,6 +672,4 @@ class ServiceProvider with ChangeNotifier {
       throw Exception('Failed to load album');
     }
   }
-
-
 }

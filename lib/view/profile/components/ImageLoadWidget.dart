@@ -19,7 +19,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.NidURL);
         },
-        child: AppConstant.expenseImageURL == ""
+        child: AppConstant.expenseImageURL == "" || AppConstant.expenseImageURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.expenseImageURL,
@@ -33,7 +33,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.NidURL);
         },
-        child: AppConstant.NidURL == ""
+        child: AppConstant.NidURL == "" ||  AppConstant.NidURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.NidURL,
@@ -47,7 +47,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.BC_URL1);
         },
-        child: AppConstant.BC_URL1 == ""
+        child: AppConstant.BC_URL1 == "" || AppConstant.BC_URL1 == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.BC_URL1,
@@ -61,7 +61,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.BC_URL2);
         },
-        child: AppConstant.BC_URL2 == ""
+        child: AppConstant.BC_URL2 == "" || AppConstant.BC_URL2 == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.BC_URL2,
@@ -75,7 +75,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.CC_URL1);
         },
-        child: AppConstant.CC_URL1 == ""
+        child: AppConstant.CC_URL1 == "" || AppConstant.CC_URL1 == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.CC_URL1,
@@ -89,7 +89,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.CC_URL2);
         },
-        child: AppConstant.CC_URL2 == ""
+        child: AppConstant.CC_URL2 == "" || AppConstant.CC_URL2 == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.CC_URL2,
@@ -103,7 +103,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.DP_URL);
         },
-        child: AppConstant.DP_URL == ""
+        child: AppConstant.DP_URL == "" || AppConstant.DP_URL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.DP_URL,
@@ -117,7 +117,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.BD_URL2);
         },
-        child: AppConstant.BD_URL2 == ""
+        child: AppConstant.BD_URL2 == "" || AppConstant.BD_URL2 == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.BD_URL2,
@@ -131,7 +131,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.drivingLicenseURL);
         },
-        child: AppConstant.drivingLicenseURL == ""
+        child: AppConstant.drivingLicenseURL == "" || AppConstant.drivingLicenseURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.drivingLicenseURL,
@@ -145,7 +145,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.vehicleImageURL);
         },
-        child: AppConstant.vehicleImageURL == ""
+        child: AppConstant.vehicleImageURL == "" || AppConstant.vehicleImageURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.vehicleImageURL,
@@ -159,7 +159,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.expenseSlipURL);
         },
-        child: AppConstant.expenseSlipURL == ""
+        child: AppConstant.expenseSlipURL == "" || AppConstant.expenseSlipURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.expenseSlipURL,
@@ -173,7 +173,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.partsImageURL);
         },
-        child: AppConstant.partsImageURL == ""
+        child: AppConstant.partsImageURL == "" || AppConstant.partsImageURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.partsImageURL,
@@ -187,7 +187,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.accidentImageURL);
         },
-        child: AppConstant.accidentImageURL == ""
+        child: AppConstant.accidentImageURL == "" || AppConstant.accidentImageURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.accidentImageURL,
@@ -201,7 +201,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.fuelSlipImgURL);
         },
-        child: AppConstant.fuelSlipImgURL == ""
+        child: AppConstant.fuelSlipImgURL == "" || AppConstant.fuelSlipImgURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.fuelSlipImgURL,
@@ -215,7 +215,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.docRegistrationImgURL);
         },
-        child: AppConstant.docRegistrationImgURL == ""
+        child: AppConstant.docRegistrationImgURL == "" || AppConstant.docRegistrationImgURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.docRegistrationImgURL,
@@ -229,7 +229,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.docFitnessImgURL);
         },
-        child: AppConstant.docFitnessImgURL == ""
+        child: AppConstant.docFitnessImgURL == "" ||  AppConstant.docFitnessImgURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.docFitnessImgURL,
@@ -243,7 +243,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.docInsuranceImgURL);
         },
-        child: AppConstant.docInsuranceImgURL == ""
+        child: AppConstant.docInsuranceImgURL == "" ||  AppConstant.docInsuranceImgURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.docInsuranceImgURL,
@@ -257,7 +257,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.docTaxTokenImgURL);
         },
-        child: AppConstant.docTaxTokenImgURL == ""
+        child: AppConstant.docTaxTokenImgURL == "" || AppConstant.docTaxTokenImgURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.docTaxTokenImgURL,
@@ -271,7 +271,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.docRoadPermitImgURL);
         },
-        child: AppConstant.docRoadPermitImgURL == ""
+        child: AppConstant.docRoadPermitImgURL == "" || AppConstant.docRoadPermitImgURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.docRoadPermitImgURL,
@@ -285,7 +285,7 @@ class ImageLoadWidget extends StatelessWidget {
         onTap: () {
           imageFullScreen(AppConstant.policeCaseImageImgURL);
         },
-        child: AppConstant.policeCaseImageImgURL == ""
+        child: AppConstant.policeCaseImageImgURL == "" ||  AppConstant.policeCaseImageImgURL == "null"
             ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
             : Image.network(
                 AppConstant.policeCaseImageImgURL,
@@ -295,7 +295,7 @@ class ImageLoadWidget extends StatelessWidget {
               ),
       );
     } else {
-      return AppConstant.vehicleImageURL == ""
+      return AppConstant.vehicleImageURL == "" ||  AppConstant.vehicleImageURL == "null"
           ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
           : Image.network(
               AppConstant.vehicleImageURL,

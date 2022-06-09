@@ -11,23 +11,45 @@ String convertDate(String dateTime) {
 }
 
 String convertDate2(String? dateTime) {
+
   print("dateTime 2  $dateTime");
+
   var outputDate = "";
+
   if (dateTime != null && dateTime != "") {
     if (dateTime != "null") {
       DateTime parseDate =
           new DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(dateTime);
       var inputDate = DateTime.parse(parseDate.toString());
+
       var outputFormat = DateFormat('yyyy-MM-dd');
       outputDate = outputFormat.format(inputDate);
     }
   }
   return outputDate;
-  // setState(() {});
+}
+
+String convertDateWithRemaning(String? dateTime) {
+  var outputDate = "";
+  var status = "";
+  if (dateTime != null && dateTime != "") {
+    if (dateTime != "null") {
+      DateTime parseDate = new DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(dateTime);
+      var inputDate = DateTime.parse(parseDate.toString());
+      var dif = inputDate.difference(DateTime.now()).inDays;
+      status = dif == 0 ? "Today Last Day" : dif > 0 ? "$dif day's remaining" : "Expired";
+      var outputFormat = DateFormat('yyyy-MM-dd');
+      outputDate = outputFormat.format(inputDate);
+    }
+  }
+
+  return "$outputDate  $status";
 }
 
 String convertDateTime(String? dateTime) {
+
   print("dateTime   $dateTime");
+
   var outputDate = "";
   if (dateTime != "null" && dateTime != "") {
     DateTime parseDate =
@@ -38,7 +60,6 @@ String convertDateTime(String? dateTime) {
   }
 
   return outputDate;
-  // setState(() {});
 }
 
 String convertDate3(String? dateTime) {

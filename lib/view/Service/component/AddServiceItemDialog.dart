@@ -20,7 +20,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<void> AddServiceItemDialog(
-    BuildContext context, String userId, int position) async {
+    BuildContext context,
+    ServiceDataModel serviceModel,
+    String userId,
+    int position,
+    bool initial) async {
   Provider.of<ServiceProvider>(context, listen: false)
       .getServiceListDropDown(userId);
   SelectedDropDown _selectedDropItem = Get.find();
@@ -34,89 +38,71 @@ Future<void> AddServiceItemDialog(
     serviceDetails.text = AppConstant.requestList[position].details.toString();
     serviceCost.text = AppConstant.requestList[position].Amount.toString();
     _selectedDropItem.serviceNameListId =
-        AppConstant.requestList[position].serviceNameListId.toString();
+        serviceModel.serviceCost![position].id.toString();
+    _selectedDropItem.serviceNameListName =
+        serviceModel.serviceCost![position].serviceName.toString();
   }
+
   return showDialog(
     context: context,
     builder: (context) {
       return Consumer<ServiceProvider>(builder: (context, services, child) {
         return AlertDialog(
           title: Text('Service Name'),
-          content: Column(
-              // mainAxisSize: MainAxisSize.min,
+          content: Column(mainAxisSize: MainAxisSize.min, children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 10,
-                      child: AllDropDownItemWithOutPadding(
-                          textTitle: "Service Name",
-                          list: services.serviceNameList,
-                          requestType: AppConstant.serviceNameList,
-                          selectedItem: _selectedDropItem.serviceNameListId),
-                    ),
-                    Expanded(
-                        flex: 3,
-                        child: MaterialButton(
-                          height: 30.0,
-                          minWidth: 30.0,
-                          color: MyTheme.buttonColor,
-                          textColor: Colors.white,
-                          onPressed: () {
-                            Navigator.pop(context);
-                            CreateNewServiceDialog(
-                                context, "${AppConstant.userId}", -1);
-                          },
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0, 2.0, 0.0, 2.0),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ),
-                          shape: CircleBorder(),
-                        ))
-                  ],
+                Expanded(
+                  flex: 10,
+                  child: AllDropDownItemWithOutPadding(
+                      textTitle: "Service Name",
+                      list: services.serviceNameList,
+                      requestType: AppConstant.serviceNameList,
+                      selectedItem: _selectedDropItem.serviceNameListName),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                EditListItemWithOutPadding(
-                    text: 'Service Details',
-                    nameController: serviceDetails,
-                    hintText: 'Service Details'),
-                SizedBox(
-                  height: 10,
-                ),
-                EditListItemWithOutPadding(
-                  text: 'Service Cost',
-                  nameController: serviceCost,
-                  hintText: 'Service Cost',
-                  isNumber: true,
-                ),
-              ]),
-
-          /*        DropdownSearch<ServiceNameModel>(
-              showSelectedItems: true,
-            // compareFn: (i, s) => (i?.serviceName ?? "") == (s?.serviceName ?? "") ?? false,
-              dropdownSearchDecoration: InputDecoration(
-                labelText: "Person",
-                contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                border: OutlineInputBorder(),
-              ),
-              mode: Mode.MENU,
-              onFind: (String? filter) => getServiceListDropDown(userId),
-              onChanged: (data) {
-                print(data);
-              },
-              dropdownBuilder: _customDropDownExample,
-              popupItemBuilder: _customPopupItemBuilderExample2,
+                Expanded(
+                    flex: 3,
+                    child: MaterialButton(
+                      height: 30.0,
+                      minWidth: 30.0,
+                      color: MyTheme.buttonColor,
+                      textColor: Colors.white,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        CreateNewServiceDialog(context, serviceModel,
+                            "${AppConstant.userId}", -1, initial);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 2.0, 0.0, 2.0),
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                      ),
+                      shape: CircleBorder(),
+                    ))
+              ],
             ),
-*/
+            SizedBox(
+              height: 10,
+            ),
+            EditListItemWithOutPadding(
+                text: 'Service Details',
+                nameController: serviceDetails,
+                hintText: 'Service Details'),
+            SizedBox(
+              height: 10,
+            ),
+            EditListItemWithOutPadding(
+              text: 'Service Cost',
+              nameController: serviceCost,
+              hintText: 'Service Cost',
+              isNumber: true,
+            ),
+          ]),
           actions: <Widget>[
             TextButton(
               child: Text('CANCEL'),
@@ -153,9 +139,10 @@ Future<void> AddServiceItemDialog(
                       context,
                       MaterialPageRoute(
                           builder: (context) => AddServiceView(
-                              serviceDataModel: ServiceDataModel(),
-                              vehicleId:
-                                  ""))); //  confirmRequest(context, services.sendRequestRes);
+                              serviceDataModel: serviceModel,
+                              vehicleId: "",
+                              initial:
+                                  initial))); //  confirmRequest(context, services.sendRequestRes);
                 } else {
                   snackBar(context, "Please select vehicle");
                 }

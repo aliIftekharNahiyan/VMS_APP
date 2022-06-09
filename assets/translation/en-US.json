@@ -1,6 +1,7 @@
 {
   "Mobile Number" : "Mobile Number",
   "Password" : "Password",
+  "Password Default" : "Password (Default: 1234)",
   "Confirm password" : "Confirm password",
   "Please enter password" : "Please enter password",
   "Login": "Login",
