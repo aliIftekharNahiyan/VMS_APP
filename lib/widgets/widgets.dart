@@ -2,15 +2,14 @@ import 'package:amargari/model/forget_password_model.dart';
 import 'package:amargari/view/authentication/password_reset_dialog.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:amargari/providers/auth.dart';
 import 'package:amargari/widgets/themes.dart';
-import 'dart:ui' as ui;
+// import 'package:fluttertoast/fluttertoast.dart';
 
 
 MaterialButton longButtons(String title, VoidCallback fun,
@@ -84,8 +83,6 @@ InputDecoration commonInputDecoration(String labelText, String hintText) {
     hintText: hintText,
       floatingLabelBehavior: FloatingLabelBehavior.always,
     labelStyle: TextStyle(color: MyTheme.titleHintColor),
-
-
   );
 }
 BoxDecoration linearGradientDecoration() {
@@ -161,27 +158,43 @@ Future<void> displayTextInputDialog(BuildContext context) async {
   );
 }
 
-snackBar2(BuildContext context,String message) {
-  return ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(message),
-      duration: Duration(seconds: 2),
-    ),
-  );
+snackBar2(BuildContext context,String message, {bool success = false}) {
+  // return ScaffoldMessenger.of(context).showSnackBar(
+  //   SnackBar(
+  //     content: Text(message),
+  //     duration: Duration(seconds: 2),
+  //   ),
+  // );
+  Fluttertoast.showToast(
+        msg: "$message",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: success ? Color.fromARGB(255, 87, 204, 91): Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
 }
 
-snackBar(BuildContext context,String message) {
-  return ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-    content: Text(message),
-    behavior: SnackBarBehavior.floating,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24),
-    ),
-    margin: EdgeInsets.only(
-        bottom: MediaQuery.of(context).size.height - 100,
-        right: 20,
-        left: 20),
-  ));
+snackBar(BuildContext context,String message, {bool success = false}) {
+  // return ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+  //   content: Text(message),
+  //   behavior: SnackBarBehavior.floating,
+  //   shape: RoundedRectangleBorder(
+  //     borderRadius: BorderRadius.circular(24),
+  //   ),
+  //   margin: EdgeInsets.only(
+  //       bottom: MediaQuery.of(context).size.height - 10,
+  //       right: 20,
+  //       left: 20),
+  // ));
+  Fluttertoast.showToast(
+        msg: "$message",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: success ? Color.fromARGB(255, 87, 204, 91): Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
 }
 onError(error) {
   print("the error is $error.detail");
@@ -230,7 +243,7 @@ networkCachedImageLoad2(String imageURL){
   );
 }
 networkCachedImageLoad(String imageURL) {
-  print("imageURL  ${imageURL}");
+  print("imageURL  $imageURL");
   CachedNetworkImage(
     imageUrl: imageURL,
     placeholder: (context, url) => CircularProgressIndicator(),

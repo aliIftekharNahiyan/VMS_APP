@@ -61,7 +61,7 @@ Future<dynamic> addUpdateAccident(
     "AccidentDetails": AccidentDetails
   };
 
-  print("addUpdateAccident  ${registrationData}");
+  print("addUpdateAccident  $registrationData");
   return await post(Uri.parse(AppUrl.addUpdateAccident),
       body: json.encode(registrationData),
       headers: {'Content-Type': 'application/json'})

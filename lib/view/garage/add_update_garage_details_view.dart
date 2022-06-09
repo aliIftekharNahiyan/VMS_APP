@@ -6,10 +6,7 @@ import 'package:amargari/view/garage/garage_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/garage_provider.dart';
-import 'package:amargari/providers/vehicle_details_provider.dart';
-import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
-import 'package:amargari/view/profile/components/details_body_item.dart';
 import 'package:amargari/widgets/TextEditingControllerWithEndCursor.dart';
 import 'package:amargari/widgets/widgets.dart';
 

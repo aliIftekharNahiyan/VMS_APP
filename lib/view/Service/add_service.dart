@@ -1,5 +1,3 @@
-import 'package:amargari/model/ServiceNameModel.dart';
-import 'package:amargari/model/common_dropdown_model.dart';
 import 'package:amargari/model/garage/GarageModel.dart';
 import 'package:amargari/model/service/service_model.dart';
 import 'package:amargari/uril/app_constant.dart';
@@ -10,7 +8,6 @@ import 'package:amargari/view/common_view/all_drop_down_Item.dart';
 import 'package:amargari/view/common_view/edit_List_Item.dart';
 import 'package:amargari/view/common_view/image_upload_view_item.dart';
 import 'package:amargari/view/garage/add_update_garage_details_view.dart';
-import 'package:amargari/view/garage/garage_list_view.dart';
 import 'package:amargari/widgets/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -174,6 +171,7 @@ class _AddServiceViewState extends State<AddServiceView> {
                               AppConstant.partsImageURL,
                               AppConstant.requestList),
                   serviceModel?.whenComplete(() => {
+                    snackBar(context, "Services Updated Successfully", success: true),
                         Navigator.pop(context),
                         Navigator.push(
                             context,
@@ -184,7 +182,7 @@ class _AddServiceViewState extends State<AddServiceView> {
                 }
             });
       } else {
-        snackBar(context, "Required field should not empty");
+        snackBar(context, "Required field should not empty", success: false);
       }
     };
 
@@ -279,7 +277,7 @@ class _AddServiceViewState extends State<AddServiceView> {
                                 for (int i = 0; i < controllers.length; i++) {
                                   if (serviceName.text == controllers[i].text) {
                                     print(
-                                        "removeView   ${i}    ${serviceDetails.text}");
+                                        "removeView   $i    ${serviceDetails.text}");
                                     removeItem(i);
                                   }
                                   //   print("controllers   ${controllers[i].text}   ${serviceName.text}" ); //printing the values to show that it's working
@@ -307,7 +305,7 @@ class _AddServiceViewState extends State<AddServiceView> {
                                     "controllers   ${controllers[i].text}   ${serviceName.text}");
                                 if (serviceName.text == controllers[i].text) {
                                   print(
-                                      "EditView   ${i}    ${serviceDetails.text}");
+                                      "EditView   $i    ${serviceDetails.text}");
                                   editItem(i);
                                 }
                               }

@@ -6,7 +6,6 @@ import 'package:amargari/view/common_view/all_drop_down_Item.dart';
 import 'package:amargari/view/common_view/edit_List_Item.dart';
 import 'package:amargari/view/common_view/image_upload_view_item.dart';
 import 'package:amargari/view/police_case/police_case_list.dart';
-import 'package:amargari/view/profile/components/common_item_number.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,9 +17,7 @@ import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/police_case_provider.dart';
 import 'package:amargari/providers/service_provider.dart';
 import 'package:amargari/uril/shared_preference.dart';
-import 'package:amargari/view/profile/components/details_body_item.dart';
 import 'package:amargari/widgets/TextEditingControllerWithEndCursor.dart';
-import 'package:amargari/widgets/drop_down_list_item.dart';
 import 'package:amargari/widgets/widgets.dart';
 
 class PoliceCaseDetailsView extends StatefulWidget {
@@ -349,7 +346,7 @@ class _PoliceCaseDetailsViewState extends State<PoliceCaseDetailsView> {
                   buttonText: Text("Police Freezing documents"),
                   listType: MultiSelectListType.LIST,
                   onConfirm: (values) {
-                    print("values  ${values}");
+                    print("values  $values");
                     policeFreezingSelectList =
                         values as List<CommonDropDownModel?>;
                     print("values  ${policeFreezingSelectList.first?.id}");

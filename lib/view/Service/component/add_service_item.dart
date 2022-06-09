@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:amargari/view/file_picker/file_picker_demo.dart';
 
 class AddServiceItem extends StatefulWidget {
   AddServiceItem({

@@ -16,12 +16,11 @@ Future<List<FuelListModel>> getFuelList(String userId) async {
     return insurancePolicy;
 
   } else {
-    // If the server did not return a 200 OK response,
+    // If the ser qver did not return a 200 OK response,
     // then throw an exception.
     throw Exception('Failed to load album');
   }
 }
-
 
 //vehicle details update
 Future<dynamic> addUpdateFuelList(
@@ -48,7 +47,7 @@ Future<dynamic> addUpdateFuelList(
     "FuelTime": FuelTime,
     "FuleTaken" : fuelTaken
   };
-  print("addUpdateFuelList  ${registrationData}");
+  //print("addUpdateFuelList  ${registrationData}");
   return await post(Uri.parse(AppUrl.addUpdateFuelList),
       body: json.encode(registrationData),
       headers: {'Content-Type': 'application/json'})

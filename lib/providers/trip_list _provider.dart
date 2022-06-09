@@ -5,7 +5,6 @@ import 'package:amargari/model/trip_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:amargari/model/vehicleinfo/vehicle_info_model.dart';
 import 'package:amargari/uril/app_url.dart';
 import 'package:amargari/widgets/widgets.dart';
 
@@ -66,7 +65,7 @@ class TripListProvider with ChangeNotifier {
       "EndPointName": EndPointName,
       "TripStartTime": TripStartTime,
     };
-    print("addTripData  ${addUpdateTripData}");
+    print("addTripData  $addUpdateTripData");
     return await post(Uri.parse(AppUrl.addTripList),
         body: json.encode(addUpdateTripData),
         headers: {'Content-Type': 'application/json'})

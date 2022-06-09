@@ -1,7 +1,6 @@
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/widgets/ImageFullScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ImageLoadWidget extends StatelessWidget {
   final String requestType;
@@ -15,8 +14,21 @@ class ImageLoadWidget extends StatelessWidget {
           MaterialPageRoute(
               builder: (context) => ImageFullScreen(imageURL: imageUrl)));
     };
-
-    if (requestType == "nid") {
+    if (requestType == "expenseImage") {
+      return InkWell(
+        onTap: () {
+          imageFullScreen(AppConstant.NidURL);
+        },
+        child: AppConstant.expenseImageURL == ""
+            ? ImageIcon(AssetImage("assets/icons/edit_image.png"))
+            : Image.network(
+                AppConstant.expenseImageURL,
+                fit: BoxFit.cover,
+                height: 50,
+                width: 50,
+              ),
+      );
+    } else if (requestType == "nid") {
       return InkWell(
         onTap: () {
           imageFullScreen(AppConstant.NidURL);

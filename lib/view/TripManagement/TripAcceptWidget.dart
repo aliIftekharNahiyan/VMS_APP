@@ -1,7 +1,6 @@
 import 'package:amargari/model/trip_list_model.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/trip_list%20_provider.dart';
-import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,7 @@ class TripAcceptWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("userTypeId   ${userTypeId}");
+    print("userTypeId   $userTypeId");
     if (statusId == "-1" && userTypeId == 2) {
       return  MaterialButton(
         onPressed:  () {

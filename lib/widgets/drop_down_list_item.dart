@@ -50,7 +50,8 @@ class _DropDownListItemState extends State<DropDownListItem> {
               widget.list,
               isExpanded: true,
               requestType: widget.requestType,
-              selectedItem: widget.selectedItem
+              selectedItem: widget.selectedItem,
+              onCallback: (){},
             ),
           ),
         ),

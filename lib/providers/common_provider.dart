@@ -1,20 +1,22 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:amargari/model/LocalInfo/local_info_req.dart';
+import 'package:amargari/model/LocalInfo/local_info_res.dart';
+import 'package:amargari/model/LocalInfo/local_info_type.dart';
 import 'package:amargari/model/home_data_model.dart';
 import 'package:amargari/model/notification_list.dart';
+import 'package:amargari/model/rtp/fuel_consumption_rtp.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:amargari/uril/app_url.dart';
 import 'package:amargari/widgets/widgets.dart';
 
-
 class CommonProvider with ChangeNotifier {
-
-  Future<String> uploadImage(String Type, String number, String FilePath) async {
-
-    print("uploadImage  ${Type}  ${number}  ${FilePath}");
+  Future<String> uploadImage(
+      String Type, String number, String FilePath) async {
+    print("uploadImage  $Type  $number  $FilePath");
     var result = "";
     var request = http.MultipartRequest('POST', Uri.parse(AppUrl.fileUpload));
     request.fields['Type'] = Type;
@@ -24,27 +26,27 @@ class CommonProvider with ChangeNotifier {
     final response = await request.send();
     final responseString = await response.stream.bytesToString();
 
-    print("responseData "  + "  "+ responseString);
+    print("responseData " + "  " + responseString);
 
     // print(response);
     if (response.statusCode == 200) {
-
       // Map<String, dynamic> map = json.decode(response.reasonPhrase);
 
-      print("responseData "  + "  "+ responseString);
+      print("responseData " + "  " + responseString);
 
       final Map<String, dynamic> responseData = json.decode(responseString);
-      print("responseData "  + responseData["url"]);
+      print("responseData " + responseData["url"]);
       result = responseData["url"];
-    }else{
+    } else {
       result = "Fail";
     }
-    print("result:  "+ result);
+    print("result:  " + result);
     return result;
   }
 
   Future<String> locationRequest(String tripId) async {
-    final response = await http.get(Uri.parse(AppUrl.locationRequest.replaceAll("_tripId", tripId)));
+    final response = await http
+        .get(Uri.parse(AppUrl.locationRequest.replaceAll("_tripId", tripId)));
     print(AppUrl.locationRequest.replaceAll("_tripId", tripId));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
@@ -55,26 +57,24 @@ class CommonProvider with ChangeNotifier {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       return "fail";
-
     }
   }
+
   Future<dynamic> updateLocation(
-      String id,
-      String currentLatitude,
-      String currentLongitude
-      ) async {
+      String id, String currentLatitude, String currentLongitude) async {
     final Map<String, dynamic> registrationData = {
-      "Id" : id,
+      "Id": id,
       'CurrentLatitude': currentLatitude,
       'CurrentLongitude': currentLongitude
     };
-    print("registrationData  "+registrationData.toString());
+    print("registrationData  " + registrationData.toString());
     return await post(Uri.parse(AppUrl.locationUpdate),
-        body: json.encode(registrationData),
-        headers: {'Content-Type': 'application/json'})
+            body: json.encode(registrationData),
+            headers: {'Content-Type': 'application/json'})
         .then(onLocationUpdate)
         .catchError(onError);
   }
+
   Future<FutureOr> onLocationUpdate(Response response) async {
     var result;
     final Map<String, dynamic> responseData = json.decode(response.body);
@@ -87,18 +87,17 @@ class CommonProvider with ChangeNotifier {
     }
   }
 
-
   Future<NotificationList> getNotificationList(String userId) async {
-
-    final response = await http.get(Uri.parse(AppUrl.notificationList.replaceAll("_ownerId", userId)));
+    final response = await http
+        .get(Uri.parse(AppUrl.notificationList.replaceAll("_ownerId", userId)));
     print(AppUrl.notificationList.replaceAll("_ownerId", userId));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
-      NotificationList notificationList = NotificationList.fromJson(responseData);
+      NotificationList notificationList =
+          NotificationList.fromJson(responseData);
       print(notificationList.unread);
       notifyListeners();
       return notificationList;
-
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -106,17 +105,15 @@ class CommonProvider with ChangeNotifier {
     }
   }
 
-
   Future<HomeDataModel> getHomeData(String userId) async {
-
-    final response = await http.get(Uri.parse(AppUrl.featureForHome.replaceAll("_ownerId", userId)));
+    final response = await http
+        .get(Uri.parse(AppUrl.featureForHome.replaceAll("_ownerId", userId)));
     print(AppUrl.featureForHome.replaceAll("_ownerId", userId));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       HomeDataModel homeDataModel = HomeDataModel.fromJson(responseData);
       print(homeDataModel.result);
       return homeDataModel;
-
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
@@ -125,21 +122,53 @@ class CommonProvider with ChangeNotifier {
   }
 
   Future<void> updateNotification(String id) async {
-
-    final response = await http.get(Uri.parse(AppUrl.updateNotification.replaceAll("_id", id)));
+    final response = await http
+        .get(Uri.parse(AppUrl.updateNotification.replaceAll("_id", id)));
     print(AppUrl.updateNotification.replaceAll("_id", id));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       // HomeDataModel homeDataModel = HomeDataModel.fromJson(responseData);
       print(responseData);
-
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      // throw Exception('Failed to load album');
     }
   }
 
+  Future<LocalInfoType> getLocalInfoTypeList() async {
+    final response = await get(Uri.parse(AppUrl.localInfoType));
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      return LocalInfoType.fromJson(data);
+    } else {
+      // throw Exception('Failed to load album');
+      return LocalInfoType();
+    }
+  }
 
+  Future<LocalInfoRes> getLocalInfoList(LocalInfoReq localInfoReq) async {
+    print(localInfoReq);
+    final response = await post(Uri.parse(AppUrl.localInfo),
+        body: json.encode(localInfoReq),
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      return LocalInfoRes.fromJson(data);
+    } else {
+      // throw Exception('Failed to load album');
+      return LocalInfoRes();
+    }
+  }
+
+  Future<FuelComsumptionData> getFuelData(String userId) async {
+    final response =
+        await get(Uri.parse(AppUrl.fuelChart.replaceAll("_userId", userId)));
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      return FuelComsumptionData.fromJson(data);
+    } else {
+      return FuelComsumptionData();
+    }
+  }
 }
-

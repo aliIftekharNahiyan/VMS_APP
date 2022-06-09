@@ -1,15 +1,9 @@
 import 'package:amargari/get_state/selected_dropdown.dart';
-import 'package:amargari/model/RequestModel/request_service_model.dart';
-import 'package:amargari/model/ServiceNameModel.dart';
-import 'package:amargari/model/service/service_model.dart';
 import 'package:amargari/providers/service_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/app_url.dart';
-import 'package:amargari/view/Service/add_service.dart';
-import 'package:amargari/view/common_view/all_drop_down_Item_withOut_padding.dart';
 import 'package:amargari/view/common_view/edit_List_Item_without_padding.dart';
 import 'package:amargari/widgets/TextEditingControllerWithEndCursor.dart';
-import 'package:amargari/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';

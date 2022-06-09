@@ -195,7 +195,6 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
             widget.vcDataModel.routePermitExpireDate =
                 convertDate4(expiryDate.text);
           }
-          ;
 
           vehicleDoc?.whenComplete(() => {
                 setState(() { }),
@@ -290,7 +289,6 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
             widget.vcDataModel.routePermitExpireDate =
                 convertDate3(expiryDate.text);
           }
-          ;
 
           vehicleDoc?.whenComplete(() => {
             setState(() { }),

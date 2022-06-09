@@ -5,7 +5,6 @@ import 'package:amargari/model/garage/GarageModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:amargari/model/vehicleinfo/vehicle_info_model.dart';
 import 'package:amargari/uril/app_url.dart';
 import 'package:amargari/widgets/widgets.dart';
 
@@ -62,7 +61,7 @@ class GarageProvider with ChangeNotifier {
       'ContactPerson2Mobile': ContactPerson2Mobile,
     };
 
-    print("garageDetailsUpdate  ${registrationData}");
+    print("garageDetailsUpdate  $registrationData");
     return await post(Uri.parse(AppUrl.garageInfoEntryUpdate),
         body: json.encode(registrationData),
         headers: {'Content-Type': 'application/json'})

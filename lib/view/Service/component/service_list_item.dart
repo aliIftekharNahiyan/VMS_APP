@@ -19,7 +19,7 @@ class _ServiceItemState extends State<ServiceItem> {
       child: Row(
         children: [
           Expanded(
-            child: Text(widget.textTitle, style: TextStyle(fontSize: 15)),
+            child: Text(widget.textTitle, style: TextStyle(fontSize: 15, fontFamily: 'roboto')),
           ),
           SizedBox(width: 1),
           Expanded(

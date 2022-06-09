@@ -1,11 +1,9 @@
-import 'package:amargari/main.dart';
 import 'package:amargari/model/notification_list.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/common_provider.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/uril/utility.dart';
 import 'package:amargari/view/dashboard_view.dart';
-import 'package:amargari/view/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

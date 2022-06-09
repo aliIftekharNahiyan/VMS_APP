@@ -240,7 +240,7 @@ class _AddUpdateAccidentViewState extends State<AddUpdateAccidentView> {
                 SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: longButtons("SAVE", doUpdate),
+                  child: longButtons("${widget.vcDataModel.id != null ? "Update" : "SAVE"}", doUpdate),
                 ),
               ],
             );
