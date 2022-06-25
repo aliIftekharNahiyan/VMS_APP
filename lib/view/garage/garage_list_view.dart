@@ -1,20 +1,17 @@
 import 'package:amargari/model/garage/GarageModel.dart';
 import 'package:amargari/model/service/service_model.dart';
 import 'package:amargari/view/Service/service_list_view.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:amargari/model/user_model.dart';
-import 'package:amargari/model/vehicleinfo/vehicle_info_model.dart';
 import 'package:amargari/providers/garage_provider.dart';
-import 'package:amargari/providers/vehicle_details_provider.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/Service/component/service_list_item.dart';
 import 'package:amargari/view/garage/add_update_garage_details_view.dart';
+
 import 'package:amargari/view/vehicles_info/vehicle_add_edit_details.dart';
 import 'package:amargari/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 
 class GarageInfoView extends StatefulWidget {
   final String title;

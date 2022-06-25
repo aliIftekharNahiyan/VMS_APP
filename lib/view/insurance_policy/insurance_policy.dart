@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:amargari/model/insurancePolicy.dart';
 import 'package:amargari/model/user_model.dart';
-import 'package:amargari/providers/accident_provider.dart';
 import 'package:amargari/providers/insurance_policy_provider.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/Service/component/service_list_item.dart';
-import 'package:amargari/view/accident_management/add_update_accident.dart';
 import 'package:amargari/view/insurance_policy/add_update_insurance_policy.dart';
 
 class InsurancePolicyView extends StatefulWidget {

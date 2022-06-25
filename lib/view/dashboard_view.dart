@@ -1,16 +1,12 @@
 import 'package:amargari/model/notification_list.dart';
-import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/common_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
-import 'package:amargari/uril/location_request.dart';
-import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/notification_list_view.dart';
 import 'package:amargari/widgets/notification_Icon.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:amargari/uril/routes.dart';
 import 'package:amargari/view/profile/profile_screen.dart';
+
 import 'package:amargari/widgets/MyDrawer.dart';
 import 'package:amargari/widgets/themes.dart';
 import 'package:flutter/services.dart';
@@ -61,14 +57,23 @@ class _DashBoardState extends State<DashBoard> {
       notificationList =
           commonProvider.getNotificationList(AppConstant.userId.toString());
       notificationList!.then((value) => {
-            // setState(() {
-            notification = value,
-            isLoaded = false,
-            print("notification  ${notification.unread}")
-            //  })
-          });
+
+       // setState(() {
+          notification = value,
+          isLoaded = false ,
+          print("notification  ${notification.unread}")
+      //  })
+      });
     }
-    ;
+
+          //   // setState(() {
+          //   notification = value,
+          //   isLoaded = false,
+          //   print("notification  ${notification.unread}")
+          //   //  })
+          // });
+    // };
+
     //   User user = Provider.of<UserProvider>(context).user;
     return Scaffold(
         appBar: AppBar(

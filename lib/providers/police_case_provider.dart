@@ -2,11 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:amargari/model/police_doc_request_model.dart';
-import 'package:another_flushbar/flushbar_route.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:amargari/model/police_case_model.dart';
-import 'package:amargari/model/vehicleinfo/vehicle_info_model.dart';
 import 'package:amargari/uril/app_url.dart';
 import 'package:amargari/widgets/widgets.dart';
 

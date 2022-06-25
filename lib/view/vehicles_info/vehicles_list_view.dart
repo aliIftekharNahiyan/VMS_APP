@@ -3,14 +3,12 @@ import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/utility.dart';
 import 'package:amargari/view/vehicles_info/vehicle_details.dart';
 import 'package:amargari/view/vehicles_info/vehicle_list_item.dart';
-import 'package:amargari/widgets/themes.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/vehicle_details_provider.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/vehicles_info/vehicle_add_edit_details.dart';
-import 'package:flutter/services.dart';
 
 class VehicleInfo extends StatefulWidget {
   final String title;

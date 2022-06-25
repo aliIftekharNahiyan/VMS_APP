@@ -45,7 +45,7 @@ class ServiceNameModel {
   }
 
   static List<ServiceNameModel> fromJsonList(List list) {
-    if (list == null);
+    if (list == null) {}
     return list.map((item) => ServiceNameModel.fromJson(item)).toList();
   }
 }

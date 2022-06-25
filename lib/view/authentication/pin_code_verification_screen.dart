@@ -45,7 +45,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   }
 
   Future<void> _readOtp() async {
-    var otp = await SmsAutoFill().listenForCode;
+    var otp = SmsAutoFill().listenForCode;
     print(otp.toString());
   }
 

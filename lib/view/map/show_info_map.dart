@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:amargari/model/LocalInfo/local_info_req.dart';
 import 'package:amargari/model/LocalInfo/local_info_res.dart';
 import 'package:amargari/providers/common_provider.dart';
-import 'package:amargari/uril/app_constant.dart';
-import 'package:amargari/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';

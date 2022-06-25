@@ -2,8 +2,6 @@ import 'package:amargari/model/service/service_model.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/Service/component/ServiceImageItem.dart';
-import 'package:amargari/widgets/widgets.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:amargari/providers/service_provider.dart';
 import 'package:amargari/view/Service/add_service.dart';

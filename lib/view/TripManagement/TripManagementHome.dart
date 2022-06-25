@@ -1,8 +1,6 @@
 import 'package:amargari/uril/app_constant.dart';
-import 'package:amargari/view/TripManagement/Direction.dart';
 import 'package:amargari/view/TripManagement/add_modify_trip.dart';
 import 'package:amargari/view/TripManagement/trip_list_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TripManagementHome extends StatelessWidget {

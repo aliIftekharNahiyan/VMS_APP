@@ -19,7 +19,6 @@ import 'package:amargari/view/garage/garage_list_view.dart';
 import 'package:amargari/view/insurance_policy/insurance_policy.dart';
 import 'package:amargari/view/police_case/police_case_list.dart';
 import 'package:amargari/view/vehicles_info/vehicles_list_view.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -239,8 +238,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       Visibility(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child:
-                              LineChartSample1(snapshot.data!.data!.fuelReport),
+                          child: Container()
+                              //LineChartSample1(snapshot.data!.data!.fuelReport),
                         ),
                         visible:
                             snapshot.data!.data!.fuelReport![0].dataAvailable ??

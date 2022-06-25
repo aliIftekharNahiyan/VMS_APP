@@ -2,6 +2,7 @@ import 'package:amargari/notification/my_notification.dart';
 import 'package:amargari/providers/VehicleDocumentInfoProvider.dart';
 import 'package:amargari/providers/trip_list%20_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
+import 'package:amargari/view/subscription/check_subscription.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -94,12 +95,13 @@ class MyApp extends StatelessWidget {
                       AppConstant.userId = snapshot.data!.id ?? 0;
                       AppConstant.userTypeId = snapshot.data!.userTypeId ?? 0;
                       print( "snapshot   ${snapshot.data!.userTypeId ?? 0}  ${snapshot.data!.id ?? 0}");
-                      return DashBoard();
+                      return CheckSubscription();
                 }
               }),
           builder: EasyLoading.init(),
           routes: {
             MyRoutes.dashboardRoute: (context) => DashBoard(),
+            MyRoutes.subscriptionRoute: (context) => CheckSubscription(),
             MyRoutes.loginRoute: (context) => Login(),
             MyRoutes.registrationRoute: (context) => Register(),
             MyRoutes.oTPRoute: (context) => PinCodeVerificationScreen(""),

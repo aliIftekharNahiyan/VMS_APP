@@ -7,14 +7,10 @@ import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/service_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
-import 'package:amargari/view/common_view/all_drop_down_Item.dart';
-import 'package:amargari/view/common_view/all_drop_down_Item_withOut_padding.dart';
 import 'package:amargari/view/common_view/dropdownMultiSelect.dart';
 import 'package:amargari/view/profile/adddriver/search_driver.dart';
-import 'package:amargari/widgets/drop_down_list_item.dart';
 import 'package:amargari/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 

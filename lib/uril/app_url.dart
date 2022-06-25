@@ -61,8 +61,8 @@ class AppUrl {
   static const String getVehicleList =
       baseURL + "/vechile/GetvechileList?userid=_userId";
 
-  static const String getAssignedVehicle =
-      baseURL + "/DriverSelection/GetVechileInfoOfDriver?ownerid=_ownerid&driverid=_driverid";
+  static const String getAssignedVehicle = baseURL +
+      "/DriverSelection/GetVechileInfoOfDriver?ownerid=_ownerid&driverid=_driverid";
 
   // https://vms.griho.app/api/DriverSelection/GetVechileInfoOfDriver?ownerid=2&driverid=3
 
@@ -143,9 +143,12 @@ class AppUrl {
   static const String userProfile =
       baseURL + "/Login/GetUserProfileInfoById?userId=_userId";
 
-      static const String driverAllocationDeallocation =
-      baseURL + "/DriverSelection/DriverAllocationFlip?ownerId=_ownerId&driverId=_driverId";
+  static const String driverAllocationDeallocation = baseURL +
+      "/DriverSelection/DriverAllocationFlip?ownerId=_ownerId&driverId=_driverId";
 
-  // https://vms.griho.app/api/DriverSelection/DriverAllocationFlip?ownerId=98&driverId=99
+  static const String vehicleRegistrationNo =
+      baseURL + "/DriverSelection/GetRegNumberByVechileId?vechileId=_vechileId";
 
+  static const String subscriptionCheck =  baseURL +
+      "/login/GetActiveStatus?userid=_userId";
 }

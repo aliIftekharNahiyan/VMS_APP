@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyTheme {
   static ThemeData lightTheme(BuildContext context) => ThemeData(
@@ -7,9 +6,7 @@ class MyTheme {
       fontFamily: "The_Girl_Next_Door",
       cardColor: Colors.white,
       canvasColor: appColor,
-      buttonColor: buttonColor,
       primaryColor: buttonColor,
-      accentColor: darkBluishColor,
       hintColor: hintColor,
       // buttonTheme:  ButtonThemeData(
       //     buttonColor: buttonColor,
@@ -23,15 +20,14 @@ class MyTheme {
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black),
        // textTheme: Theme.of(context).textTheme,
-      ));
+      ), colorScheme: ColorScheme.fromSwatch().copyWith(secondary: darkBluishColor));
 
   static ThemeData darkTheme(BuildContext context) => ThemeData(
-      brightness: Brightness.dark,
+      // brightness: Brightness.dark,
       cardColor: Colors.black,
       canvasColor: titleColor,
-      buttonColor: lightBluishColor,
-      accentColor: Colors.white,
-      primaryColor: buttonColor,
+      // primaryColor: buttonColor,
+      primarySwatch: Colors.orange,
       fontFamily: "The_Girl_Next_Door",
       appBarTheme: AppBarTheme(
         color: Colors.black,
@@ -41,7 +37,7 @@ class MyTheme {
         //   headline6:
         //   context.textTheme.headline6.copyWith(color: Colors.white),
         // ),
-      ));
+      ), colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white));
 
   //Colors
   static Color appColor = Color(0xfff6fafb);

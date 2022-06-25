@@ -2,14 +2,12 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:amargari/model/user_model.dart';
 import 'package:amargari/providers/Status.dart';
 import 'package:amargari/providers/auth.dart';
 import 'package:amargari/providers/user_provider.dart';
 import 'package:amargari/uril/routes.dart';
-import 'package:amargari/uril/validators.dart';
 import 'package:amargari/widgets/widgets.dart';
 
 class Login extends StatefulWidget {
@@ -105,7 +103,7 @@ class _LoginState extends State<Login> {
             if (user.password == "1234") {
               displayTextInputDialog(context, mobile: user.mobileNo);
             } else {
-              Navigator.pushReplacementNamed(context, MyRoutes.dashboardRoute);
+              Navigator.pushReplacementNamed(context, MyRoutes.subscriptionRoute);
             }
           } else {
             Flushbar(

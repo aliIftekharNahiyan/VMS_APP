@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:amargari/model/forget_password_model.dart';
 import 'package:amargari/model/o_t_p_confirm.dart';
-import 'package:amargari/model/usertypemodel.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +99,7 @@ class AuthProvider with ChangeNotifier {
       String tradeLicense,
       String tin_Bin,
       int ownerId) async {
+
     final Map<String, dynamic> registrationData = {
       'Id': Id,
       'UserTypeId': UserTypeId,
@@ -118,7 +118,7 @@ class AuthProvider with ChangeNotifier {
       "Tin_Bin": tin_Bin,
       "OwnerId": ownerId
     };
-    print("registrationData ${registrationData}");
+    print("registrationData $registrationData");
     return await post(Uri.parse(AppUrl.register),
             body: json.encode(registrationData),
             headers: {'Content-Type': 'application/json'})

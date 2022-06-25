@@ -4,10 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:amargari/model/registration_model.dart';
 import 'package:amargari/providers/auth.dart';
 import 'package:amargari/uril/routes.dart';
-import 'package:amargari/uril/validators.dart';
 import 'package:amargari/widgets/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/services.dart';
 
 class OtpView extends StatefulWidget {
 

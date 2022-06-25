@@ -1,12 +1,9 @@
 import 'package:amargari/get_state/selected_dropdown.dart';
 import 'package:amargari/model/vehicleinfo/add_brand_model.dart';
-import 'package:amargari/providers/auth.dart';
 import 'package:amargari/providers/service_provider.dart';
 import 'package:amargari/providers/vehicle_details_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
-import 'package:amargari/view/common_view/all_drop_down_Item.dart';
 import 'package:amargari/widgets/drop_down_list_border.dart';
-import 'package:amargari/widgets/drop_down_list_item.dart';
 import 'package:amargari/widgets/widgets.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';

@@ -9,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:amargari/providers/auth.dart';
 import 'package:amargari/widgets/themes.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+
 
 MaterialButton longButtons(String title, VoidCallback fun,
     {Color textColor: Colors.white}) {
@@ -261,7 +263,7 @@ networkCachedImageLoad2(String imageURL) {
 }
 
 networkCachedImageLoad(String imageURL) {
-  print("imageURL  ${imageURL}");
+  print("imageURL  $imageURL");
   CachedNetworkImage(
     imageUrl: imageURL,
     placeholder: (context, url) => CircularProgressIndicator(),

@@ -1,10 +1,7 @@
-import 'dart:io';
 
 import 'package:amargari/providers/common_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
-import 'package:amargari/view/profile/components/ImageLoadWidget.dart';
-import 'package:amargari/widgets/imageUpload.dart';
 import 'package:amargari/widgets/image_picker_gallery_camera.dart';
 import 'package:amargari/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -184,13 +181,13 @@ class _EditListItemWithOutPaddingState extends State<EditListItemWithOutPadding>
     TimeOfDay selectedTime = TimeOfDay.now();
 
     Future<void> _pickTimeDialog(BuildContext context) async {
-      final TimeOfDay? picked_s = await showTimePicker(
+      final TimeOfDay? pickedS = await showTimePicker(
           context: context,
           initialTime: selectedTime);
 
-      if (picked_s != null && picked_s != selectedTime )
+      if (pickedS != null && pickedS != selectedTime )
         setState(() {
-          selectedTime = picked_s;
+          selectedTime = pickedS;
           widget.nameController.text = selectedTime.format(context);
         });
     }
@@ -272,7 +269,7 @@ class _EditListItemWithOutPaddingState extends State<EditListItemWithOutPadding>
           );
         },
       );
-    };
+    }
     return Row(
       children: [
         Padding(

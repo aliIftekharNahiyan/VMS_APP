@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:amargari/model/LocalInfo/local_info_req.dart';
 import 'package:amargari/model/LocalInfo/local_info_res.dart';
 import 'package:amargari/model/LocalInfo/local_info_type.dart';
+import 'package:amargari/model/SubscriptionCheck/subscription_check.dart';
 import 'package:amargari/model/home_data_model.dart';
 import 'package:amargari/model/notification_list.dart';
 import 'package:amargari/model/rtp/fuel_consumption_rtp.dart';
@@ -16,7 +17,7 @@ import 'package:amargari/widgets/widgets.dart';
 class CommonProvider with ChangeNotifier {
   Future<String> uploadImage(
       String Type, String number, String FilePath) async {
-    print("uploadImage  ${Type}  ${number}  ${FilePath}");
+    print("uploadImage  $Type  $number  $FilePath");
     var result = "";
     var request = http.MultipartRequest('POST', Uri.parse(AppUrl.fileUpload));
     request.fields['Type'] = Type;
@@ -73,6 +74,15 @@ class CommonProvider with ChangeNotifier {
             headers: {'Content-Type': 'application/json'})
         .then(onLocationUpdate)
         .catchError(onError);
+  }
+
+  Future<SubscriptionCheck> checkSubscription(String userId) async {
+    var response = await http
+        .get(Uri.parse(AppUrl.subscriptionCheck.replaceAll("_userId", userId)));
+    if (response.statusCode == 200) {
+      return SubscriptionCheck.fromJson(json.decode(response.body));
+    }
+    return SubscriptionCheck();
   }
 
   Future<FutureOr> onLocationUpdate(Response response) async {

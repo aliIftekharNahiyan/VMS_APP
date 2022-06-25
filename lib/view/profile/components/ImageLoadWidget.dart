@@ -1,7 +1,6 @@
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/widgets/ImageFullScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ImageLoadWidget extends StatelessWidget {
   final String requestType;

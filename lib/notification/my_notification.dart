@@ -1,10 +1,7 @@
 import 'dart:io';
 
-import 'package:amargari/main.dart';
-import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/app_url.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -40,7 +37,7 @@ class MyNotification {
   }
 
   static Future<void> showTextNotification(Map<String, dynamic> message, FlutterLocalNotificationsPlugin fln) async {
-    print('Notification showText: ${message}');
+    print('Notification showText: $message');
     String _title = message['title'];
     String _body = message['body'];
     String _orderID = message['order_id'];
@@ -53,7 +50,7 @@ class MyNotification {
   }
 
   static Future<void> showBigTextNotification(Map<String, dynamic> message, FlutterLocalNotificationsPlugin fln) async {
-    print('Notification background: ${message}');
+    print('Notification background: $message');
     print(message);
     // String _title = message['title'];
     // String _body = message['body'];
@@ -71,7 +68,7 @@ class MyNotification {
   }
 
   static Future<void> showBigPictureNotificationHiddenLargeIcon(Map<String, dynamic> message, FlutterLocalNotificationsPlugin fln) async {
-    print('Notification showBigPicture: ${message}');
+    print('Notification showBigPicture: $message');
     String _title = message['title'];
     String _body = message['body'];
     String _orderID = message['order_id'];

@@ -1,6 +1,7 @@
 import 'package:amargari/model/vehicle_doc_details.dart';
 import 'package:amargari/model/vehicleinfo/vehicle_info_model.dart';
 import 'package:amargari/providers/VehicleDocumentInfoProvider.dart';
+import 'package:amargari/providers/common_provider.dart';
 import 'package:amargari/providers/service_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/utility.dart';
@@ -90,7 +91,7 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
     _loadData();
   }
 
-  _loadData() {
+  _loadData() async {
     Future<UserInfoModel> getUserData() => UserPreferences().getUser();
     getUserData().then((value) => {
           if (widget.requestType == AppConstant.docRegistrationImg)
@@ -124,8 +125,19 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
   @override
   Widget build(BuildContext context) {
     var viewVehicleInfo = (VehicleDocDetailsModel vehicleInfoDataModel) {};
+
     VehicleDocumentInfoProvider vehicleDocumentInfoProvider =
         Provider.of<VehicleDocumentInfoProvider>(context);
+
+    Provider.of<ServiceProvider>(context, listen: false)
+        .getRegistrationNo(widget.vehicleId)
+        .then((value) {
+      print(value);
+      setState(() {
+        regNumber.text = value;
+      });
+    });
+
     doUpdate() {
       print(
           "document ${widget.requestType}  ${AppConstant.docRegistrationImg} ${feesAmount.text}  ${expiryDate.text}   ${regDate.text}");
@@ -296,7 +308,8 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
 
           vehicleDoc?.whenComplete(() => {
                 setState(() => {
-                      snackBar2(context, "Document save successfully", success: true),
+                      snackBar2(context, "Document save successfully",
+                          success: true),
                       regDate.text = "",
                       regNumber.text = "",
                       expiryDate.text = '',
@@ -336,8 +349,9 @@ class _VehicleDocumentViewState extends State<VehicleDocumentView> {
               EditListItem(
                 text: 'Registration number',
                 nameController: regNumber,
-                isNumber: true,
+                isNumber: regNumber.text == "",
                 isRequired: true,
+                isEditAble: regNumber.text == "",
                 hintText: 'Type registration number',
               ),
               SizedBox(height: 10),

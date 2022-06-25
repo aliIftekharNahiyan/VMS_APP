@@ -11,6 +11,9 @@ String convertDate(String dateTime) {
 }
 
 String convertDate2(String? dateTime) {
+
+  print("dateTime 2  $dateTime");
+
   var outputDate = "";
 
   if (dateTime != null && dateTime != "") {
@@ -44,6 +47,9 @@ String convertDateWithRemaning(String? dateTime) {
 }
 
 String convertDateTime(String? dateTime) {
+
+  print("dateTime   $dateTime");
+
   var outputDate = "";
   if (dateTime != "null" && dateTime != "") {
     DateTime parseDate =
@@ -57,7 +63,7 @@ String convertDateTime(String? dateTime) {
 }
 
 String convertDate3(String? dateTime) {
-  print("dateTime   ${dateTime}");
+  print("dateTime   $dateTime");
   var outputDate = "";
   if (dateTime != "null" && dateTime != "") {
     DateTime parseDate = new DateFormat("dd-MMM-yyyy").parse(dateTime!);
@@ -71,7 +77,7 @@ String convertDate3(String? dateTime) {
 }
 
 String convertDate4(String? dateTime) {
-  print("dateTime   ${dateTime}");
+  print("dateTime   $dateTime");
   var outputDate = "";
   if (dateTime != "null" && dateTime != "") {
     DateTime parseDate = new DateFormat("dd-MM-yyyy").parse(dateTime!);

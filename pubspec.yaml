@@ -38,32 +38,33 @@ dependencies:
   #sms_autofill: ^2.0.0
   fancy_bottom_navigation: ^0.3.3
   #flutter_statusbarcolor: ^0.2.3
-  flutter_svg: ^0.23.0+1 # help us to use SVG in our app
+  flutter_svg: ^1.0.3 # help us to use SVG in our app
   file_picker: ^4.2.7
   pin_code_fields: ^7.2.0
   intl: ^0.17.0
   get: ^4.6.1
+#  get: 4.6.1
   flutter_easyloading: ^3.0.3
   google_maps_flutter: ^2.1.0
   flutter_polyline_points: ^1.0.0
   firebase_core: ^1.10.0
   firebase_messaging: ^11.1.0
   flutter_local_notifications: ^9.0.2
-  firebase_analytics: ^8.3.4 
+  firebase_analytics: ^9.1.8 
   cached_network_image: ^3.1.0
-  fl_chart: ^0.40.2
+  fl_chart: ^0.50.6
   image_picker: ^0.8.4+3
   geolocator: ^7.7.1
   google_maps_place_picker: ^2.1.0-nullsafety.3   #location picker
   multi_select_flutter: ^4.0.0
-  dropdown_search: ^2.0.1
+  dropdown_search: ^3.0.1
   sms_autofill: ^2.2.0
   fluttertoast: ^8.0.9
   syncfusion_flutter_charts: ^20.1.55
   image_gallery_saver: '^1.7.1'
   url_launcher: ^6.1.2
   auto_size_text: ^2.1.0
-  
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_test:

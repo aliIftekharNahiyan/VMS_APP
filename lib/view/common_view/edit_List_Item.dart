@@ -157,12 +157,8 @@ class _EditListItemState extends State<EditListItem> {
       showDatePicker(
               context: context,
               initialDate: DateTime.now(),
-              //which date will display when user open the picker
-              // firstDate: widget.isFutureDate ?   DateTime.now(): DateTime(1950) ,
               firstDate: DateTime(1950),
-              //what will be the previous supported year in picker
               lastDate: widget.isFutureDate ? DateTime(2050) : DateTime.now())
-
           //what will be the up to supported date in picker
           .then((pickedDate) {
         //then usually do the future job
@@ -182,12 +178,12 @@ class _EditListItemState extends State<EditListItem> {
     TimeOfDay selectedTime = TimeOfDay.now();
 
     Future<void> _pickTimeDialog(BuildContext context) async {
-      final TimeOfDay? picked_s =
+      final TimeOfDay? pickedS =
           await showTimePicker(context: context, initialTime: selectedTime);
 
-      if (picked_s != null && picked_s != selectedTime)
+      if (pickedS != null && pickedS != selectedTime)
         setState(() {
-          selectedTime = picked_s;
+          selectedTime = pickedS;
           widget.nameController.text = selectedTime.format(context);
         });
     }
@@ -226,7 +222,6 @@ class _EditListItemState extends State<EditListItem> {
       );
     }
 
-    ;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Row(

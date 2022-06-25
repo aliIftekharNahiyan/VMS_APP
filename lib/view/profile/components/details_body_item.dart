@@ -4,9 +4,7 @@ import 'package:amargari/providers/common_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/profile/components/ImageLoadWidget.dart';
-import 'package:amargari/widgets/imageUpload.dart';
 import 'package:amargari/widgets/image_picker_gallery_camera.dart';
-import 'package:amargari/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -215,7 +213,7 @@ class _AccountItemState extends State<AccountItem> {
           );
         },
       );
-    };
+    }
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Row(

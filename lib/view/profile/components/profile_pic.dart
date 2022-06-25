@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:amargari/providers/common_provider.dart';
 import 'package:amargari/uril/app_constant.dart';
 import 'package:amargari/uril/shared_preference.dart';
-import 'package:amargari/widgets/imageUpload.dart';
 import 'package:amargari/widgets/image_picker_gallery_camera.dart';
-import 'package:amargari/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -104,8 +102,7 @@ class _ProfilePicState extends State<ProfilePic> {
       height: 120,
       width: 120,
       child: Stack(
-        fit: StackFit.expand,
-        // overflow: Overflow.visible,
+        clipBehavior: Clip.none, fit: StackFit.expand,
         children: [
           CircleAvatar(
               radius: (60),

@@ -579,7 +579,7 @@ class ServiceProvider with ChangeNotifier {
 
   Future<void> getVehicleGeneralInfo(String infoId, String parentId,
       String vehicleTypeForModelId, String ownerId) async {
-    print("ownerID   ${ownerId}  ${AppConstant.userId}");
+    print("ownerID   $ownerId  ${AppConstant.userId}");
     final response = await http.get(Uri.parse(AppUrl.vehicleGeneralInfo
         .replaceAll("_infoId", infoId)
         .replaceAll("_parentId", parentId)
@@ -649,6 +649,16 @@ class ServiceProvider with ChangeNotifier {
             headers: {'Content-Type': 'application/json'})
         .then(onServiceReport)
         .catchError(onError);
+  }
+
+  Future<String> getRegistrationNo(String vehicleId) async {
+    final response = await get(Uri.parse(AppUrl.vehicleRegistrationNo.replaceAll("_vechileId", vehicleId)));
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body)["regno"] ?? "";
+      return data;
+    } else {
+      return "";
+    }
   }
 
   Future<bool> getAllocationDeallocation({ownerId: String, driverId: String}) async {

@@ -6,7 +6,6 @@ import 'package:amargari/view/TripManagement/Direction.dart';
 import 'package:amargari/view/TripManagement/TripAcceptWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:amargari/view/Service/component/service_list_item.dart';
-import 'package:flutter/widgets.dart';
 
 class TripListView extends StatefulWidget {
   final String title;

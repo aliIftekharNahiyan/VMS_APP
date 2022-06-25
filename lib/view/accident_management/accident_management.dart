@@ -6,7 +6,6 @@ import 'package:amargari/providers/accident_provider.dart';
 import 'package:amargari/uril/shared_preference.dart';
 import 'package:amargari/view/Service/component/service_list_item.dart';
 import 'package:amargari/view/accident_management/add_update_accident.dart';
-import 'package:get/get.dart';
 
 class AccidentManagementView extends StatefulWidget {
   final String title;
